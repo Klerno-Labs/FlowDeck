@@ -12,6 +12,16 @@ export async function middleware(request: NextRequest) {
 
   const isLoggedIn = !!token;
 
+  // Debug logging
+  if (pathname === '/home' || pathname === '/login') {
+    console.error('[MIDDLEWARE]', {
+      pathname,
+      hasToken: !!token,
+      tokenEmail: token?.email || 'none',
+      cookies: request.cookies.getAll().map(c => c.name),
+    });
+  }
+
   // Public routes that don't require authentication
   const isPublicRoute = pathname.startsWith('/login') ||
                         pathname.startsWith('/api/auth');

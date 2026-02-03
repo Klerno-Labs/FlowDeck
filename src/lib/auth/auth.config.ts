@@ -50,6 +50,7 @@ export const authConfig: NextAuthConfig = {
         token.email = user.email;
         token.name = user.name;
         token.role = user.role;
+        console.error('[AUTH] JWT callback - created token for:', user.email);
       }
       return token;
     },
@@ -59,6 +60,7 @@ export const authConfig: NextAuthConfig = {
         session.user.email = token.email;
         session.user.name = token.name ?? '';
         session.user.role = token.role;
+        console.error('[AUTH] Session callback - session for:', token.email);
       }
       return session;
     },
