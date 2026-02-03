@@ -5,7 +5,6 @@ import { getToken } from 'next-auth/jwt';
 export async function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
 
-  // Get session token (Edge Runtime compatible)
   const token = await getToken({
     req: request,
     secret: process.env.NEXTAUTH_SECRET,
@@ -13,30 +12,24 @@ export async function middleware(request: NextRequest) {
 
   const isLoggedIn = !!token;
 
-  console.log('🔍 Middleware:', {
-    pathname,
-    hasToken: !!token,
-    tokenEmail: token?.email || 'none',
-  });
+  // Public routes that don't require authentication
+  const isPublicRoute = pathname.startsWith('/login') ||
+                        pathname.startsWith('/api/auth');
 
-  // Redirect root to appropriate page
+  // Redirect root
   if (pathname === '/') {
-    if (isLoggedIn) {
-      return NextResponse.redirect(new URL('/home', request.url));
-    }
+    return NextResponse.redirect(
+      new URL(isLoggedIn ? '/home' : '/login', request.url)
+    );
+  }
+
+  // Protect all routes except public ones
+  if (!isPublicRoute && !isLoggedIn) {
     return NextResponse.redirect(new URL('/login', request.url));
   }
 
-  // Redirect to login if accessing protected routes without auth
-  const isProtectedRoute = !pathname.startsWith('/login') &&
-                           !pathname.startsWith('/api/auth');
-
-  if (isProtectedRoute && !isLoggedIn) {
-    return NextResponse.redirect(new URL('/login', request.url));
-  }
-
-  // Redirect away from login if already authenticated
-  if (pathname.startsWith('/login') && isLoggedIn) {
+  // Redirect logged-in users away from login page
+  if (pathname === '/login' && isLoggedIn) {
     return NextResponse.redirect(new URL('/home', request.url));
   }
 

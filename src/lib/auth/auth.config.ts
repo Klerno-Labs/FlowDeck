@@ -5,64 +5,45 @@ import { userStore } from "@/lib/db/users";
 export const authConfig: NextAuthConfig = {
   providers: [
     CredentialsProvider({
-      name: "credentials",
       credentials: {
         email: { label: "Email", type: "email" },
         password: { label: "Password", type: "password" },
       },
-      async authorize(credentials) {
+      authorize: async (credentials) => {
         if (!credentials?.email || !credentials?.password) {
-          console.log("❌ Missing credentials");
           return null;
         }
 
-        console.log("🔐 Attempting login for:", credentials.email);
+        const user = await userStore.verifyPassword(
+          credentials.email as string,
+          credentials.password as string
+        );
 
-        try {
-          // Verify user credentials using database
-          const user = await userStore.verifyPassword(
-            credentials.email as string,
-            credentials.password as string
-          );
-
-          if (!user) {
-            console.log("❌ Invalid credentials for:", credentials.email);
-            return null;
-          }
-
-          console.log("✅ Login successful for:", credentials.email);
-
-          // Return user object
-          return {
-            id: user.id,
-            email: user.email,
-            name: user.name,
-            role: user.role,
-          };
-        } catch (error) {
-          console.error("❌ Auth error:", error);
+        if (!user) {
           return null;
         }
+
+        return {
+          id: user.id,
+          email: user.email,
+          name: user.name,
+          role: user.role,
+        };
       },
     }),
   ],
-  pages: {
-    signIn: "/login",
-  },
   callbacks: {
-    async jwt({ token, user }) {
+    jwt({ token, user }) {
       if (user) {
-        // Only set if values exist (avoid empty strings)
-        if (user.id) token.id = user.id;
-        if (user.email) token.email = user.email;
-        if (user.name) token.name = user.name;
+        token.id = user.id;
+        token.email = user.email;
+        token.name = user.name;
         token.role = (user as any).role;
       }
       return token;
     },
-    async session({ session, token }) {
-      // Always populate session from token
-      if (session.user) {
+    session({ session, token }) {
+      if (token && session.user) {
         session.user.id = token.id as string;
         session.user.email = token.email as string;
         session.user.name = token.name as string;
@@ -71,10 +52,10 @@ export const authConfig: NextAuthConfig = {
       return session;
     },
   },
+  pages: {
+    signIn: "/login",
+  },
   session: {
     strategy: "jwt",
-    maxAge: 30 * 24 * 60 * 60, // 30 days
   },
-  secret: process.env.NEXTAUTH_SECRET,
-  trustHost: true,
 };
