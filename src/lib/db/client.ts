@@ -15,9 +15,10 @@ const pool = new Pool({
   ssl: {
     rejectUnauthorized: false,
   },
-  max: 20,
-  idleTimeoutMillis: 30000,
-  connectionTimeoutMillis: 2000,
+  // Optimized for serverless/Vercel
+  max: 3, // Lower for serverless cold starts
+  idleTimeoutMillis: 10000, // 10 seconds
+  connectionTimeoutMillis: 5000, // 5 seconds timeout
 });
 
 // Handle pool errors
