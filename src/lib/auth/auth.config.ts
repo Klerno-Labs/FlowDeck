@@ -50,28 +50,19 @@ export const authConfig: NextAuthConfig = {
     signIn: "/login",
   },
   callbacks: {
-    authorized({ auth, request: { nextUrl } }) {
-      const isLoggedIn = !!auth?.user;
-      const isOnLoginPage = nextUrl.pathname === "/login";
-
-      if (isOnLoginPage) {
-        if (isLoggedIn) return Response.redirect(new URL("/home", nextUrl));
-        return true;
-      }
-
-      return isLoggedIn;
-    },
     async jwt({ token, user }) {
       if (user) {
-        token.id = user.id || '';
-        token.email = user.email || '';
-        token.name = user.name || '';
+        // Only set if values exist (avoid empty strings)
+        if (user.id) token.id = user.id;
+        if (user.email) token.email = user.email;
+        if (user.name) token.name = user.name;
         token.role = (user as any).role;
       }
       return token;
     },
     async session({ session, token }) {
-      if (session.user && token.id) {
+      // Always populate session from token
+      if (session.user) {
         session.user.id = token.id as string;
         session.user.email = token.email as string;
         session.user.name = token.name as string;
