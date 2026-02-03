@@ -33,7 +33,12 @@ const config: Config = {
       },
       screens: {
         'ipad': '1024px',
+        'ipad-air': '1180px',
         'ipad-pro': '1366px',
+      },
+      aspectRatio: {
+        'ipad': '4/3',
+        'ipad-pro': '4/3',
       },
       spacing: {
         '44': '2.75rem',

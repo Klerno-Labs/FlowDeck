@@ -21,26 +21,56 @@
     }
   }
 
+  /* iPad Performance Optimizations */
+  * {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  /* Hardware acceleration for animations */
+  button,
+  a,
+  .card-touch {
+    transform: translateZ(0);
+    -webkit-transform: translateZ(0);
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
+  }
+
   /* Disable text selection for UI elements */
   body {
     -webkit-user-select: none;
     -moz-user-select: none;
     user-select: none;
     -webkit-tap-highlight-color: transparent;
+    touch-action: manipulation;
+    overscroll-behavior: none;
   }
 
   /* Enable text selection for inputs and content areas */
   input,
   textarea,
-  [contenteditable] {
+  [contenteditable],
+  .editable-content {
     -webkit-user-select: text;
     -moz-user-select: text;
     user-select: text;
   }
 
-  /* Smooth scrolling */
+  /* Smooth scrolling with momentum */
   html {
     scroll-behavior: smooth;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  /* Optimize for iPad viewport */
+  @supports (-webkit-touch-callout: none) {
+    html {
+      height: -webkit-fill-available;
+    }
+    body {
+      min-height: -webkit-fill-available;
+    }
   }
 
   /* Custom scrollbar for iPad */
