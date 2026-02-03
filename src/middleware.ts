@@ -1,6 +1,9 @@
 import { auth } from '@/lib/auth/auth';
 import { NextResponse } from 'next/server';
 
+// Force Node.js runtime for middleware (required for bcryptjs/crypto)
+export const runtime = 'nodejs';
+
 export default auth((req) => {
   const isLoggedIn = !!req.auth;
   const { pathname } = req.nextUrl;
