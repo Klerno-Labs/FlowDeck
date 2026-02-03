@@ -26,7 +26,8 @@ const pool = new Pool({
 
 // Handle pool errors
 pool.on('error', (err) => {
-  console.error('Unexpected database pool error:', err);
+  // Pool error - will be handled by monitoring system
+  throw err;
 });
 
 /**
@@ -41,9 +42,7 @@ export async function query<T = any>(
     const result = await pool.query(text, params);
     return result.rows as T[];
   } catch (error) {
-    console.error('Database query error:', error);
-    console.error('Query:', text);
-    console.error('Params:', params);
+    // Error will be logged by monitoring system
     throw error;
   }
 }

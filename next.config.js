@@ -16,10 +16,8 @@ const nextConfig = {
     },
   },
   compiler: {
-    // Keep console.error for debugging auth issues in production
-    removeConsole: process.env.NODE_ENV === 'production' ? {
-      exclude: ['error', 'warn'],
-    } : false,
+    // Remove ALL console logs in production (use proper logging instead)
+    removeConsole: process.env.NODE_ENV === 'production',
   },
 };
 
