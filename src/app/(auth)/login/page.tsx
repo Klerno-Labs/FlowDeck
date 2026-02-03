@@ -1,18 +1,28 @@
 "use client";
 
 import { signIn } from "next-auth/react";
-import { useState, FormEvent } from "react";
-import { useRouter } from "next/navigation";
+import { useState, FormEvent, useEffect } from "react";
+import { useRouter, useSearchParams } from "next/navigation";
+import Link from "next/link";
 import Image from "next/image";
 import { Button } from "@/components/ui/Button";
 import { Input } from "@/components/ui/Input";
 
 export default function LoginPage() {
   const router = useRouter();
+  const searchParams = useSearchParams();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [rememberMe, setRememberMe] = useState(false);
   const [error, setError] = useState("");
+  const [sessionExpired, setSessionExpired] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+
+  useEffect(() => {
+    if (searchParams.get('expired') === 'true') {
+      setSessionExpired(true);
+    }
+  }, [searchParams]);
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -58,6 +68,12 @@ export default function LoginPage() {
 
         {/* Login Form */}
         <form onSubmit={handleSubmit} className="mt-12 space-y-6">
+          {sessionExpired && (
+            <div className="rounded-md bg-yellow-50 p-4 text-sm text-yellow-800">
+              Your session has expired. Please sign in again.
+            </div>
+          )}
+
           <div className="space-y-4">
             <Input
               type="email"
@@ -85,6 +101,25 @@ export default function LoginPage() {
               {error}
             </div>
           )}
+
+          <div className="flex items-center justify-between">
+            <label className="flex items-center">
+              <input
+                type="checkbox"
+                checked={rememberMe}
+                onChange={(e) => setRememberMe(e.target.checked)}
+                className="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
+              />
+              <span className="ml-2 text-sm text-gray-700">Remember me</span>
+            </label>
+
+            <Link
+              href="/forgot-password"
+              className="text-sm text-blue-600 hover:text-blue-700"
+            >
+              Forgot Password?
+            </Link>
+          </div>
 
           <Button
             type="submit"

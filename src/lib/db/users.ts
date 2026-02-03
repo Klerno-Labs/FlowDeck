@@ -149,4 +149,16 @@ export const userStore = {
       [email]
     );
   },
+
+  /**
+   * Update user password
+   */
+  async updatePassword(userId: string, passwordHash: string): Promise<void> {
+    await query(
+      `UPDATE users
+       SET password_hash = $1
+       WHERE id = $2`,
+      [passwordHash, userId]
+    );
+  },
 };

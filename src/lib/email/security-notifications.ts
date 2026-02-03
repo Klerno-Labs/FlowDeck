@@ -5,6 +5,7 @@
 
 import { resend } from '@/lib/email/resend';
 import SecurityAlert from '@/lib/email/templates/SecurityAlert';
+import PasswordResetEmail from '@/lib/email/templates/PasswordResetEmail';
 import { parseUserAgent } from '@/lib/auth/device-detection';
 
 const FROM_EMAIL = process.env.RESEND_FROM_EMAIL || 'FTC FlowDeck <onboarding@resend.dev>';
@@ -131,5 +132,35 @@ export async function sendPasswordChangedNotification(
     if (process.env.NODE_ENV === 'development') {
       console.error('[Email] Failed to send password changed notification:', error);
     }
+  }
+}
+
+/**
+ * Send password reset email with secure token link
+ */
+export async function sendPasswordResetEmail(
+  email: string,
+  resetToken: string,
+  expiryHours: number = 1
+): Promise<void> {
+  try {
+    const baseUrl = process.env.NEXTAUTH_URL || 'http://localhost:3000';
+    const resetUrl = `${baseUrl}/reset-password?token=${resetToken}`;
+
+    await resend.emails.send({
+      from: FROM_EMAIL,
+      to: email,
+      subject: 'Reset Your FTC FlowDeck Password',
+      react: PasswordResetEmail({
+        email,
+        resetUrl,
+        expiryHours,
+      }),
+    });
+  } catch (error) {
+    if (process.env.NODE_ENV === 'development') {
+      console.error('[Email] Failed to send password reset email:', error);
+    }
+    throw error;
   }
 }

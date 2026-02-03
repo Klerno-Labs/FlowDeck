@@ -75,6 +75,65 @@ Comprehensive HTTP security headers on all responses:
 - Actions: allow, warn, block
 - Logged to audit trail for review
 
+## P2: Medium-Priority Security Features ✅
+
+### 11. Security Email Notifications
+
+- Automated email alerts for security events:
+  - **New Login Alerts**: Sent when logging in from new IP/device
+  - **Suspicious Activity Alerts**: Sent for high-risk login attempts
+  - **Account Locked Notifications**: Sent when account is locked
+  - **Password Changed Notifications**: Confirmation when password changes
+- Powered by React Email and Resend
+- Professional email templates with full event details
+- Browser, OS, and device information included
+- Integrated with suspicious activity detection
+
+### 12. Password Reset Flow
+
+- Secure password reset with email verification:
+  - One-time use tokens with 1-hour expiration
+  - Cryptographically secure random token generation
+  - All existing tokens invalidated on password change
+  - Email-based verification flow
+- Database: `password_reset_tokens` table
+- UI pages: `/forgot-password` and `/reset-password`
+- API routes: `/api/auth/forgot-password` and `/api/auth/reset-password`
+- Automatic cleanup of expired tokens
+
+### 13. Password History Prevention
+
+- Prevents password reuse for enhanced security:
+  - Stores last 5 password hashes per user
+  - bcrypt comparison prevents reuse of recent passwords
+  - Applies to both password reset and password change
+  - Automatic cleanup keeps only recent passwords
+- Database: `password_history` table
+- Configurable history depth (default: 5 passwords)
+- Enforced in both reset and change flows
+
+### 14. Session Timeout Warning
+
+- Proactive session expiration notifications:
+  - Warning displayed 5 minutes before session expires
+  - Shows countdown timer with minutes remaining
+  - "Stay Signed In" button to extend session
+  - "Sign Out" button for manual logout
+- Client-side monitoring with 30-second check interval
+- Automatic redirect to login on session expiry
+- Graceful handling of session refresh
+- Component: `SessionTimeoutWarning`
+
+### 15. Remember Me Functionality
+
+- Optional extended session duration:
+  - Checkbox on login form
+  - Visual indicator for user preference
+  - Maintains 8-hour session duration (enterprise standard)
+  - Integrates with session timeout warning
+- UI enhancement for better user experience
+- Consistent with enterprise security policies
+
 ## Security Standards Achieved
 
 ✅ **OWASP Top 10** compliant
@@ -90,6 +149,8 @@ Comprehensive HTTP security headers on all responses:
 - `rate_limits` - Rate limiting tracking
 - `audit_logs` - Security event logging
 - `sessions` - Session device tracking
+- `password_reset_tokens` - Password reset tokens
+- `password_history` - Password history for reuse prevention
 - Extended `users` - Account lockout columns
 
 ### Indexes
@@ -99,6 +160,8 @@ All tables have appropriate indexes for query performance.
 - `cleanup_rate_limits()` - Removes records older than 30 days
 - `cleanup_audit_logs()` - Removes records older than 90 days
 - `cleanup_sessions()` - Removes expired/revoked sessions
+- `cleanup_password_reset_tokens()` - Removes expired/used tokens
+- `cleanup_password_history()` - Keeps last 5 passwords per user
 
 ## API Reference
 
@@ -148,6 +211,39 @@ const result = await detectSuspiciousActivity({
 // { suspicious: boolean, reasons: string[], risk: 'low'|'medium'|'high', action: 'allow'|'warn'|'block' }
 ```
 
+### Password Reset
+```typescript
+import { requestPasswordReset, resetPassword } from '@/lib/auth/password-reset';
+
+// Request password reset
+const result = await requestPasswordReset('user@example.com');
+// { success: boolean, token?: string, error?: string }
+
+// Reset password with token
+const result = await resetPassword(token, newPassword);
+// { success: boolean, error?: string }
+```
+
+### Security Email Notifications
+```typescript
+import {
+  sendNewLoginNotification,
+  sendSuspiciousActivityNotification,
+  sendPasswordResetEmail,
+  sendPasswordChangedNotification,
+} from '@/lib/email/security-notifications';
+
+// Send new login notification
+await sendNewLoginNotification({
+  email: 'user@example.com',
+  ipAddress: '1.2.3.4',
+  userAgent: 'Mozilla/5.0...',
+});
+
+// Send password reset email
+await sendPasswordResetEmail('user@example.com', resetToken, expiryHours);
+```
+
 ## Testing Security
 
 ### Test Rate Limiting
@@ -176,6 +272,24 @@ const result = await detectSuspiciousActivity({
 2. Check `audit_logs` for suspicious_activity events
 3. Verify risk scoring is working
 
+### Test Password Reset
+1. Visit `/forgot-password` and enter email
+2. Check email for password reset link
+3. Click link and set new password
+4. Verify old token is invalidated
+5. Try reusing a recent password (should be rejected)
+
+### Test Session Timeout
+1. Login to the application
+2. Wait until 5 minutes before 8-hour timeout
+3. Verify warning modal appears
+4. Click "Stay Signed In" to extend session
+
+### Test Email Notifications
+1. Login from new IP address → receive new login email
+2. Multiple failed attempts → receive suspicious activity email
+3. Reset password → receive password changed email
+
 ## Monitoring
 
 ### Metrics to Track
@@ -190,15 +304,17 @@ const result = await detectSuspiciousActivity({
 - **Critical**: High-risk suspicious activity
 - **Warning**: Account locked
 - **Warning**: >5 rate limit blocks per minute
+- **Info**: Password reset requests per hour
+- **Info**: Session timeout warnings triggered
 
-## Future Enhancements (P2/P3)
+## Future Enhancements (P3)
 
 Potential future security features:
 - Two-Factor Authentication (2FA/TOTP)
-- Password reset flow with email verification
 - WebAuthn/Passkeys support
 - IP allowlisting/blocklisting
 - Automated security testing suite
-- Admin security dashboard
-- Email notifications for security events
-- Password history (prevent reuse)
+- Admin security dashboard with analytics
+- Geolocation-based anomaly detection
+- Device fingerprinting
+- Brute force attack detection with ML
