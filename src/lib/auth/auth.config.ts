@@ -12,6 +12,8 @@ import {
   logLoginFailed,
   logLoginBlocked,
 } from "@/lib/auth/audit";
+import { detectSuspiciousActivity } from "@/lib/auth/suspicious-activity";
+import { parseUserAgent } from "@/lib/auth/device-detection";
 import { headers } from "next/headers";
 
 export const authConfig: NextAuthConfig = {
@@ -79,7 +81,17 @@ export const authConfig: NextAuthConfig = {
             return null;
           }
 
-          // Step 5: Success - reset counters and log
+          // Step 5: Detect suspicious activity
+          const deviceInfo = parseUserAgent(userAgent);
+          const suspiciousActivity = await detectSuspiciousActivity({
+            userId: user.id,
+            email: user.email,
+            ipAddress: ip,
+            userAgent,
+            deviceType: deviceInfo.deviceType,
+          });
+
+          // Step 6: Success - reset counters and log
           await recordLoginAttempt(rateLimitIdentifier, true);
           await userStore.recordSuccessfulLogin(validatedCredentials.email);
 
@@ -89,6 +101,9 @@ export const authConfig: NextAuthConfig = {
             ipAddress: ip,
             userAgent,
           });
+
+          // Note: Suspicious activity is logged but doesn't block login
+          // In production, you might want to require 2FA for high-risk logins
 
           return {
             id: user.id,
