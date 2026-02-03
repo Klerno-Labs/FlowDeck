@@ -10,8 +10,11 @@ if (!process.env.DATABASE_URL) {
 }
 
 // Create a connection pool
+// Use POSTGRES_URL (pooled) from Neon, fallback to DATABASE_URL
+const connectionString = process.env.POSTGRES_URL || process.env.DATABASE_URL;
+
 const pool = new Pool({
-  connectionString: process.env.DATABASE_URL,
+  connectionString,
   ssl: {
     rejectUnauthorized: false,
   },
