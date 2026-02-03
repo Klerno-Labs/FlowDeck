@@ -1,7 +1,8 @@
 /**
- * In-memory reminder storage for development
- * For production, connect to a database through Vercel integrations
+ * PostgreSQL reminder storage using Neon database
  */
+
+import { query, queryOne } from "./client";
 
 export interface Reminder {
   id: string;
@@ -16,20 +17,35 @@ export interface Reminder {
   sent_at?: Date;
 }
 
-// In-memory storage
-const reminders: Reminder[] = [];
-
 export const reminderStore = {
   async create(
     data: Omit<Reminder, "id" | "created_at" | "status">
   ): Promise<Reminder> {
-    const reminder: Reminder = {
-      id: `reminder-${Date.now()}`,
-      created_at: new Date(),
-      status: "pending",
-      ...data,
-    };
-    reminders.push(reminder);
+    const reminder = await queryOne<Reminder>(
+      `INSERT INTO reminders (
+        scheduled_at,
+        user_email,
+        recipient_email,
+        subject,
+        message,
+        product_id,
+        status
+      )
+      VALUES ($1, $2, $3, $4, $5, $6, 'pending')
+      RETURNING *`,
+      [
+        data.scheduled_at,
+        data.user_email,
+        data.recipient_email || null,
+        data.subject,
+        data.message || null,
+        data.product_id || null,
+      ]
+    );
+
+    if (!reminder) {
+      throw new Error("Failed to create reminder");
+    }
 
     console.log("⏰ Reminder created:", {
       scheduled: reminder.scheduled_at,
@@ -41,10 +57,18 @@ export const reminderStore = {
   },
 
   async getPending(): Promise<Reminder[]> {
-    const now = new Date();
-    return reminders.filter(
-      (r) => r.status === "pending" && r.scheduled_at <= now
-    );
+    try {
+      const reminders = await query<Reminder>(
+        `SELECT * FROM reminders
+         WHERE status = 'pending'
+         AND scheduled_at <= NOW()
+         ORDER BY scheduled_at ASC`
+      );
+      return reminders;
+    } catch (error) {
+      console.error("Error getting pending reminders:", error);
+      return [];
+    }
   },
 
   async updateStatus(
@@ -52,20 +76,33 @@ export const reminderStore = {
     status: Reminder["status"],
     sent_at?: Date
   ): Promise<void> {
-    const reminder = reminders.find((r) => r.id === id);
-    if (reminder) {
-      reminder.status = status;
-      if (sent_at) reminder.sent_at = sent_at;
+    try {
+      await query(
+        `UPDATE reminders
+         SET status = $1, sent_at = $2
+         WHERE id = $3`,
+        [status, sent_at || null, id]
+      );
 
       console.log("⏰ Reminder updated:", {
         id,
         status,
         sent_at,
       });
+    } catch (error) {
+      console.error("Error updating reminder status:", error);
     }
   },
 
   async getAll(): Promise<Reminder[]> {
-    return reminders;
+    try {
+      const reminders = await query<Reminder>(
+        "SELECT * FROM reminders ORDER BY created_at DESC"
+      );
+      return reminders;
+    } catch (error) {
+      console.error("Error getting all reminders:", error);
+      return [];
+    }
   },
 };

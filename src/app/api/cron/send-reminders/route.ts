@@ -20,13 +20,19 @@ export async function GET(request: NextRequest) {
     // Send each reminder
     for (const reminder of pendingReminders) {
       try {
+        // Build product URL if product_id exists
+        const productUrl = reminder.product_id
+          ? `${process.env.NEXT_PUBLIC_APP_URL}/products/${reminder.product_id}`
+          : undefined;
+
         await resend.emails.send({
           from: FROM_EMAIL,
           to: reminder.recipient_email || reminder.user_email,
           subject: reminder.subject,
           react: ReminderEmail({
+            subject: reminder.subject,
             message: reminder.message,
-            senderEmail: reminder.user_email,
+            productUrl,
           }),
         });
 

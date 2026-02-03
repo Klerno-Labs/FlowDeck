@@ -85,14 +85,14 @@ const logoContainer = {
 };
 
 const logoBox = {
-  display: 'inline-block',
+  display: 'flex',
   width: '80px',
   height: '80px',
   backgroundColor: '#1E5AA8',
   borderRadius: '16px',
-  display: 'flex',
   alignItems: 'center',
   justifyContent: 'center',
+  margin: '0 auto',
 };
 
 const logoText = {

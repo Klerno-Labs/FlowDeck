@@ -10,9 +10,13 @@
     "lint": "next lint",
     "type-check": "tsc --noEmit",
     "format": "prettier --write \"**/*.{ts,tsx,js,jsx,json,md}\"",
-    "email:dev": "email dev"
+    "email:dev": "email dev",
+    "db:migrate": "node scripts/migrate.js",
+    "db:seed": "node scripts/seed-user.js",
+    "db:setup": "npm run db:migrate && npm run db:seed"
   },
   "dependencies": {
+    "@neondatabase/serverless": "^1.0.2",
     "@portabletext/react": "3.1.0",
     "@react-email/components": "0.0.25",
     "@sanity/client": "6.23.0",
@@ -30,6 +34,7 @@
     "next": "14.2.15",
     "next-auth": "5.0.0-beta.25",
     "next-sanity": "9.8.15",
+    "pg": "^8.18.0",
     "react": "18.3.1",
     "react-dom": "18.3.1",
     "react-email": "3.0.1",
@@ -45,6 +50,7 @@
   "devDependencies": {
     "@types/bcryptjs": "^2.4.6",
     "@types/node": "22.10.2",
+    "@types/pg": "^8.16.0",
     "@types/react": "18.3.18",
     "@types/react-dom": "18.3.5",
     "autoprefixer": "10.4.20",

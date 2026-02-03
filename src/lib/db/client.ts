@@ -1,0 +1,63 @@
+/**
+ * Neon Database Client Configuration
+ * Uses pg Pool with Neon connection string for reliable PostgreSQL access
+ */
+
+import { Pool } from 'pg';
+
+if (!process.env.DATABASE_URL) {
+  throw new Error('DATABASE_URL environment variable is not set');
+}
+
+// Create a connection pool
+const pool = new Pool({
+  connectionString: process.env.DATABASE_URL,
+  ssl: {
+    rejectUnauthorized: false,
+  },
+  max: 20,
+  idleTimeoutMillis: 30000,
+  connectionTimeoutMillis: 2000,
+});
+
+// Handle pool errors
+pool.on('error', (err) => {
+  console.error('Unexpected database pool error:', err);
+});
+
+/**
+ * Execute a parameterized SQL query
+ * Usage: await query('SELECT * FROM users WHERE email = $1', ['user@example.com'])
+ */
+export async function query<T = any>(
+  text: string,
+  params: any[] = []
+): Promise<T[]> {
+  try {
+    const result = await pool.query(text, params);
+    return result.rows as T[];
+  } catch (error) {
+    console.error('Database query error:', error);
+    console.error('Query:', text);
+    console.error('Params:', params);
+    throw error;
+  }
+}
+
+/**
+ * Execute a query and return the first result
+ */
+export async function queryOne<T = any>(
+  text: string,
+  params: any[] = []
+): Promise<T | null> {
+  const results = await query<T>(text, params);
+  return results[0] || null;
+}
+
+/**
+ * Close the pool (useful for cleanup in scripts)
+ */
+export async function closePool(): Promise<void> {
+  await pool.end();
+}
