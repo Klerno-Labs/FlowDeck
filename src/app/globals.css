@@ -73,7 +73,7 @@
   /* Card with touch feedback */
   .card-touch {
     @apply bg-white rounded-xl shadow-md p-6
-           transition-all duration-200 active:scale-98 active:shadow-lg
+           transition-all duration-200 active:scale-95 active:shadow-lg
            cursor-pointer;
   }
 
