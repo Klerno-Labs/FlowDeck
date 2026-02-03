@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { auth } from '@/lib/auth/auth';
-import { resend, FROM_EMAIL } from '@/lib/email/resend';
+import { resend, FROM_EMAIL, validateResendConfig } from '@/lib/email/resend';
 import { SendContentEmail } from '@/lib/email/templates/SendContentEmail';
 import { emailStore } from '@/lib/db/emails';
 import { sanityClient, getFileUrl } from '@/lib/sanity/client';
@@ -11,6 +11,9 @@ export async function POST(request: NextRequest) {
     if (!session?.user) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
+
+    // Validate Resend configuration at runtime
+    validateResendConfig();
 
     const { recipientEmail, pdfContentIds, productId } = await request.json();
 

@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { reminderStore } from '@/lib/db/reminders';
-import { resend, FROM_EMAIL } from '@/lib/email/resend';
+import { resend, FROM_EMAIL, validateResendConfig } from '@/lib/email/resend';
 import { ReminderEmail } from '@/lib/email/templates/ReminderEmail';
 
 export async function GET(request: NextRequest) {
@@ -10,6 +10,9 @@ export async function GET(request: NextRequest) {
     if (authHeader !== `Bearer ${process.env.CRON_SECRET}`) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
+
+    // Validate Resend configuration at runtime
+    validateResendConfig();
 
     // Get pending reminders that are due
     const pendingReminders = await reminderStore.getPending();
