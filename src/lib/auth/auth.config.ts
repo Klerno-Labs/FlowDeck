@@ -12,26 +12,37 @@ export const authConfig: NextAuthConfig = {
       },
       async authorize(credentials) {
         if (!credentials?.email || !credentials?.password) {
+          console.log("❌ Missing credentials");
           return null;
         }
 
-        // Verify user credentials using in-memory store
-        const user = await userStore.verifyPassword(
-          credentials.email as string,
-          credentials.password as string
-        );
+        console.log("🔐 Attempting login for:", credentials.email);
 
-        if (!user) {
+        try {
+          // Verify user credentials using database
+          const user = await userStore.verifyPassword(
+            credentials.email as string,
+            credentials.password as string
+          );
+
+          if (!user) {
+            console.log("❌ Invalid credentials for:", credentials.email);
+            return null;
+          }
+
+          console.log("✅ Login successful for:", credentials.email);
+
+          // Return user object
+          return {
+            id: user.id,
+            email: user.email,
+            name: user.name,
+            role: user.role,
+          };
+        } catch (error) {
+          console.error("❌ Auth error:", error);
           return null;
         }
-
-        // Return user object
-        return {
-          id: user.id,
-          email: user.email,
-          name: user.name,
-          role: user.role,
-        };
       },
     }),
   ],
