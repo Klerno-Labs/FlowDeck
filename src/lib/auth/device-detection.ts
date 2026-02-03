@@ -3,7 +3,7 @@
  * Parses user agent strings to identify devices and browsers
  */
 
-import UAParser from 'ua-parser-js';
+import { UAParser } from 'ua-parser-js';
 
 export interface DeviceInfo {
   browser: string;

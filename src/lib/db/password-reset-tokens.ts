@@ -20,27 +20,27 @@ export const passwordResetTokenStore = {
    * Create a new password reset token
    */
   async create(userId: string, token: string, expiresAt: Date): Promise<PasswordResetToken> {
-    const result = await query(
+    const result = await query<PasswordResetToken>(
       `INSERT INTO password_reset_tokens (user_id, token, expires_at)
        VALUES ($1, $2, $3)
        RETURNING *`,
       [userId, token, expiresAt]
     );
-    return result.rows[0];
+    return result[0];
   },
 
   /**
    * Find a token by its value
    */
   async findByToken(token: string): Promise<PasswordResetToken | null> {
-    const result = await query(
+    const result = await query<PasswordResetToken>(
       `SELECT * FROM password_reset_tokens
        WHERE token = $1
        AND used = false
        AND expires_at > CURRENT_TIMESTAMP`,
       [token]
     );
-    return result.rows[0] || null;
+    return result[0] || null;
   },
 
   /**
@@ -76,6 +76,6 @@ export const passwordResetTokenStore = {
        WHERE expires_at < CURRENT_TIMESTAMP OR used = true
        RETURNING id`
     );
-    return result.rowCount || 0;
+    return result.length || 0;
   },
 };

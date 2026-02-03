@@ -60,7 +60,7 @@ export default function PasswordResetEmail({
               <strong>Security Notice:</strong>
             </Text>
             <Text style={warningText}>
-              • If you didn't request this password reset, you can safely ignore this email
+              • If you didn&apos;t request this password reset, you can safely ignore this email
             </Text>
             <Text style={warningText}>
               • Never share this reset link with anyone
@@ -73,7 +73,7 @@ export default function PasswordResetEmail({
           <Hr style={hr} />
 
           <Text style={footer}>
-            If the button doesn't work, copy and paste this URL into your browser:
+            If the button doesn&apos;t work, copy and paste this URL into your browser:
           </Text>
           <Text style={linkText}>{resetUrl}</Text>
 

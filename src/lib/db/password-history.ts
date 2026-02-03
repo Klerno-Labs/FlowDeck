@@ -28,14 +28,14 @@ export const passwordHistoryStore = {
    * Get recent password hashes for a user
    */
   async getRecent(userId: string, limit: number = 5): Promise<PasswordHistoryEntry[]> {
-    const result = await query(
+    const result = await query<PasswordHistoryEntry>(
       `SELECT * FROM password_history
        WHERE user_id = $1
        ORDER BY created_at DESC
        LIMIT $2`,
       [userId, limit]
     );
-    return result.rows;
+    return result;
   },
 
   /**
@@ -54,6 +54,6 @@ export const passwordHistoryStore = {
        RETURNING id`,
       [keepCount]
     );
-    return result.rowCount || 0;
+    return result.length || 0;
   },
 };
