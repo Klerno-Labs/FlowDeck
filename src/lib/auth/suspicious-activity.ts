@@ -5,6 +5,10 @@
 
 import { auditLogStore } from "@/lib/db/audit-logs";
 import { logSuspiciousActivity } from "@/lib/auth/audit";
+import {
+  sendNewLoginNotification,
+  sendSuspiciousActivityNotification,
+} from "@/lib/email/security-notifications";
 
 export interface LoginContext {
   userId: string;
@@ -104,6 +108,24 @@ export async function detectSuspiciousActivity(
         userAgent: context.userAgent,
         details: reasons.join('; '),
       });
+
+      // Send email notifications based on risk level
+      if (risk === 'high') {
+        // High risk - send suspicious activity alert
+        await sendSuspiciousActivityNotification({
+          email: context.email,
+          ipAddress: context.ipAddress,
+          userAgent: context.userAgent,
+          details: reasons.join(', '),
+        });
+      } else if (risk === 'medium' || reasons.includes('Login from new IP address')) {
+        // Medium risk or new IP - send new login notification
+        await sendNewLoginNotification({
+          email: context.email,
+          ipAddress: context.ipAddress,
+          userAgent: context.userAgent,
+        });
+      }
     }
 
     return {
