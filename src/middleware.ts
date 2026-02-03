@@ -13,6 +13,12 @@ export async function middleware(request: NextRequest) {
 
   const isLoggedIn = !!token;
 
+  console.log('🔍 Middleware:', {
+    pathname,
+    hasToken: !!token,
+    tokenEmail: token?.email || 'none',
+  });
+
   // Redirect root to appropriate page
   if (pathname === '/') {
     if (isLoggedIn) {
