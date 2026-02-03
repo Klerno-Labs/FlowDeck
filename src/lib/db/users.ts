@@ -10,8 +10,9 @@ export interface User {
   email: string;
   password_hash: string;
   name: string;
-  role: "user" | "admin";
+  role: "dev" | "admin" | "sales";
   created_at: Date;
+  created_by?: string;
   failed_login_attempts?: number;
   locked_until?: Date;
   last_failed_login?: Date;
@@ -49,19 +50,21 @@ export const userStore = {
     email: string;
     password: string;
     name: string;
-    role?: "user" | "admin";
+    role?: "dev" | "admin" | "sales";
+    created_by?: string;
   }): Promise<User> {
     const passwordHash = await bcrypt.hash(userData.password, 10);
 
     const user = await queryOne<User>(
-      `INSERT INTO users (email, password_hash, name, role)
-       VALUES ($1, $2, $3, $4)
+      `INSERT INTO users (email, password_hash, name, role, created_by)
+       VALUES ($1, $2, $3, $4, $5)
        RETURNING *`,
       [
         userData.email,
         passwordHash,
         userData.name,
-        userData.role || "user",
+        userData.role || "sales",
+        userData.created_by || null,
       ]
     );
 
