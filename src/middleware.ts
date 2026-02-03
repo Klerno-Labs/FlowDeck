@@ -19,6 +19,8 @@ export async function middleware(request: NextRequest) {
 
   // Public routes that don't require authentication
   const isPublicRoute = pathname.startsWith('/login') ||
+                        pathname.startsWith('/forgot-password') ||
+                        pathname.startsWith('/reset-password') ||
                         pathname.startsWith('/api/auth');
 
   // Redirect root
