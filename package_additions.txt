@@ -1,0 +1,2 @@
+@portabletext/react
+next-sanity

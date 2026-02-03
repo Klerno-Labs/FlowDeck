@@ -1,0 +1,62 @@
+{
+  "name": "ftc-flowdeck",
+  "version": "1.0.0",
+  "description": "Enterprise-grade interactive sales presentation web app for iPad",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint",
+    "type-check": "tsc --noEmit",
+    "format": "prettier --write \"**/*.{ts,tsx,js,jsx,json,md}\"",
+    "email:dev": "email dev"
+  },
+  "dependencies": {
+    "@portabletext/react": "3.1.0",
+    "@react-email/components": "0.0.25",
+    "@sanity/client": "6.23.0",
+    "@sanity/image-url": "1.1.0",
+    "@sanity/vision": "3.62.0",
+    "@supabase/ssr": "0.5.2",
+    "@supabase/supabase-js": "2.45.6",
+    "bcryptjs": "^3.0.3",
+    "class-variance-authority": "0.7.1",
+    "clsx": "2.1.1",
+    "date-fns": "4.1.0",
+    "dotenv": "^17.2.3",
+    "eventsource-parser": "2.0.1",
+    "framer-motion": "11.13.5",
+    "groq": "3.62.0",
+    "lucide-react": "0.460.0",
+    "next": "14.2.15",
+    "next-auth": "5.0.0-beta.25",
+    "next-sanity": "9.8.15",
+    "react": "18.3.1",
+    "react-dom": "18.3.1",
+    "react-email": "3.0.1",
+    "resend": "4.0.1",
+    "sanity": "3.62.0",
+    "swr": "2.2.5",
+    "tailwind-merge": "2.6.0",
+    "tailwindcss": "3.4.15",
+    "tailwindcss-animate": "1.0.7",
+    "typescript": "5.6.3",
+    "zod": "3.23.8"
+  },
+  "devDependencies": {
+    "@types/bcryptjs": "^2.4.6",
+    "@types/node": "22.10.2",
+    "@types/react": "18.3.18",
+    "@types/react-dom": "18.3.5",
+    "autoprefixer": "10.4.20",
+    "eslint": "8.57.1",
+    "eslint-config-next": "14.2.15",
+    "postcss": "8.4.49",
+    "prettier": "3.4.2"
+  },
+  "engines": {
+    "node": ">=20.0.0",
+    "npm": ">=10.0.0"
+  }
+}

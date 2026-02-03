@@ -1,0 +1,14 @@
+{
+  "name": "ftc-flowdeck-studio",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "sanity dev",
+    "start": "sanity start",
+    "build": "sanity build"
+  },
+  "dependencies": {
+    "sanity": "^3.62.0",
+    "@sanity/vision": "^3.62.0"
+  }
+}
