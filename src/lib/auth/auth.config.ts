@@ -1,12 +1,6 @@
 import { NextAuthConfig } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
-import bcrypt from "bcryptjs";
-import { createClient } from "@supabase/supabase-js";
-
-const supabase = createClient(
-  process.env.NEXT_PUBLIC_SUPABASE_URL!,
-  process.env.SUPABASE_SERVICE_ROLE_KEY!
-);
+import { userStore } from "@/lib/db/users";
 
 export const authConfig: NextAuthConfig = {
   providers: [
@@ -21,24 +15,13 @@ export const authConfig: NextAuthConfig = {
           return null;
         }
 
-        // Fetch user from Supabase
-        const { data: user, error } = await supabase
-          .from("users")
-          .select("*")
-          .eq("email", credentials.email)
-          .single();
-
-        if (error || !user) {
-          return null;
-        }
-
-        // Verify password
-        const isValidPassword = await bcrypt.compare(
-          credentials.password as string,
-          user.password_hash
+        // Verify user credentials using in-memory store
+        const user = await userStore.verifyPassword(
+          credentials.email as string,
+          credentials.password as string
         );
 
-        if (!isValidPassword) {
+        if (!user) {
           return null;
         }
 

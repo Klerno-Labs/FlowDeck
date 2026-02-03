@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { auth } from '@/lib/auth/auth';
 import { resend, FROM_EMAIL } from '@/lib/email/resend';
 import { SendContentEmail } from '@/lib/email/templates/SendContentEmail';
-import { createServerClient } from '@/lib/supabase/client';
+import { emailStore } from '@/lib/db/emails';
 import { sanityClient, getFileUrl } from '@/lib/sanity/client';
 
 export async function POST(request: NextRequest) {
@@ -88,10 +88,9 @@ export async function POST(request: NextRequest) {
       throw new Error(error.message);
     }
 
-    // Log to Supabase
-    const supabase = createServerClient();
-    await supabase.from('email_logs').insert({
-      sender_email: session.user.email,
+    // Log to in-memory store
+    await emailStore.create({
+      sender_email: session.user.email!,
       recipient_email: recipientEmail,
       product_id: productId,
       pdf_content_ids: pdfContentIds,
@@ -103,11 +102,10 @@ export async function POST(request: NextRequest) {
   } catch (error: any) {
     console.error('Email send error:', error);
 
-    // Log error to Supabase
+    // Log error to in-memory store
     try {
-      const supabase = createServerClient();
       const session = await auth();
-      await supabase.from('email_logs').insert({
+      await emailStore.create({
         sender_email: session?.user?.email || 'unknown',
         recipient_email: 'unknown',
         status: 'failed',

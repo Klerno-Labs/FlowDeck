@@ -1,85 +1,49 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { createServerClient } from '@/lib/supabase/client';
+import { reminderStore } from '@/lib/db/reminders';
 import { resend, FROM_EMAIL } from '@/lib/email/resend';
 import { ReminderEmail } from '@/lib/email/templates/ReminderEmail';
 
 export async function GET(request: NextRequest) {
-  // Verify cron secret
-  const authHeader = request.headers.get('authorization');
-  if (authHeader !== `Bearer ${process.env.CRON_SECRET}`) {
-    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
-  }
-
   try {
-    const supabase = createServerClient();
-
-    // Get pending reminders that are due
-    const { data: reminders, error } = await supabase
-      .from('reminders')
-      .select('*')
-      .eq('status', 'pending')
-      .lte('scheduled_at', new Date().toISOString());
-
-    if (error) throw error;
-
-    if (!reminders || reminders.length === 0) {
-      return NextResponse.json({
-        success: true,
-        message: 'No reminders to send',
-        processed: 0,
-      });
+    // Verify cron secret
+    const authHeader = request.headers.get('authorization');
+    if (authHeader !== `Bearer ${process.env.CRON_SECRET}`) {
+      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
-    const results = await Promise.all(
-      reminders.map(async (reminder) => {
-        try {
-          const { data, error: sendError } = await resend.emails.send({
-            from: FROM_EMAIL,
-            to: reminder.recipient_email || reminder.user_email,
-            subject: reminder.subject,
-            react: ReminderEmail({
-              subject: reminder.subject,
-              message: reminder.message,
-            }),
-          });
+    // Get pending reminders that are due
+    const pendingReminders = await reminderStore.getPending();
 
-          if (sendError) throw sendError;
+    let sent = 0;
+    let failed = 0;
 
-          // Update status to sent
-          await supabase
-            .from('reminders')
-            .update({
-              status: 'sent',
-              sent_at: new Date().toISOString(),
-            })
-            .eq('id', reminder.id);
+    // Send each reminder
+    for (const reminder of pendingReminders) {
+      try {
+        await resend.emails.send({
+          from: FROM_EMAIL,
+          to: reminder.recipient_email || reminder.user_email,
+          subject: reminder.subject,
+          react: ReminderEmail({
+            message: reminder.message,
+            senderEmail: reminder.user_email,
+          }),
+        });
 
-          return { id: reminder.id, success: true };
-        } catch (err: any) {
-          console.error(`Failed to send reminder ${reminder.id}:`, err);
-
-          // Mark as failed
-          await supabase
-            .from('reminders')
-            .update({
-              status: 'failed',
-              error_message: err.message,
-            })
-            .eq('id', reminder.id);
-
-          return { id: reminder.id, success: false, error: err.message };
-        }
-      })
-    );
-
-    const successCount = results.filter((r) => r.success).length;
+        await reminderStore.updateStatus(reminder.id, 'sent', new Date());
+        sent++;
+      } catch (error) {
+        console.error(`Failed to send reminder ${reminder.id}:`, error);
+        await reminderStore.updateStatus(reminder.id, 'failed');
+        failed++;
+      }
+    }
 
     return NextResponse.json({
       success: true,
-      processed: results.length,
-      sent: successCount,
-      failed: results.length - successCount,
-      results,
+      sent,
+      failed,
+      total: pendingReminders.length,
     });
   } catch (error: any) {
     console.error('Cron job error:', error);
