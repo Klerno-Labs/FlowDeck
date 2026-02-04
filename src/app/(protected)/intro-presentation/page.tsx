@@ -22,7 +22,7 @@ export default async function IntroductionPage() {
               href={`/intro-presentation/${slide.slug.current}`}
               className="group no-underline"
             >
-              <div className="bg-white rounded-xl shadow-md hover:shadow-xl transition-all duration-200 active:scale-95 overflow-hidden border-2 border-gray-200 hover:border-blue-400 touch-manipulation">
+              <div className="bg-white rounded-xl shadow-md hover:shadow-xl transition-all duration-200 active:scale-95 overflow-hidden touch-manipulation">
                 {slide.backgroundImage && (
                   <div className="aspect-video bg-gray-200 overflow-hidden">
                     <Image

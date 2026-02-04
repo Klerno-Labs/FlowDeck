@@ -29,7 +29,7 @@ export default async function KnowledgeBasePage() {
                 <div className="grid grid-cols-1 ipad:grid-cols-2 gap-6">
                   {categoryArticles.map((article) => (
                     <Link key={article._id} href={`/knowledge-base/${article.slug.current}`} className="group no-underline">
-                      <div className="bg-white rounded-xl shadow-md hover:shadow-xl transition-all duration-200 active:scale-95 overflow-hidden border-2 border-gray-200 hover:border-blue-400 touch-manipulation h-full">
+                      <div className="bg-white rounded-xl shadow-md hover:shadow-xl transition-all duration-200 active:scale-95 overflow-hidden touch-manipulation h-full">
                         {article.featuredImage && (
                           <div className="aspect-video overflow-hidden">
                             <Image
@@ -55,8 +55,8 @@ export default async function KnowledgeBasePage() {
         ) : (
           <div className="grid grid-cols-1 ipad:grid-cols-2 gap-6">
             {articles.map((article) => (
-              <Link key={article._id} href={`/knowledge-base/${article.slug.current}`} className="group">
-                <div className="bg-white rounded-xl shadow-md hover:shadow-xl transition-all duration-200 active:scale-95 overflow-hidden border-2 border-gray-200 hover:border-blue-400 touch-manipulation h-full">
+              <Link key={article._id} href={`/knowledge-base/${article.slug.current}`} className="group no-underline">
+                <div className="bg-white rounded-xl shadow-md hover:shadow-xl transition-all duration-200 active:scale-95 overflow-hidden touch-manipulation h-full">
                   {article.featuredImage && (
                     <div className="aspect-video overflow-hidden">
                       <Image

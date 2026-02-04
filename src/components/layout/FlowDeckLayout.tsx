@@ -95,7 +95,7 @@ export function FlowDeckLayout({ children, showBackButton = false, title }: Flow
               </div>
 
               {/* Bottom Breadcrumb Bar */}
-              <div className="border-t border-gray-200 px-6 py-3 bg-gray-50/80 backdrop-blur-sm">
+              <div className="px-6 py-3 bg-gray-50/80 backdrop-blur-sm">
                 <div className="flex items-center justify-between text-sm">
                   <div className="flex items-center gap-2 text-gray-500">
                     <Home className="w-4 h-4" />

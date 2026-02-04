@@ -154,7 +154,7 @@ export default async function ProductDetailPage({
       <EmailSection product={product} />
 
       {/* Bottom Navigation */}
-      <div className="bg-white border-t border-gray-200 py-6">
+      <div className="bg-white py-6">
         <div className="text-center text-ftc-gray-400 text-sm uppercase tracking-wider">
           INTRO PRESENTATION | PRODUCTS | KNOWLEDGE BASE
         </div>
