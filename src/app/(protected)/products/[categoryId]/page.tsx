@@ -1,46 +1,212 @@
-import Link from 'next/link';
-import { sanityClient } from '@/lib/sanity/client';
-import { productLinesByCategoryQuery, categoriesQuery } from '@/lib/sanity/queries';
-import { ProductLine, Category } from '@/types';
-import { ProductLineCard } from '@/components/product/ProductLineCard';
-import { Breadcrumbs } from '@/components/layout/Breadcrumbs';
+'use client';
 
-export default async function ProductLinesPage({
-  params,
-}: {
-  params: { categoryId: string };
-}) {
-  // Get category info
-  const categories: Category[] = await sanityClient.fetch(categoriesQuery);
-  const category = categories.find((c) => c.slug.current === params.categoryId);
+import Image from 'next/image';
+import { useRouter, useParams } from 'next/navigation';
+import { Home, Mail, ArrowLeft } from 'lucide-react';
 
-  if (!category) {
-    return <div>Category not found</div>;
-  }
+export default function CategoryProductsPage() {
+  const router = useRouter();
+  const params = useParams();
+  const categoryId = params.categoryId as string;
 
-  // Get product lines
-  const productLines: ProductLine[] = await sanityClient.fetch(productLinesByCategoryQuery, {
-    categoryId: category._id,
-  });
+  // Map category slugs to display names
+  const categoryNames: Record<string, string> = {
+    'liquid-solid': 'LIQUID | SOLID',
+    'liquid-liquid': 'LIQUID | LIQUID',
+    'gas-liquid': 'GAS | LIQUID',
+    'gas-solid': 'GAS | SOLID',
+  };
+
+  const productLines = [
+    {
+      id: 'clarify',
+      name: 'CLARIFY',
+      slug: 'clarify',
+      hasIcon: true,
+    },
+    {
+      id: 'sieva',
+      name: 'SIEVA',
+      slug: 'sieva',
+      hasIcon: true,
+    },
+    {
+      id: 'vessels-1',
+      name: 'VESSELS',
+      slug: 'vessels',
+      isImage: true,
+    },
+    {
+      id: 'torrent',
+      name: 'TORRENT',
+      slug: 'torrent',
+      hasIcon: true,
+    },
+    {
+      id: 'invicta',
+      name: 'INVICTA',
+      slug: 'invicta',
+      hasLogo: true,
+    },
+    {
+      id: 'vessels-2',
+      name: 'VESSELS',
+      slug: 'vessels',
+      isImage: true,
+    },
+  ];
 
   return (
-    <div className="min-h-screen px-8 py-8">
-      <Breadcrumbs
-        items={[
-          { label: 'TOP', href: '/home' },
-          { label: category.code.toUpperCase() },
-        ]}
-      />
+    <div className="fixed inset-0 bg-ftc-lightBlue overflow-hidden">
+      <div className="h-full w-full flex items-center justify-center p-8">
+        {/* Main Tablet Container */}
+        <div className="w-full max-w-6xl h-[90vh] relative z-20">
+          {/* Tablet Frame */}
+          <div className="bg-black rounded-[2.5rem] p-2 h-full">
+            {/* Screen */}
+            <div className="bg-white rounded-[2rem] overflow-hidden h-full flex flex-col relative">
+              {/* Back Button - Top Left */}
+              <button
+                onClick={() => router.back()}
+                className="absolute top-4 left-4 z-20 p-3 rounded-full hover:bg-gray-100 active:bg-gray-200 transition-all touch-manipulation min-w-[44px] min-h-[44px] flex items-center justify-center"
+                aria-label="Go back"
+              >
+                <ArrowLeft className="w-6 h-6 text-gray-600" />
+              </button>
 
-      <div className="flex flex-col items-center justify-center py-8">
-        <h1 className="text-4xl font-bold text-gray-900 mb-16">{category.title}</h1>
+              {/* Top Right Navigation Buttons */}
+              <div className="absolute top-4 right-4 flex gap-3 z-20">
+                <button
+                  onClick={() => router.push('/home')}
+                  className="w-12 h-12 rounded-full bg-cyan-400 hover:bg-cyan-500 active:bg-cyan-600 transition-all flex items-center justify-center touch-manipulation"
+                  aria-label="Home"
+                >
+                  <Home className="w-6 h-6 text-white" />
+                </button>
+                <button
+                  onClick={() => {/* Email functionality */}}
+                  className="w-12 h-12 rounded-full bg-blue-700 hover:bg-blue-800 active:bg-blue-900 transition-all flex items-center justify-center touch-manipulation"
+                  aria-label="Email"
+                >
+                  <Mail className="w-6 h-6 text-white" />
+                </button>
+              </div>
 
-        <div className="grid-product-lines max-w-6xl w-full">
-          {productLines.map((line) => (
-            <Link key={line._id} href={`/products/${params.categoryId}/${line.slug.current}`} className="no-underline">
-              <ProductLineCard productLine={line} />
-            </Link>
-          ))}
+              {/* FTC Logo - Top Center */}
+              <div className="absolute top-4 left-1/2 -translate-x-1/2 z-10">
+                <Image
+                  src="/logos/ftc/FTC_LogoNotag.png"
+                  alt="FTC Logo"
+                  width={120}
+                  height={40}
+                  className="h-8 w-auto"
+                  priority
+                />
+              </div>
+
+              {/* Main Content - 2x3 Grid */}
+              <div className="h-full w-full p-8 pt-20 pb-16">
+                <div className="h-full w-full grid grid-cols-3 grid-rows-2 gap-4">
+                  {productLines.map((line) => (
+                    <button
+                      key={line.id}
+                      onClick={() => router.push(`/products/${categoryId}/${line.slug}`)}
+                      className="bg-gray-300 rounded-2xl flex flex-col items-center justify-center transition-all hover:scale-[1.02] active:scale-[0.98] touch-manipulation group relative overflow-hidden"
+                    >
+                      {line.isImage ? (
+                        /* Vessel Image */
+                        <div className="w-full h-full flex items-center justify-center p-4 relative">
+                          <svg
+                            width="120"
+                            height="180"
+                            viewBox="0 0 120 180"
+                            className="opacity-40"
+                          >
+                            {/* Simple vessel/tank illustration */}
+                            <rect x="30" y="40" width="60" height="100" fill="white" stroke="white" strokeWidth="2" rx="4" />
+                            <ellipse cx="60" cy="40" rx="30" ry="8" fill="white" />
+                            <rect x="35" y="145" width="50" height="20" fill="white" />
+                            <circle cx="45" cy="70" r="8" fill="none" stroke="white" strokeWidth="2" />
+                            <line x1="55" y1="100" x2="75" y2="100" stroke="white" strokeWidth="3" />
+                          </svg>
+                          <span className="absolute bottom-6 text-white text-lg font-semibold tracking-wider">
+                            {line.name}
+                          </span>
+                        </div>
+                      ) : line.hasLogo ? (
+                        /* INVICTA Logo */
+                        <div className="flex flex-col items-center justify-center">
+                          <div className="mb-4 text-white text-5xl font-bold">V</div>
+                          <h2 className="text-xl font-bold text-white tracking-wider">
+                            {line.name}
+                          </h2>
+                        </div>
+                      ) : (
+                        /* Product Line with Icon */
+                        <>
+                          <div className="mb-4">
+                            <svg
+                              width="80"
+                              height="50"
+                              viewBox="0 0 80 50"
+                              className="opacity-60 group-hover:opacity-80 transition-opacity"
+                            >
+                              <circle cx="15" cy="25" r="8" fill="none" stroke="white" strokeWidth="2" />
+                              <circle cx="15" cy="25" r="3" fill="white" />
+                              <circle cx="40" cy="25" r="10" fill="none" stroke="white" strokeWidth="2" />
+                              <circle cx="40" cy="25" r="4" fill="white" />
+                              <line x1="35" y1="25" x2="45" y2="25" stroke="white" strokeWidth="1.5" />
+                              <line x1="40" y1="20" x2="40" y2="30" stroke="white" strokeWidth="1.5" />
+                              <circle cx="65" cy="25" r="8" fill="none" stroke="white" strokeWidth="2" />
+                              <circle cx="65" cy="25" r="3" fill="white" />
+                              <line x1="23" y1="25" x2="32" y2="25" stroke="white" strokeWidth="1.5" />
+                              <line x1="48" y1="25" x2="57" y2="25" stroke="white" strokeWidth="1.5" />
+                            </svg>
+                          </div>
+                          <div className="flex items-center justify-center mb-3">
+                            <div className="w-10 h-10 rounded-full bg-white flex items-center justify-center">
+                              <span className="text-lg font-bold text-gray-700">
+                                {line.name.substring(0, 2)}
+                              </span>
+                            </div>
+                          </div>
+                          <h2 className="text-lg font-semibold text-white tracking-wider">
+                            {line.name}
+                          </h2>
+                        </>
+                      )}
+                    </button>
+                  ))}
+                </div>
+              </div>
+
+              {/* FTC Logo - Bottom Left */}
+              <div className="absolute bottom-4 left-4 z-10">
+                <Image
+                  src="/logos/ftc/FTC_LogoNotag.png"
+                  alt="FTC"
+                  width={60}
+                  height={20}
+                  className="h-6 w-auto opacity-50"
+                />
+              </div>
+
+              {/* Category Name - Bottom Right */}
+              <div className="absolute bottom-4 right-4 z-10">
+                <span className="text-xs text-gray-400 font-semibold tracking-wider">
+                  {categoryNames[categoryId] || categoryId.toUpperCase()}
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Bottom Right Color Bars */}
+        <div className="absolute bottom-0 right-0 flex h-12 w-[40vw] max-w-[500px]">
+          <div className="flex-1 bg-orange-500"></div>
+          <div className="flex-1 bg-blue-700"></div>
+          <div className="flex-1 bg-green-500"></div>
+          <div className="flex-1 bg-cyan-400"></div>
         </div>
       </div>
     </div>
