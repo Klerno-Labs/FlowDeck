@@ -46,9 +46,9 @@ export default function WhatWeGuaranteePage() {
                       <Mail className="w-6 h-6 text-white" />
                     </button>
                     <button
-                      onClick={() => router.push('/intro-presentation/what-we-guarantee')}
+                      onClick={() => router.push('/home')}
                       className="w-12 h-12 rounded-full bg-green-500 hover:bg-green-600 active:bg-green-700 transition-all flex items-center justify-center touch-manipulation"
-                      aria-label="Next page"
+                      aria-label="Return to home"
                     >
                       <ChevronRight className="w-6 h-6 text-white" />
                     </button>
