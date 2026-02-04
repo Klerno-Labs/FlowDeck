@@ -98,17 +98,31 @@ export default function ProductsPage() {
                       {/* Filtration Icon/Diagram */}
                       <div className="mb-6">
                         <svg
-                          width="80"
-                          height="80"
-                          viewBox="0 0 80 80"
-                          className="opacity-70 group-hover:opacity-90 transition-opacity"
+                          width="100"
+                          height="60"
+                          viewBox="0 0 100 60"
+                          className="opacity-60 group-hover:opacity-80 transition-opacity"
                         >
-                          {/* Simple filtration flow diagram */}
-                          <circle cx="20" cy="20" r="8" fill="white" stroke="currentColor" strokeWidth="2" className="text-gray-600" />
-                          <circle cx="40" cy="40" r="12" fill="white" stroke="currentColor" strokeWidth="2" className="text-gray-600" />
-                          <circle cx="60" cy="20" r="8" fill="white" stroke="currentColor" strokeWidth="2" className="text-gray-600" />
-                          <line x1="20" y1="28" x2="32" y2="36" stroke="currentColor" strokeWidth="2" className="text-gray-600" />
-                          <line x1="48" y1="36" x2="60" y2="28" stroke="currentColor" strokeWidth="2" className="text-gray-600" />
+                          {/* Input circle */}
+                          <circle cx="15" cy="30" r="10" fill="none" stroke="white" strokeWidth="2.5" />
+                          <circle cx="15" cy="30" r="4" fill="white" />
+
+                          {/* Filter/Process circle (center) */}
+                          <circle cx="50" cy="30" r="14" fill="none" stroke="white" strokeWidth="2.5" />
+                          <circle cx="50" cy="30" r="6" fill="white" />
+                          <line x1="43" y1="30" x2="57" y2="30" stroke="white" strokeWidth="1.5" />
+                          <line x1="50" y1="23" x2="50" y2="37" stroke="white" strokeWidth="1.5" />
+
+                          {/* Output circle */}
+                          <circle cx="85" cy="30" r="10" fill="none" stroke="white" strokeWidth="2.5" />
+                          <circle cx="85" cy="30" r="4" fill="white" />
+
+                          {/* Connection lines with arrows */}
+                          <line x1="25" y1="30" x2="36" y2="30" stroke="white" strokeWidth="2" />
+                          <polygon points="36,30 31,27 31,33" fill="white" />
+
+                          <line x1="64" y1="30" x2="75" y2="30" stroke="white" strokeWidth="2" />
+                          <polygon points="75,30 70,27 70,33" fill="white" />
                         </svg>
                       </div>
 
