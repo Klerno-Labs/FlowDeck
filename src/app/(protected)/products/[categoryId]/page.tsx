@@ -103,27 +103,7 @@ export default function CategoryProductsPage() {
                       onClick={() => router.push(`/products/${categoryId}/${line.slug}`)}
                       className="bg-gray-300 rounded-2xl flex flex-col items-center justify-center transition-all hover:scale-[1.02] active:scale-[0.98] touch-manipulation group relative overflow-hidden"
                     >
-                      {line.isImage ? (
-                        /* Vessel Image */
-                        <div className="w-full h-full flex items-center justify-center p-4 relative">
-                          <svg
-                            width="120"
-                            height="180"
-                            viewBox="0 0 120 180"
-                            className="opacity-40"
-                          >
-                            {/* Simple vessel/tank illustration */}
-                            <rect x="30" y="40" width="60" height="100" fill="white" stroke="white" strokeWidth="2" rx="4" />
-                            <ellipse cx="60" cy="40" rx="30" ry="8" fill="white" />
-                            <rect x="35" y="145" width="50" height="20" fill="white" />
-                            <circle cx="45" cy="70" r="8" fill="none" stroke="white" strokeWidth="2" />
-                            <line x1="55" y1="100" x2="75" y2="100" stroke="white" strokeWidth="3" />
-                          </svg>
-                          <span className="absolute bottom-6 text-white text-lg font-semibold tracking-wider">
-                            {line.name}
-                          </span>
-                        </div>
-                      ) : line.hasLogo ? (
+                      {line.hasLogo ? (
                         /* INVICTA Logo */
                         <div className="flex flex-col items-center justify-center">
                           <div className="mb-4 text-white text-5xl font-bold">V</div>
