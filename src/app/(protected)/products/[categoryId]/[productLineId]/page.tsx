@@ -107,6 +107,23 @@ export default function ProductLineDetailPage() {
         image: '/images/products/sieva/maxout_series_combo_full_B&W.png',
       },
     ],
+    torrent: [
+      {
+        id: 'torrent-600',
+        name: 'TORRENT 600 Series',
+        image: '/images/products/torrent/dpu600_highflow_family_B&W.png',
+      },
+      {
+        id: 'torrent-700',
+        name: 'TORRENT 700 Series',
+        image: '/images/products/torrent/Torrent700_series_full_B&W.png',
+      },
+      {
+        id: 'torrent-dpw',
+        name: 'TORRENT DPW Series',
+        image: '/images/products/torrent/dpw_series_full_filter_B&W.png',
+      },
+    ],
   };
 
   const products = productData[productLineId] || [];
