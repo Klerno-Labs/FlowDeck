@@ -21,59 +21,95 @@ export default function ProductLineDetailPage() {
   const categoryCode = categoryMap[categoryId] || 'LS';
   const categoryName = categoryId.toUpperCase().replace('-', ' | ');
 
-  // CLARIFY products - hardcoded for now
-  const clarifyProducts = [
-    {
-      id: 'clarify-250',
-      name: 'CLARIFY 250',
-      image: '/images/products/clarify/Clarify430_B&W.png', // placeholder
-    },
-    {
-      id: 'clarify-300',
-      name: 'CLARIFY 300',
-      image: '/images/products/clarify/Clarify430_B&W.png', // placeholder
-    },
-    {
-      id: 'clarify-380',
-      name: 'CLARIFY 380',
-      image: '/images/products/clarify/Clarify430_B&W.png', // placeholder
-    },
-    {
-      id: 'clarify-430',
-      name: 'CLARIFY 430',
-      image: '/images/products/clarify/Clarify430_B&W.png',
-    },
-    {
-      id: 'clarify-500',
-      name: 'CLARIFY 500',
-      image: '/images/products/clarify/Clarify430_B&W.png', // placeholder
-    },
-    {
-      id: 'clarify-740-premium',
-      name: 'CLARIFY 740 Premium',
-      image: '/images/products/clarify/pdp740_pair_full_B&W.png',
-    },
-    {
-      id: 'clarify-740-platinum-select',
-      name: 'CLARIFY 740 Platinum Select®',
-      image: '/images/products/clarify/pss740_platinum_select_polypro_full_B&W.png',
-    },
-    {
-      id: 'clarify-740-nsf',
-      name: 'CLARIFY 740 Platinum Select® NSF/ANSI 61 Certified',
-      image: '/images/products/clarify/pss740_platinum_select_polypro_full_B&W.png',
-    },
-    {
-      id: 'clarify-940-platinum',
-      name: 'CLARIFY 940 Platinum®',
-      image: '/images/products/clarify/ps940_series_cellulose_full_B&W.png',
-    },
-    {
-      id: 'clarify-2040-platinum',
-      name: 'CLARIFY 2040 Platinum®',
-      image: '/images/products/clarify/ps2040_sereis_full_cross_B&W.png',
-    },
-  ];
+  // Product data by product line
+  const productData: Record<string, Array<{ id: string; name: string; image: string }>> = {
+    clarify: [
+      {
+        id: 'clarify-250',
+        name: 'CLARIFY 250',
+        image: '/images/products/clarify/Clarify430_B&W.png',
+      },
+      {
+        id: 'clarify-300',
+        name: 'CLARIFY 300',
+        image: '/images/products/clarify/Clarify430_B&W.png',
+      },
+      {
+        id: 'clarify-380',
+        name: 'CLARIFY 380',
+        image: '/images/products/clarify/Clarify430_B&W.png',
+      },
+      {
+        id: 'clarify-430',
+        name: 'CLARIFY 430',
+        image: '/images/products/clarify/Clarify430_B&W.png',
+      },
+      {
+        id: 'clarify-500',
+        name: 'CLARIFY 500',
+        image: '/images/products/clarify/Clarify430_B&W.png',
+      },
+      {
+        id: 'clarify-740-premium',
+        name: 'CLARIFY 740 Premium',
+        image: '/images/products/clarify/pdp740_pair_full_B&W.png',
+      },
+      {
+        id: 'clarify-740-platinum-select',
+        name: 'CLARIFY 740 Platinum Select®',
+        image: '/images/products/clarify/pss740_platinum_select_polypro_full_B&W.png',
+      },
+      {
+        id: 'clarify-740-nsf',
+        name: 'CLARIFY 740 Platinum Select® NSF/ANSI 61 Certified',
+        image: '/images/products/clarify/pss740_platinum_select_polypro_full_B&W.png',
+      },
+      {
+        id: 'clarify-940-platinum',
+        name: 'CLARIFY 940 Platinum®',
+        image: '/images/products/clarify/ps940_series_cellulose_full_B&W.png',
+      },
+      {
+        id: 'clarify-2040-platinum',
+        name: 'CLARIFY 2040 Platinum®',
+        image: '/images/products/clarify/ps2040_sereis_full_cross_B&W.png',
+      },
+    ],
+    sieva: [
+      {
+        id: 'sieva-100',
+        name: 'SIEVA 100 Series',
+        image: '/images/products/sieva/nb100_series_full_B&W.png',
+      },
+      {
+        id: 'sieva-550',
+        name: 'SIEVA 550 Series',
+        image: '/images/products/sieva/hc550_series_full_badseal_B&W.png',
+      },
+      {
+        id: 'sieva-600-ht',
+        name: 'SIEVA 600 HT Series',
+        image: '/images/products/sieva/hc550_series_full_badseal_B&W.png',
+      },
+      {
+        id: 'sieva-650',
+        name: 'SIEVA 650 Series',
+        image: '/images/products/sieva/mc650_series_pair_full_B&W.png',
+      },
+      {
+        id: 'sieva-maxout',
+        name: 'SIEVA Max Out Series',
+        image: '/images/products/sieva/maxout_series_combo_full_B&W.png',
+      },
+      {
+        id: 'sieva-maxout-basket',
+        name: 'SIEVA Max-Out Basket',
+        image: '/images/products/sieva/maxout_series_combo_full_B&W.png',
+      },
+    ],
+  };
+
+  const products = productData[productLineId] || [];
 
   return (
     <div className="fixed inset-0 bg-ftc-lightBlue overflow-hidden">
@@ -121,7 +157,7 @@ export default function ProductLineDetailPage() {
               {/* Main Content - Products Grid */}
               <div className="h-full w-full p-8 pt-32 pb-24">
                 <div className="grid grid-cols-5 grid-rows-2 gap-6 h-full">
-                  {clarifyProducts.map((product) => (
+                  {products.map((product) => (
                     <button
                       key={product.id}
                       onClick={() => router.push(`/products/${categoryId}/${productLineId}/${product.id}`)}
