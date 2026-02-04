@@ -37,7 +37,7 @@ export default function HomePage() {
         </div>
 
         {/* Main Content Area - Optimized for iPad Landscape */}
-        <div className="w-[95vw] h-[90vh] max-w-[1400px] max-h-[900px]">
+        <div className="w-[95vw] h-[90vh] max-w-[1400px] max-h-[900px] relative z-20">
           {/* Tablet Frame - iPad Aspect Ratio */}
           <div className="bg-black rounded-[2.5rem] p-2 h-full w-full overflow-hidden">
             {/* Screen */}
