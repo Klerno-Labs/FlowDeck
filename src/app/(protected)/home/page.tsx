@@ -84,21 +84,21 @@ export default function HomePage() {
                 <div className="flex gap-5 w-full max-w-[900px] relative z-20">
                   <button
                     onClick={() => router.push('/intro-presentation')}
-                    className="flex-1 py-5 px-6 text-center bg-white hover:bg-gray-50 active:bg-gray-100 text-gray-700 font-medium uppercase tracking-normal transition-all touch-manipulation rounded-lg min-h-[60px] flex items-center justify-center cursor-pointer"
+                    className="flex-1 py-5 px-6 text-center bg-cyan-400 hover:bg-cyan-500 active:bg-cyan-600 text-white font-medium uppercase tracking-normal transition-all touch-manipulation rounded-lg min-h-[60px] flex items-center justify-center cursor-pointer"
                   >
                     <span className="text-sm ipad:text-base whitespace-nowrap">Intro Presentation</span>
                   </button>
 
                   <button
                     onClick={() => router.push('/products')}
-                    className="flex-1 py-5 px-6 text-center bg-white hover:bg-gray-50 active:bg-gray-100 text-gray-700 font-medium uppercase tracking-normal transition-all touch-manipulation rounded-lg min-h-[60px] flex items-center justify-center cursor-pointer"
+                    className="flex-1 py-5 px-6 text-center bg-blue-700 hover:bg-blue-800 active:bg-blue-900 text-white font-medium uppercase tracking-normal transition-all touch-manipulation rounded-lg min-h-[60px] flex items-center justify-center cursor-pointer"
                   >
                     <span className="text-sm ipad:text-base whitespace-nowrap">Products</span>
                   </button>
 
                   <button
                     onClick={() => router.push('/knowledge-base')}
-                    className="flex-1 py-5 px-6 text-center bg-white hover:bg-gray-50 active:bg-gray-100 text-gray-700 font-medium uppercase tracking-normal transition-all touch-manipulation rounded-lg min-h-[60px] flex items-center justify-center cursor-pointer"
+                    className="flex-1 py-5 px-6 text-center bg-green-500 hover:bg-green-600 active:bg-green-700 text-white font-medium uppercase tracking-normal transition-all touch-manipulation rounded-lg min-h-[60px] flex items-center justify-center cursor-pointer"
                   >
                     <span className="text-sm ipad:text-base whitespace-nowrap">Knowledge Base</span>
                   </button>
