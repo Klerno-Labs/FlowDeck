@@ -1,12 +1,5 @@
-import { redirect } from 'next/navigation';
-import { auth } from '@/lib/auth/auth';
-
-export default async function HomePage() {
-  const session = await auth();
-
-  if (session?.user) {
-    redirect('/home');
-  }
-
-  redirect('/login');
+export default function RootPage() {
+  // Middleware handles all redirects for this route
+  // This page should never render, but just in case:
+  return null;
 }
