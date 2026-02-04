@@ -39,9 +39,9 @@ export default function HomePage() {
         {/* Main Content Area - Optimized for iPad Landscape */}
         <div className="w-[85vw] h-[85vh] max-w-[1200px] max-h-[800px]">
           {/* Tablet Frame - iPad Aspect Ratio */}
-          <div className="bg-black rounded-[2.5rem] p-2 h-full w-full">
+          <div className="bg-black rounded-[2.5rem] p-1 h-full w-full overflow-hidden">
             {/* Screen */}
-            <div className="bg-white rounded-[2rem] overflow-hidden h-full flex flex-col relative">
+            <div className="bg-white rounded-[1.875rem] overflow-hidden h-full flex flex-col relative isolate">
               {/* Top Right Icons - Touch Optimized */}
               <div className="absolute top-4 right-4 flex gap-3 z-20">
                 <button
@@ -81,26 +81,26 @@ export default function HomePage() {
                 </h1>
 
                 {/* Three Main Buttons - Touch Optimized */}
-                <div className="flex gap-5 w-full max-w-[900px]">
+                <div className="flex gap-5 w-full max-w-[900px] relative z-10 isolate">
                   <Link
                     href="/intro-presentation"
-                    className="flex-1 py-5 px-8 text-center bg-gray-50 hover:bg-gray-100 active:bg-gray-200 text-gray-700 font-medium uppercase tracking-wide transition-all touch-manipulation rounded-lg min-h-[60px] flex items-center justify-center no-underline cursor-pointer"
+                    className="flex-1 py-5 px-8 text-center bg-gray-50 hover:bg-gray-100 active:bg-gray-200 text-gray-700 font-medium uppercase tracking-wide transition-all touch-manipulation rounded-lg min-h-[60px] flex items-center justify-center no-underline cursor-pointer relative z-10"
                   >
-                    <span className="text-sm ipad:text-base whitespace-nowrap">Intro Presentation</span>
+                    <span className="text-sm ipad:text-base whitespace-nowrap relative z-10">Intro Presentation</span>
                   </Link>
 
                   <Link
                     href="/products"
-                    className="flex-1 py-5 px-8 text-center bg-gray-50 hover:bg-gray-100 active:bg-gray-200 text-gray-700 font-medium uppercase tracking-wide transition-all touch-manipulation rounded-lg min-h-[60px] flex items-center justify-center no-underline cursor-pointer"
+                    className="flex-1 py-5 px-8 text-center bg-gray-50 hover:bg-gray-100 active:bg-gray-200 text-gray-700 font-medium uppercase tracking-wide transition-all touch-manipulation rounded-lg min-h-[60px] flex items-center justify-center no-underline cursor-pointer relative z-10"
                   >
-                    <span className="text-sm ipad:text-base whitespace-nowrap">Products</span>
+                    <span className="text-sm ipad:text-base whitespace-nowrap relative z-10">Products</span>
                   </Link>
 
                   <Link
                     href="/knowledge-base"
-                    className="flex-1 py-5 px-8 text-center bg-gray-50 hover:bg-gray-100 active:bg-gray-200 text-gray-700 font-medium uppercase tracking-wide transition-all touch-manipulation rounded-lg min-h-[60px] flex items-center justify-center no-underline cursor-pointer"
+                    className="flex-1 py-5 px-8 text-center bg-gray-50 hover:bg-gray-100 active:bg-gray-200 text-gray-700 font-medium uppercase tracking-wide transition-all touch-manipulation rounded-lg min-h-[60px] flex items-center justify-center no-underline cursor-pointer relative z-10"
                   >
-                    <span className="text-sm ipad:text-base whitespace-nowrap">Knowledge Base</span>
+                    <span className="text-sm ipad:text-base whitespace-nowrap relative z-10">Knowledge Base</span>
                   </Link>
                 </div>
               </div>
