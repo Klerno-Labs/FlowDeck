@@ -37,11 +37,11 @@ export default function HomePage() {
         </div>
 
         {/* Main Content Area - Optimized for iPad Landscape */}
-        <div className="w-[85vw] h-[85vh] max-w-[1200px] max-h-[800px]">
+        <div className="w-[95vw] h-[90vh] max-w-[1400px] max-h-[900px]">
           {/* Tablet Frame - iPad Aspect Ratio */}
-          <div className="bg-black rounded-[2.5rem] p-1 h-full w-full overflow-hidden">
+          <div className="bg-black rounded-[2.5rem] p-2 h-full w-full overflow-hidden">
             {/* Screen */}
-            <div className="bg-white rounded-[1.875rem] overflow-hidden h-full flex flex-col relative isolate">
+            <div className="bg-white rounded-[2rem] h-full flex flex-col relative">
               {/* Top Right Icons - Touch Optimized */}
               <div className="absolute top-4 right-4 flex gap-3 z-20">
                 <button
