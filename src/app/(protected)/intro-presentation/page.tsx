@@ -2,43 +2,49 @@ import Link from 'next/link';
 import { sanityClient } from '@/lib/sanity/client';
 import { slidesQuery } from '@/lib/sanity/queries';
 import { Slide } from '@/types';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/Card';
+import { FlowDeckLayout } from '@/components/layout/FlowDeckLayout';
+import Image from 'next/image';
 
 export default async function IntroductionPage() {
   const slides: Slide[] = await sanityClient.fetch(slidesQuery);
 
   return (
-    <div className="min-h-screen px-8 py-16">
-      <div className="max-w-6xl mx-auto">
-        <h1 className="text-4xl font-bold text-gray-900 mb-12 text-center">
+    <FlowDeckLayout>
+      <div className="px-12 py-6">
+        <h1 className="text-4xl font-bold text-gray-900 mb-8 text-center">
           Intro Presentation
         </h1>
 
-        <div className="grid grid-cols-2 ipad:grid-cols-3 gap-6">
+        <div className="grid grid-cols-2 ipad:grid-cols-3 gap-6 max-w-5xl mx-auto">
           {slides.map((slide, index) => (
-            <Link key={slide._id} href={`/intro-presentation/${slide.slug.current}`}>
-              <Card className="card-touch h-full">
-                <CardHeader>
-                  <CardTitle className="text-xl">
-                    {index + 1}. {slide.title}
-                  </CardTitle>
-                </CardHeader>
-                <CardContent>
-                  {slide.backgroundImage && (
-                    <div className="aspect-video bg-gray-200 rounded-lg overflow-hidden">
-                      <img
-                        src={slide.backgroundImage}
-                        alt={slide.title}
-                        className="w-full h-full object-cover"
-                      />
-                    </div>
-                  )}
-                </CardContent>
-              </Card>
+            <Link
+              key={slide._id}
+              href={`/intro-presentation/${slide.slug.current}`}
+              className="group"
+            >
+              <div className="bg-white rounded-xl shadow-md hover:shadow-xl transition-all duration-200 active:scale-95 overflow-hidden border-2 border-gray-200 hover:border-blue-400 touch-manipulation">
+                {slide.backgroundImage && (
+                  <div className="aspect-video bg-gray-200 overflow-hidden">
+                    <Image
+                      src={slide.backgroundImage}
+                      alt={slide.title}
+                      width={400}
+                      height={225}
+                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-200"
+                      priority={index < 6}
+                    />
+                  </div>
+                )}
+                <div className="p-4">
+                  <h3 className="text-lg font-semibold text-gray-900">
+                    <span className="text-blue-600">{index + 1}.</span> {slide.title}
+                  </h3>
+                </div>
+              </div>
             </Link>
           ))}
         </div>
       </div>
-    </div>
+    </FlowDeckLayout>
   );
 }

@@ -1,8 +1,9 @@
 import Link from 'next/link';
+import Image from 'next/image';
 import { sanityClient } from '@/lib/sanity/client';
 import { articlesQuery } from '@/lib/sanity/queries';
 import { Article } from '@/types';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/Card';
+import { FlowDeckLayout } from '@/components/layout/FlowDeckLayout';
 
 export default async function KnowledgeBasePage() {
   const articles: Article[] = await sanityClient.fetch(articlesQuery);
@@ -11,9 +12,9 @@ export default async function KnowledgeBasePage() {
   const categories = [...new Set(articles.map((a) => a.category).filter(Boolean))];
 
   return (
-    <div className="min-h-screen px-8 py-16">
-      <div className="max-w-6xl mx-auto">
-        <h1 className="text-4xl font-bold text-gray-900 mb-12 text-center">Knowledge Base</h1>
+    <FlowDeckLayout>
+      <div className="px-12 py-6">
+        <h1 className="text-4xl font-bold text-gray-900 mb-8 text-center">Knowledge Base</h1>
 
         {categories.length > 0 ? (
           categories.map((category) => {
@@ -27,22 +28,24 @@ export default async function KnowledgeBasePage() {
 
                 <div className="grid grid-cols-1 ipad:grid-cols-2 gap-6">
                   {categoryArticles.map((article) => (
-                    <Link key={article._id} href={`/knowledge-base/${article.slug.current}`}>
-                      <Card className="card-touch h-full">
+                    <Link key={article._id} href={`/knowledge-base/${article.slug.current}`} className="group">
+                      <div className="bg-white rounded-xl shadow-md hover:shadow-xl transition-all duration-200 active:scale-95 overflow-hidden border-2 border-gray-200 hover:border-blue-400 touch-manipulation h-full">
                         {article.featuredImage && (
-                          <div className="aspect-video overflow-hidden rounded-t-xl">
-                            <img
+                          <div className="aspect-video overflow-hidden">
+                            <Image
                               src={article.featuredImage}
                               alt={article.title}
-                              className="w-full h-full object-cover"
+                              width={600}
+                              height={338}
+                              className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-200"
                             />
                           </div>
                         )}
-                        <CardHeader>
-                          <CardTitle>{article.title}</CardTitle>
-                          <CardDescription>{article.excerpt}</CardDescription>
-                        </CardHeader>
-                      </Card>
+                        <div className="p-6">
+                          <h3 className="text-xl font-bold text-gray-900 mb-2">{article.title}</h3>
+                          <p className="text-gray-600 line-clamp-2">{article.excerpt}</p>
+                        </div>
+                      </div>
                     </Link>
                   ))}
                 </div>
@@ -52,27 +55,29 @@ export default async function KnowledgeBasePage() {
         ) : (
           <div className="grid grid-cols-1 ipad:grid-cols-2 gap-6">
             {articles.map((article) => (
-              <Link key={article._id} href={`/knowledge-base/${article.slug.current}`}>
-                <Card className="card-touch h-full">
+              <Link key={article._id} href={`/knowledge-base/${article.slug.current}`} className="group">
+                <div className="bg-white rounded-xl shadow-md hover:shadow-xl transition-all duration-200 active:scale-95 overflow-hidden border-2 border-gray-200 hover:border-blue-400 touch-manipulation h-full">
                   {article.featuredImage && (
-                    <div className="aspect-video overflow-hidden rounded-t-xl">
-                      <img
+                    <div className="aspect-video overflow-hidden">
+                      <Image
                         src={article.featuredImage}
                         alt={article.title}
-                        className="w-full h-full object-cover"
+                        width={600}
+                        height={338}
+                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-200"
                       />
                     </div>
                   )}
-                  <CardHeader>
-                    <CardTitle>{article.title}</CardTitle>
-                    <CardDescription>{article.excerpt}</CardDescription>
-                  </CardHeader>
-                </Card>
+                  <div className="p-6">
+                    <h3 className="text-xl font-bold text-gray-900 mb-2">{article.title}</h3>
+                    <p className="text-gray-600 line-clamp-2">{article.excerpt}</p>
+                  </div>
+                </div>
               </Link>
             ))}
           </div>
         )}
       </div>
-    </div>
+    </FlowDeckLayout>
   );
 }
