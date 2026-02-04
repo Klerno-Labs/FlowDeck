@@ -29,10 +29,10 @@ export default function IntroductionPage() {
           </div>
 
           {/* Main Content */}
-          <div className="h-full flex items-center pt-20 pb-12 px-12">
+          <div className="h-full flex items-center gap-8 pt-20 pb-12 px-12">
             {/* Left Side - Image */}
-            <div className="flex-1 flex items-center justify-center pr-8">
-              <div className="relative w-full max-w-md aspect-[3/4] rounded-lg overflow-hidden shadow-xl">
+            <div className="w-[40%] flex-shrink-0 flex items-center justify-center">
+              <div className="relative w-full max-w-sm aspect-[3/4] rounded-lg overflow-hidden shadow-xl">
                 <Image
                   src="/images/john-paraskeva.jpg"
                   alt="John Paraskeva"
@@ -44,7 +44,7 @@ export default function IntroductionPage() {
             </div>
 
             {/* Right Side - Content */}
-            <div className="flex-1 pl-8">
+            <div className="flex-1 min-w-0">
               <h1 className="text-4xl font-bold text-gray-800 mb-6 border-l-4 border-cyan-400 pl-4">
                 Company Overview
               </h1>
