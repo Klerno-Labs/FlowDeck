@@ -1,12 +1,53 @@
 'use client';
 
-import { FlowDeckLayout } from '@/components/layout/FlowDeckLayout';
 import Image from 'next/image';
+import { useRouter } from 'next/navigation';
+import { Home, Mail, ArrowLeft } from 'lucide-react';
 
 export default function IntroductionPage() {
+  const router = useRouter();
+
   return (
-    <FlowDeckLayout showBackButton={true}>
-      <div className="h-full bg-gradient-to-br from-gray-50 to-gray-100 flex items-center justify-center p-8">
+    <div className="fixed inset-0 bg-ftc-lightBlue overflow-hidden">
+      <div className="h-full w-full flex items-center justify-center p-8">
+        {/* Main Tablet Container */}
+        <div className="w-full max-w-6xl h-[90vh] relative z-20">
+          {/* Tablet Frame */}
+          <div className="bg-black rounded-[2.5rem] p-2 h-full">
+            {/* Screen */}
+            <div className="bg-white rounded-[2rem] overflow-hidden h-full flex flex-col relative">
+              {/* Top Navigation Bar */}
+              <div className="absolute top-4 left-4 right-4 flex items-center justify-between z-20">
+                {/* Back Button */}
+                <button
+                  onClick={() => router.back()}
+                  className="p-3 rounded-full hover:bg-gray-100 active:bg-gray-200 transition-all touch-manipulation min-w-[44px] min-h-[44px] flex items-center justify-center"
+                  aria-label="Go back"
+                >
+                  <ArrowLeft className="w-6 h-6 text-gray-600" />
+                </button>
+
+                {/* Right Icons */}
+                <div className="flex gap-3">
+                  <button
+                    onClick={() => router.push('/home')}
+                    className="p-3 rounded-full hover:bg-gray-100 active:bg-gray-200 transition-all touch-manipulation min-w-[44px] min-h-[44px] flex items-center justify-center"
+                    aria-label="Home"
+                  >
+                    <Home className="w-6 h-6 text-gray-400" />
+                  </button>
+                  <button
+                    onClick={() => {/* Email functionality */}}
+                    className="p-3 rounded-full hover:bg-gray-100 active:bg-gray-200 transition-all touch-manipulation min-w-[44px] min-h-[44px] flex items-center justify-center"
+                    aria-label="Email"
+                  >
+                    <Mail className="w-6 h-6 text-gray-400" />
+                  </button>
+                </div>
+              </div>
+
+              {/* Main Content Area */}
+              <div className="h-full bg-gradient-to-br from-gray-50 to-gray-100 flex items-center justify-center p-8">
         {/* Slide Container */}
         <div className="relative w-full max-w-6xl aspect-[16/10] bg-white rounded-2xl shadow-2xl overflow-hidden">
           {/* Decorative circles - top right */}
@@ -105,7 +146,19 @@ export default function IntroductionPage() {
             <div className="flex-1 bg-orange-500"></div>
           </div>
         </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Bottom Right Color Bars */}
+        <div className="absolute bottom-0 right-0 flex h-12 w-[40vw] max-w-[500px]">
+          <div className="flex-1 bg-orange-500"></div>
+          <div className="flex-1 bg-blue-700"></div>
+          <div className="flex-1 bg-green-500"></div>
+          <div className="flex-1 bg-cyan-400"></div>
+        </div>
       </div>
-    </FlowDeckLayout>
+    </div>
   );
 }
