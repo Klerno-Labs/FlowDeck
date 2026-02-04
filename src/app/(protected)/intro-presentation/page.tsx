@@ -20,7 +20,7 @@ export default async function IntroductionPage() {
             <Link
               key={slide._id}
               href={`/intro-presentation/${slide.slug.current}`}
-              className="group"
+              className="group no-underline"
             >
               <div className="bg-white rounded-xl shadow-md hover:shadow-xl transition-all duration-200 active:scale-95 overflow-hidden border-2 border-gray-200 hover:border-blue-400 touch-manipulation">
                 {slide.backgroundImage && (

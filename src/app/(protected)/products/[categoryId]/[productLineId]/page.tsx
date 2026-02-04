@@ -51,6 +51,7 @@ export default async function ProductsGridPage({
             <Link
               key={product._id}
               href={`/products/${params.categoryId}/${params.productLineId}/${product.slug.current}`}
+              className="no-underline"
             >
               <ProductCard product={product} />
             </Link>

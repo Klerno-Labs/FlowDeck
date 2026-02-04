@@ -84,21 +84,21 @@ export default function HomePage() {
                 <div className="flex gap-5 w-full max-w-[900px]">
                   <Link
                     href="/intro-presentation"
-                    className="flex-1 py-5 px-6 text-center bg-gray-50 hover:bg-gray-100 active:bg-gray-200 text-gray-700 font-medium uppercase tracking-wider transition-all touch-manipulation rounded-lg border-2 border-gray-200 hover:border-gray-300 shadow-sm hover:shadow-md min-h-[60px] flex items-center justify-center"
+                    className="flex-1 py-5 px-6 text-center bg-gray-50 hover:bg-gray-100 active:bg-gray-200 text-gray-700 font-medium uppercase tracking-wider transition-all touch-manipulation rounded-lg border border-gray-300 hover:border-gray-400 shadow-sm hover:shadow-md min-h-[60px] flex items-center justify-center no-underline"
                   >
                     <span className="text-sm ipad:text-base">Intro Presentation</span>
                   </Link>
 
                   <Link
                     href="/products"
-                    className="flex-1 py-5 px-6 text-center bg-gray-50 hover:bg-gray-100 active:bg-gray-200 text-gray-700 font-medium uppercase tracking-wider transition-all touch-manipulation rounded-lg border-2 border-gray-200 hover:border-gray-300 shadow-sm hover:shadow-md min-h-[60px] flex items-center justify-center"
+                    className="flex-1 py-5 px-6 text-center bg-gray-50 hover:bg-gray-100 active:bg-gray-200 text-gray-700 font-medium uppercase tracking-wider transition-all touch-manipulation rounded-lg border border-gray-300 hover:border-gray-400 shadow-sm hover:shadow-md min-h-[60px] flex items-center justify-center no-underline"
                   >
                     <span className="text-sm ipad:text-base">Products</span>
                   </Link>
 
                   <Link
                     href="/knowledge-base"
-                    className="flex-1 py-5 px-6 text-center bg-gray-50 hover:bg-gray-100 active:bg-gray-200 text-gray-700 font-medium uppercase tracking-wider transition-all touch-manipulation rounded-lg border-2 border-gray-200 hover:border-gray-300 shadow-sm hover:shadow-md min-h-[60px] flex items-center justify-center"
+                    className="flex-1 py-5 px-6 text-center bg-gray-50 hover:bg-gray-100 active:bg-gray-200 text-gray-700 font-medium uppercase tracking-wider transition-all touch-manipulation rounded-lg border border-gray-300 hover:border-gray-400 shadow-sm hover:shadow-md min-h-[60px] flex items-center justify-center no-underline"
                   >
                     <span className="text-sm ipad:text-base">Knowledge Base</span>
                   </Link>

@@ -15,7 +15,7 @@ export default async function ProductsPage() {
 
         <div className="grid-categories max-w-4xl w-full">
           {categories.map((category) => (
-            <Link key={category._id} href={`/products/${category.slug.current}`}>
+            <Link key={category._id} href={`/products/${category.slug.current}`} className="no-underline">
               <CategoryCard category={category} />
             </Link>
           ))}

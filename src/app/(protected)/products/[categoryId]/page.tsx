@@ -37,7 +37,7 @@ export default async function ProductLinesPage({
 
         <div className="grid-product-lines max-w-6xl w-full">
           {productLines.map((line) => (
-            <Link key={line._id} href={`/products/${params.categoryId}/${line.slug.current}`}>
+            <Link key={line._id} href={`/products/${params.categoryId}/${line.slug.current}`} className="no-underline">
               <ProductLineCard productLine={line} />
             </Link>
           ))}

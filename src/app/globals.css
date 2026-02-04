@@ -3,6 +3,11 @@
 @tailwind utilities;
 
 @layer base {
+  /* Remove default link underlines */
+  a {
+    text-decoration: none;
+  }
+
   /* Force landscape orientation on iPad */
   @media screen and (max-width: 1024px) and (orientation: portrait) {
     body::before {
