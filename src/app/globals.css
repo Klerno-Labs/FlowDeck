@@ -3,6 +3,14 @@
 @tailwind utilities;
 
 @layer base {
+  /* Remove ALL borders globally */
+  *,
+  *::before,
+  *::after {
+    border-width: 0 !important;
+    border-style: none !important;
+  }
+
   /* Remove default link underlines */
   a {
     text-decoration: none;
