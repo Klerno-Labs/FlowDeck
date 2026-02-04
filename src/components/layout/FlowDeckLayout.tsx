@@ -51,7 +51,7 @@ export function FlowDeckLayout({ children, showBackButton = false, title }: Flow
         {/* Main Tablet Container */}
         <div className="w-full max-w-6xl h-[90vh]">
           {/* Tablet Frame */}
-          <div className="bg-black rounded-[2.5rem] p-3 shadow-2xl h-full">
+          <div className="bg-black rounded-[2.5rem] p-2 h-full">
             {/* Screen */}
             <div className="bg-white rounded-[2rem] overflow-hidden h-full flex flex-col relative">
               {/* Top Navigation Bar */}

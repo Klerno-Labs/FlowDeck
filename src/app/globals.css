@@ -3,17 +3,28 @@
 @tailwind utilities;
 
 @layer base {
-  /* Remove ALL borders globally */
+  /* NUCLEAR OPTION: Remove ALL borders, outlines, and decorations globally */
   *,
   *::before,
   *::after {
+    border: none !important;
     border-width: 0 !important;
     border-style: none !important;
+    outline: none !important;
+    outline-width: 0 !important;
+    outline-style: none !important;
+    text-decoration: none !important;
+    text-decoration-line: none !important;
+    text-decoration-color: transparent !important;
+    -webkit-text-decoration: none !important;
+    -moz-text-decoration: none !important;
   }
 
   /* Remove default link underlines */
   a {
-    text-decoration: none;
+    text-decoration: none !important;
+    text-decoration-line: none !important;
+    border-bottom: none !important;
   }
 
   /* Force landscape orientation on iPad */
