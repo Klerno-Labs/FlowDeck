@@ -20,22 +20,6 @@ export default function HomePage() {
     <div className="fixed inset-0 bg-ftc-lightBlue overflow-hidden">
       {/* iPad Horizontal Optimized Container */}
       <div className="relative h-full w-full flex items-center justify-center">
-        {/* Left Side Text - FTC FLOWDECK */}
-        <div className="absolute left-8 top-1/2 -translate-y-1/2 z-10">
-          <div className="flex flex-col items-center gap-8">
-            <div className="transform -rotate-90 origin-center">
-              <span className="text-white text-[4.5vw] font-light tracking-[0.2em] opacity-90 whitespace-nowrap">
-                FTC
-              </span>
-            </div>
-            <div className="transform -rotate-90 origin-center -mt-16">
-              <span className="text-white text-[7vw] font-light tracking-[0.15em] whitespace-nowrap">
-                FLOWDECK
-              </span>
-            </div>
-          </div>
-        </div>
-
         {/* Main Content Area - Optimized for iPad Landscape */}
         <div className="w-[95vw] h-[90vh] max-w-[1400px] max-h-[900px] relative z-20">
           {/* Tablet Frame - iPad Aspect Ratio */}
