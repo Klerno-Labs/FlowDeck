@@ -31,12 +31,6 @@ export default function CategoryProductsPage() {
       hasIcon: true,
     },
     {
-      id: 'vessels-1',
-      name: 'VESSELS',
-      slug: 'vessels',
-      isImage: true,
-    },
-    {
       id: 'torrent',
       name: 'TORRENT',
       slug: 'torrent',
@@ -47,12 +41,6 @@ export default function CategoryProductsPage() {
       name: 'INVICTA',
       slug: 'invicta',
       hasLogo: true,
-    },
-    {
-      id: 'vessels-2',
-      name: 'VESSELS',
-      slug: 'vessels',
-      isImage: true,
     },
   ];
 
@@ -104,10 +92,12 @@ export default function CategoryProductsPage() {
                 />
               </div>
 
-              {/* Main Content - 2x3 Grid */}
+              {/* Main Content - 2x2 Grid + Vessels */}
               <div className="h-full w-full p-8 pt-20 pb-16">
-                <div className="h-full w-full grid grid-cols-3 grid-rows-2 gap-4">
-                  {productLines.map((line) => (
+                <div className="h-full w-full flex gap-4">
+                  {/* Left: 2x2 Grid for product lines */}
+                  <div className="flex-1 grid grid-cols-2 grid-rows-2 gap-4">
+                    {productLines.map((line) => (
                     <button
                       key={line.id}
                       onClick={() => router.push(`/products/${categoryId}/${line.slug}`)}
@@ -177,6 +167,33 @@ export default function CategoryProductsPage() {
                       )}
                     </button>
                   ))}
+                  </div>
+
+                  {/* Right: Large Vessels Button */}
+                  <button
+                    onClick={() => router.push(`/products/${categoryId}/vessels`)}
+                    className="w-1/3 bg-gray-300 rounded-2xl flex flex-col items-center justify-center transition-all hover:scale-[1.02] active:scale-[0.98] touch-manipulation group relative overflow-hidden"
+                  >
+                    <div className="w-full h-full flex items-center justify-center p-8 relative">
+                      <svg
+                        width="160"
+                        height="240"
+                        viewBox="0 0 160 240"
+                        className="opacity-40"
+                      >
+                        {/* Large vessel/tank illustration */}
+                        <rect x="40" y="50" width="80" height="140" fill="white" stroke="white" strokeWidth="3" rx="6" />
+                        <ellipse cx="80" cy="50" rx="40" ry="12" fill="white" />
+                        <rect x="45" y="195" width="70" height="30" fill="white" />
+                        <circle cx="60" cy="90" r="12" fill="none" stroke="white" strokeWidth="3" />
+                        <circle cx="100" cy="130" r="12" fill="none" stroke="white" strokeWidth="3" />
+                        <line x1="70" y1="140" x2="100" y2="140" stroke="white" strokeWidth="4" />
+                      </svg>
+                      <span className="absolute bottom-12 text-white text-2xl font-bold tracking-wider">
+                        VESSELS
+                      </span>
+                    </div>
+                  </button>
                 </div>
               </div>
 
