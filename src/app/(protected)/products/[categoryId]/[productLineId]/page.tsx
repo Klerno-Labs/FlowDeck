@@ -124,6 +124,28 @@ export default function ProductLineDetailPage() {
         image: '/images/products/torrent/dpw_series_full_filter_B&W.png',
       },
     ],
+    invicta: [
+      {
+        id: 'invicta-ab-series',
+        name: 'INVICTA AB Series',
+        image: '/images/products/invicta/ab_series_SOE_222_full_B&W.png',
+      },
+      {
+        id: 'invicta-ab500',
+        name: 'INVICTA AB500 Series',
+        image: '/images/products/invicta/ab500_series_pair_full_B&W.png',
+      },
+      {
+        id: 'invicta-abp',
+        name: 'INVICTA ABP Series',
+        image: '/images/products/invicta/abp_series_full_1_B&W.png',
+      },
+      {
+        id: 'invicta-aby',
+        name: 'INVICTA ABY Series',
+        image: '/images/products/invicta/aby_series_full_2_B&W.png',
+      },
+    ],
   };
 
   const products = productData[productLineId] || [];
