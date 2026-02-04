@@ -4,6 +4,7 @@ import { Article } from '@/types';
 import { PortableText } from '@portabletext/react';
 import { FileText } from 'lucide-react';
 import { Breadcrumbs } from '@/components/layout/Breadcrumbs';
+import Image from 'next/image';
 
 export default async function ArticlePage({ params }: { params: { articleId: string } }) {
   const article: Article = await sanityClient.fetch(articleBySlugQuery, {
@@ -27,9 +28,11 @@ export default async function ArticlePage({ params }: { params: { articleId: str
       <article className="max-w-4xl mx-auto py-8">
         {article.featuredImage && (
           <div className="aspect-video mb-8 rounded-xl overflow-hidden">
-            <img
+            <Image
               src={article.featuredImage}
               alt={article.title}
+              width={800}
+              height={450}
               className="w-full h-full object-cover"
             />
           </div>
