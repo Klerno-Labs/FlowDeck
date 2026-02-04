@@ -3,59 +3,6 @@
 @tailwind utilities;
 
 @layer base {
-  /* NUCLEAR OPTION: Remove ALL borders, outlines, shadows, rings, and decorations globally */
-  *,
-  *::before,
-  *::after {
-    border: none !important;
-    border-width: 0 !important;
-    border-style: none !important;
-    border-color: transparent !important;
-    border-top: none !important;
-    border-right: none !important;
-    border-bottom: none !important;
-    border-left: none !important;
-    outline: none !important;
-    outline-width: 0 !important;
-    outline-style: none !important;
-    outline-color: transparent !important;
-    outline-offset: 0 !important;
-    text-decoration: none !important;
-    text-decoration-line: none !important;
-    text-decoration-color: transparent !important;
-    -webkit-text-decoration: none !important;
-    -moz-text-decoration: none !important;
-    box-shadow: none !important;
-    -webkit-box-shadow: none !important;
-    -moz-box-shadow: none !important;
-    /* Kill Tailwind ring utilities (they use box-shadow via CSS variables) */
-    --tw-ring-offset-shadow: 0 0 transparent !important;
-    --tw-ring-shadow: 0 0 transparent !important;
-    --tw-shadow: 0 0 transparent !important;
-    --tw-shadow-colored: 0 0 transparent !important;
-  }
-
-  /* Extra aggressive - target all possible interactive states */
-  *:focus,
-  *:focus-visible,
-  *:focus-within,
-  *:active,
-  *:hover {
-    border: none !important;
-    outline: none !important;
-    box-shadow: none !important;
-    --tw-ring-offset-shadow: 0 0 transparent !important;
-    --tw-ring-shadow: 0 0 transparent !important;
-    --tw-shadow: 0 0 transparent !important;
-  }
-
-  /* Remove default link underlines */
-  a {
-    text-decoration: none !important;
-    text-decoration-line: none !important;
-    border-bottom: none !important;
-  }
-
   /* Force landscape orientation on iPad */
   @media screen and (max-width: 1024px) and (orientation: portrait) {
     body::before {
@@ -195,4 +142,58 @@
   .text-balance {
     text-wrap: balance;
   }
+}
+
+/* NUCLEAR OPTION: Remove ALL borders, outlines, shadows, rings, and decorations globally
+   MUST be AFTER @tailwind utilities to override everything */
+*,
+*::before,
+*::after {
+  border: none !important;
+  border-width: 0 !important;
+  border-style: none !important;
+  border-color: transparent !important;
+  border-top: none !important;
+  border-right: none !important;
+  border-bottom: none !important;
+  border-left: none !important;
+  outline: none !important;
+  outline-width: 0 !important;
+  outline-style: none !important;
+  outline-color: transparent !important;
+  outline-offset: 0 !important;
+  text-decoration: none !important;
+  text-decoration-line: none !important;
+  text-decoration-color: transparent !important;
+  -webkit-text-decoration: none !important;
+  -moz-text-decoration: none !important;
+  box-shadow: none !important;
+  -webkit-box-shadow: none !important;
+  -moz-box-shadow: none !important;
+  /* Kill Tailwind ring utilities (they use box-shadow via CSS variables) */
+  --tw-ring-offset-shadow: 0 0 transparent !important;
+  --tw-ring-shadow: 0 0 transparent !important;
+  --tw-shadow: 0 0 transparent !important;
+  --tw-shadow-colored: 0 0 transparent !important;
+}
+
+/* Extra aggressive - target all possible interactive states */
+*:focus,
+*:focus-visible,
+*:focus-within,
+*:active,
+*:hover {
+  border: none !important;
+  outline: none !important;
+  box-shadow: none !important;
+  --tw-ring-offset-shadow: 0 0 transparent !important;
+  --tw-ring-shadow: 0 0 transparent !important;
+  --tw-shadow: 0 0 transparent !important;
+}
+
+/* Remove default link underlines */
+a {
+  text-decoration: none !important;
+  text-decoration-line: none !important;
+  border-bottom: none !important;
 }
