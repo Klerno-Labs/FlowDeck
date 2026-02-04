@@ -144,32 +144,14 @@
   }
 }
 
-/* NUCLEAR OPTION: Remove ALL borders, outlines, shadows, rings, and decorations globally
+/* NUCLEAR OPTION: Remove ALL borders, outlines, shadows, and rings globally
    MUST be AFTER @tailwind utilities to override everything */
 *,
 *::before,
 *::after {
   border: none !important;
-  border-width: 0 !important;
-  border-style: none !important;
-  border-color: transparent !important;
-  border-top: none !important;
-  border-right: none !important;
-  border-bottom: none !important;
-  border-left: none !important;
   outline: none !important;
-  outline-width: 0 !important;
-  outline-style: none !important;
-  outline-color: transparent !important;
-  outline-offset: 0 !important;
-  text-decoration: none !important;
-  text-decoration-line: none !important;
-  text-decoration-color: transparent !important;
-  -webkit-text-decoration: none !important;
-  -moz-text-decoration: none !important;
   box-shadow: none !important;
-  -webkit-box-shadow: none !important;
-  -moz-box-shadow: none !important;
   /* Kill Tailwind ring utilities (they use box-shadow via CSS variables) */
   --tw-ring-offset-shadow: 0 0 transparent !important;
   --tw-ring-shadow: 0 0 transparent !important;
