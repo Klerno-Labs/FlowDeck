@@ -81,7 +81,7 @@ export default function HomePage() {
                 </h1>
 
                 {/* Three Main Buttons - Touch Optimized */}
-                <div className="flex gap-5 w-full max-w-[900px]">
+                <div className="flex gap-5 w-full max-w-[900px] relative z-20">
                   <button
                     onClick={() => router.push('/intro-presentation')}
                     className="flex-1 py-5 px-6 text-center bg-white hover:bg-gray-50 active:bg-gray-100 text-gray-700 font-medium uppercase tracking-normal transition-all touch-manipulation rounded-lg min-h-[60px] flex items-center justify-center cursor-pointer"
