@@ -130,10 +130,6 @@
     @apply w-full text-sm border-collapse;
   }
 
-  .spec-table tr {
-    @apply;
-  }
-
   .spec-table td {
     @apply py-3 px-4;
   }
