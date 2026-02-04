@@ -30,7 +30,7 @@ export default async function SlidePage({ params }: { params: { slideId: string 
     <div className="min-h-screen" style={bgStyle}>
       {/* Slide Content */}
       <div className="min-h-screen flex items-center justify-center px-8 py-16">
-        <div className="max-w-5xl w-full bg-white/95 rounded-2xl shadow-2xl p-12">
+        <div className="max-w-5xl w-full bg-white/95 rounded-2xl p-12">
           <h1 className="text-5xl font-bold text-gray-900 mb-8">{slide.title}</h1>
 
           {slide.content && (

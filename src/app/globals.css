@@ -3,7 +3,7 @@
 @tailwind utilities;
 
 @layer base {
-  /* NUCLEAR OPTION: Remove ALL borders, outlines, and decorations globally */
+  /* NUCLEAR OPTION: Remove ALL borders, outlines, shadows, and decorations globally */
   *,
   *::before,
   *::after {
@@ -18,6 +18,9 @@
     text-decoration-color: transparent !important;
     -webkit-text-decoration: none !important;
     -moz-text-decoration: none !important;
+    box-shadow: none !important;
+    -webkit-box-shadow: none !important;
+    -moz-box-shadow: none !important;
   }
 
   /* Remove default link underlines */

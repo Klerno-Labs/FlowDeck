@@ -84,21 +84,21 @@ export default function HomePage() {
                 <div className="flex gap-5 w-full max-w-[900px]">
                   <Link
                     href="/intro-presentation"
-                    className="flex-1 py-5 px-8 text-center bg-gray-50 hover:bg-gray-100 active:bg-gray-200 text-gray-700 font-medium uppercase tracking-wide transition-all touch-manipulation rounded-lg shadow-sm hover:shadow-md min-h-[60px] flex items-center justify-center no-underline cursor-pointer"
+                    className="flex-1 py-5 px-8 text-center bg-gray-50 hover:bg-gray-100 active:bg-gray-200 text-gray-700 font-medium uppercase tracking-wide transition-all touch-manipulation rounded-lg min-h-[60px] flex items-center justify-center no-underline cursor-pointer"
                   >
                     <span className="text-sm ipad:text-base whitespace-nowrap">Intro Presentation</span>
                   </Link>
 
                   <Link
                     href="/products"
-                    className="flex-1 py-5 px-8 text-center bg-gray-50 hover:bg-gray-100 active:bg-gray-200 text-gray-700 font-medium uppercase tracking-wide transition-all touch-manipulation rounded-lg shadow-sm hover:shadow-md min-h-[60px] flex items-center justify-center no-underline cursor-pointer"
+                    className="flex-1 py-5 px-8 text-center bg-gray-50 hover:bg-gray-100 active:bg-gray-200 text-gray-700 font-medium uppercase tracking-wide transition-all touch-manipulation rounded-lg min-h-[60px] flex items-center justify-center no-underline cursor-pointer"
                   >
                     <span className="text-sm ipad:text-base whitespace-nowrap">Products</span>
                   </Link>
 
                   <Link
                     href="/knowledge-base"
-                    className="flex-1 py-5 px-8 text-center bg-gray-50 hover:bg-gray-100 active:bg-gray-200 text-gray-700 font-medium uppercase tracking-wide transition-all touch-manipulation rounded-lg shadow-sm hover:shadow-md min-h-[60px] flex items-center justify-center no-underline cursor-pointer"
+                    className="flex-1 py-5 px-8 text-center bg-gray-50 hover:bg-gray-100 active:bg-gray-200 text-gray-700 font-medium uppercase tracking-wide transition-all touch-manipulation rounded-lg min-h-[60px] flex items-center justify-center no-underline cursor-pointer"
                   >
                     <span className="text-sm ipad:text-base whitespace-nowrap">Knowledge Base</span>
                   </Link>
