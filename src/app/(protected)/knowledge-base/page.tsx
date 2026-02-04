@@ -12,7 +12,7 @@ export default async function KnowledgeBasePage() {
   const categories = [...new Set(articles.map((a) => a.category).filter(Boolean))];
 
   return (
-    <FlowDeckLayout>
+    <FlowDeckLayout showBackButton={true}>
       <div className="px-12 py-6">
         <h1 className="text-4xl font-bold text-gray-900 mb-8 text-center">Knowledge Base</h1>
 

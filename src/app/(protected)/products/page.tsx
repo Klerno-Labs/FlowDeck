@@ -9,7 +9,7 @@ export default async function ProductsPage() {
   const categories: Category[] = await sanityClient.fetch(categoriesQuery);
 
   return (
-    <FlowDeckLayout>
+    <FlowDeckLayout showBackButton={true}>
       <div className="flex flex-col items-center justify-center px-12 py-6">
         <h1 className="text-4xl font-bold text-gray-900 mb-12">Select Filtration Type</h1>
 
