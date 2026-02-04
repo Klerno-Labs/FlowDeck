@@ -1,6 +1,5 @@
 import { auth } from '@/lib/auth/auth';
 import { redirect } from 'next/navigation';
-import { HomeButton } from '@/components/layout/HomeButton';
 import { SessionTimeoutWarning } from '@/components/auth/SessionTimeoutWarning';
 
 export default async function ProtectedLayout({
@@ -15,10 +14,9 @@ export default async function ProtectedLayout({
   }
 
   return (
-    <div className="min-h-screen bg-white">
-      <HomeButton />
+    <>
       <SessionTimeoutWarning />
       {children}
-    </div>
+    </>
   );
 }
