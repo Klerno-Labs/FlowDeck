@@ -146,6 +146,28 @@ export default function ProductLineDetailPage() {
         image: '/images/products/invicta/aby_series_full_2_B&W.png',
       },
     ],
+    vessels: [
+      {
+        id: 'clarify-vessels',
+        name: 'Clarify Cartridge Filter Vessels',
+        image: '/images/products/vessels/clarify_vessels_B&W.png',
+      },
+      {
+        id: 'sieva-vessels',
+        name: 'Sieva Bag Filter Vessels',
+        image: '/images/products/vessels/sieva_vessels_B&W.png',
+      },
+      {
+        id: 'torrent-vessels',
+        name: 'Torrent High Flow Vessels',
+        image: '/images/products/vessels/torrent_vessels_B&W.png',
+      },
+      {
+        id: 'invicta-vessels',
+        name: 'Invicta Filter Vessels',
+        image: '/images/products/vessels/invicta_vessels_B&W.png',
+      },
+    ],
   };
 
   const products = productData[productLineId] || [];
