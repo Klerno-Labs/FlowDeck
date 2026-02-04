@@ -131,7 +131,7 @@
   }
 
   .spec-table tr {
-    @apply border-b border-gray-200;
+    @apply;
   }
 
   .spec-table td {

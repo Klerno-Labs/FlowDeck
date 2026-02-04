@@ -81,10 +81,10 @@ export function EmailSection({ product }: EmailSectionProps) {
             <div className="grid grid-cols-5 gap-6">
               {product.pdfContent.map((pdf) => (
                 <div key={pdf._id} className="flex flex-col items-center">
-                  <div className="w-24 h-32 bg-white border-2 border-gray-300 rounded-lg flex items-center justify-center mb-3 relative">
+                  <div className="w-24 h-32 bg-white rounded-lg shadow-sm flex items-center justify-center mb-3 relative">
                     <FileText className="w-12 h-12 text-gray-400" />
                     {selectedPdfs.includes(pdf._id) && (
-                      <div className="absolute inset-0 bg-ftc-blue/10 rounded-lg border-2 border-ftc-blue"></div>
+                      <div className="absolute inset-0 bg-ftc-blue/20 rounded-lg"></div>
                     )}
                   </div>
                   <p className="text-sm text-gray-700 text-center mb-2 line-clamp-2">
