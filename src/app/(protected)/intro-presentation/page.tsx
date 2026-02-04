@@ -2,7 +2,7 @@
 
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
-import { Home, Mail, ArrowLeft } from 'lucide-react';
+import { Home, Mail, ArrowLeft, ChevronRight } from 'lucide-react';
 
 export default function IntroductionPage() {
   const router = useRouter();
@@ -16,45 +16,42 @@ export default function IntroductionPage() {
           <div className="bg-black rounded-[2.5rem] p-2 h-full">
             {/* Screen */}
             <div className="bg-white rounded-[2rem] overflow-hidden h-full flex flex-col relative">
-              {/* Top Navigation Bar */}
-              <div className="absolute top-4 left-4 right-4 flex items-center justify-between z-20">
-                {/* Back Button */}
-                <button
-                  onClick={() => router.back()}
-                  className="p-3 rounded-full hover:bg-gray-100 active:bg-gray-200 transition-all touch-manipulation min-w-[44px] min-h-[44px] flex items-center justify-center"
-                  aria-label="Go back"
-                >
-                  <ArrowLeft className="w-6 h-6 text-gray-600" />
-                </button>
-
-                {/* Right Icons */}
-                <div className="flex gap-3">
-                  <button
-                    onClick={() => router.push('/home')}
-                    className="p-3 rounded-full hover:bg-gray-100 active:bg-gray-200 transition-all touch-manipulation min-w-[44px] min-h-[44px] flex items-center justify-center"
-                    aria-label="Home"
-                  >
-                    <Home className="w-6 h-6 text-gray-400" />
-                  </button>
-                  <button
-                    onClick={() => {/* Email functionality */}}
-                    className="p-3 rounded-full hover:bg-gray-100 active:bg-gray-200 transition-all touch-manipulation min-w-[44px] min-h-[44px] flex items-center justify-center"
-                    aria-label="Email"
-                  >
-                    <Mail className="w-6 h-6 text-gray-400" />
-                  </button>
-                </div>
-              </div>
+              {/* Back Button - Top Left */}
+              <button
+                onClick={() => router.back()}
+                className="absolute top-4 left-4 z-20 p-3 rounded-full hover:bg-gray-100 active:bg-gray-200 transition-all touch-manipulation min-w-[44px] min-h-[44px] flex items-center justify-center"
+                aria-label="Go back"
+              >
+                <ArrowLeft className="w-6 h-6 text-gray-600" />
+              </button>
 
               {/* Main Content Area */}
               <div className="h-full bg-gradient-to-br from-gray-50 to-gray-100 flex items-center justify-center p-8">
         {/* Slide Container */}
         <div className="relative w-full max-w-6xl aspect-[16/10] bg-white rounded-2xl shadow-2xl overflow-hidden">
-          {/* Decorative circles - top right */}
-          <div className="absolute top-8 right-8 flex gap-3">
-            <div className="w-12 h-12 rounded-full bg-cyan-400 opacity-70"></div>
-            <div className="w-12 h-12 rounded-full bg-blue-700 opacity-70"></div>
-            <div className="w-12 h-12 rounded-full bg-green-500 opacity-70"></div>
+          {/* Interactive Circle Buttons - top right */}
+          <div className="absolute top-8 right-8 flex gap-3 z-30">
+            <button
+              onClick={() => router.push('/home')}
+              className="w-12 h-12 rounded-full bg-cyan-400 hover:bg-cyan-500 active:bg-cyan-600 transition-all flex items-center justify-center touch-manipulation"
+              aria-label="Home"
+            >
+              <Home className="w-6 h-6 text-white" />
+            </button>
+            <button
+              onClick={() => {/* Email functionality */}}
+              className="w-12 h-12 rounded-full bg-blue-700 hover:bg-blue-800 active:bg-blue-900 transition-all flex items-center justify-center touch-manipulation"
+              aria-label="Email"
+            >
+              <Mail className="w-6 h-6 text-white" />
+            </button>
+            <button
+              onClick={() => router.push('/intro-presentation/what-we-guarantee')}
+              className="w-12 h-12 rounded-full bg-green-500 hover:bg-green-600 active:bg-green-700 transition-all flex items-center justify-center touch-manipulation"
+              aria-label="Next page"
+            >
+              <ChevronRight className="w-6 h-6 text-white" />
+            </button>
           </div>
 
           {/* FTC Logo - top center */}
