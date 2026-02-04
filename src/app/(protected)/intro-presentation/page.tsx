@@ -53,7 +53,7 @@ export default function IntroductionPage() {
                 <p className="text-sm leading-relaxed">
                   Founded by John Paraskeva in 1987, Filtration Technology Corporation (FTC)
                   started as a technical service company. Since then, FTC has evolved into a
-                  vertically integrated manufacturer producing one industry's widest selections
+                  vertically integrated manufacturer producing one industry&apos;s widest selections
                   of high-end industrial filtration products. Today FTC specializes in
                   innovative filter designs with developmental capabilities to provide custom
                   solutions in fluid removal, filtration and reclamation.
