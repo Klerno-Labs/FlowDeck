@@ -53,6 +53,14 @@ export default function CategoryProductsPage() {
         hasIcon: true,
       },
     ],
+    'gas-liquid': [
+      {
+        id: 'cyphon',
+        name: 'CYPHON',
+        slug: 'cyphon',
+        hasIcon: true,
+      },
+    ],
   };
 
   const productLines = productLinesByCategory[categoryId] || [];

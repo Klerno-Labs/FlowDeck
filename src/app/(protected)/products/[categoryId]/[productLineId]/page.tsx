@@ -168,6 +168,33 @@ export default function ProductLineDetailPage() {
         image: '/images/products/strata/strata_emerald_740_B&W.png',
       },
     ],
+    cyphon: [
+      {
+        id: 'cyphon-28',
+        name: 'CYPHON 28 Series',
+        image: '/images/products/cyphon/cyphon_28_B&W.png',
+      },
+      {
+        id: 'cyphon-45',
+        name: 'CYPHON 45 Series',
+        image: '/images/products/cyphon/cyphon_45_B&W.png',
+      },
+      {
+        id: 'cyphon-47',
+        name: 'CYPHON 47 Series',
+        image: '/images/products/cyphon/cyphon_47_B&W.png',
+      },
+      {
+        id: 'cyphon-55',
+        name: 'CYPHON 55 Series',
+        image: '/images/products/cyphon/cyphon_55_B&W.png',
+      },
+      {
+        id: 'cyphon-60',
+        name: 'CYPHON 60 Series',
+        image: '/images/products/cyphon/cyphon_60_B&W.png',
+      },
+    ],
   };
 
   // Category-specific vessels data
@@ -204,6 +231,13 @@ export default function ProductLineDetailPage() {
         id: 'strata-coalescer-vessels',
         name: 'STRATA Liquid-Liquid Coalescer Vessels',
         image: '/images/products/vessels/strata_coalescer_B&W.png',
+      },
+    ],
+    'gas-liquid': [
+      {
+        id: 'cyphon-gas-coalescer-vessels',
+        name: 'CYPHON Gas Coalescer Vessels',
+        image: '/images/products/vessels/cyphon_coalescer_B&W.png',
       },
     ],
   };
