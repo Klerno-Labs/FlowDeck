@@ -168,6 +168,28 @@ export default function ProductLineDetailPage() {
         image: '/images/products/vessels/invicta_vessels_B&W.png',
       },
     ],
+    strata: [
+      {
+        id: 'strata-37',
+        name: 'STRATA 37 Series',
+        image: '/images/products/strata/strata_37_B&W.png',
+      },
+      {
+        id: 'strata-60',
+        name: 'STRATA 60 Series',
+        image: '/images/products/strata/strata_60_B&W.png',
+      },
+      {
+        id: 'strata-emerald-240',
+        name: 'STRATA Emerald 240 Series',
+        image: '/images/products/strata/strata_emerald_240_B&W.png',
+      },
+      {
+        id: 'strata-emerald-740',
+        name: 'STRATA Emerald 740 Series',
+        image: '/images/products/strata/strata_emerald_740_B&W.png',
+      },
+    ],
   };
 
   const products = productData[productLineId] || [];
