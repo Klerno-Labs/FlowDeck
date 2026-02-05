@@ -146,28 +146,6 @@ export default function ProductLineDetailPage() {
         image: '/images/products/invicta/aby_series_full_2_B&W.png',
       },
     ],
-    vessels: [
-      {
-        id: 'clarify-vessels',
-        name: 'Clarify Cartridge Filter Vessels',
-        image: '/images/products/vessels/clarify_vessels_B&W.png',
-      },
-      {
-        id: 'sieva-vessels',
-        name: 'Sieva Bag Filter Vessels',
-        image: '/images/products/vessels/sieva_vessels_B&W.png',
-      },
-      {
-        id: 'torrent-vessels',
-        name: 'Torrent High Flow Vessels',
-        image: '/images/products/vessels/torrent_vessels_B&W.png',
-      },
-      {
-        id: 'invicta-vessels',
-        name: 'Invicta Filter Vessels',
-        image: '/images/products/vessels/invicta_vessels_B&W.png',
-      },
-    ],
     strata: [
       {
         id: 'strata-37',
@@ -192,7 +170,51 @@ export default function ProductLineDetailPage() {
     ],
   };
 
-  const products = productData[productLineId] || [];
+  // Category-specific vessels data
+  const vesselsByCategory: Record<string, Array<{ id: string; name: string; image: string }>> = {
+    'liquid-solid': [
+      {
+        id: 'clarify-vessels',
+        name: 'Clarify Cartridge Filter Vessels',
+        image: '/images/products/vessels/clarify_vessels_B&W.png',
+      },
+      {
+        id: 'sieva-vessels',
+        name: 'Sieva Bag Filter Vessels',
+        image: '/images/products/vessels/sieva_vessels_B&W.png',
+      },
+      {
+        id: 'torrent-vessels',
+        name: 'Torrent High Flow Vessels',
+        image: '/images/products/vessels/torrent_vessels_B&W.png',
+      },
+      {
+        id: 'invicta-vessels',
+        name: 'Invicta Filter Vessels',
+        image: '/images/products/vessels/invicta_vessels_B&W.png',
+      },
+    ],
+    'liquid-liquid': [
+      {
+        id: 'strata-emerald-absorption-vessels',
+        name: 'STRATA Emerald Hydrocarbon Absorption Vessels',
+        image: '/images/products/vessels/strata_emerald_absorption_B&W.png',
+      },
+      {
+        id: 'strata-coalescer-vessels',
+        name: 'STRATA Liquid-Liquid Coalescer Vessels',
+        image: '/images/products/vessels/strata_coalescer_B&W.png',
+      },
+    ],
+  };
+
+  // Get products based on product line and category
+  let products: Array<{ id: string; name: string; image: string }> = [];
+  if (productLineId === 'vessels') {
+    products = vesselsByCategory[categoryId] || [];
+  } else {
+    products = productData[productLineId] || [];
+  }
 
   return (
     <div className="fixed inset-0 bg-ftc-lightBlue overflow-hidden">
