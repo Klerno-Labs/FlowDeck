@@ -147,26 +147,26 @@ export default function CategoryProductsPage() {
                               viewBox="0 0 80 50"
                               className="opacity-60 group-hover:opacity-80 transition-opacity"
                             >
-                              <circle cx="15" cy="25" r="8" fill="none" stroke="white" strokeWidth="2" />
-                              <circle cx="15" cy="25" r="3" fill="white" />
-                              <circle cx="40" cy="25" r="10" fill="none" stroke="white" strokeWidth="2" />
-                              <circle cx="40" cy="25" r="4" fill="white" />
-                              <line x1="35" y1="25" x2="45" y2="25" stroke="white" strokeWidth="1.5" />
-                              <line x1="40" y1="20" x2="40" y2="30" stroke="white" strokeWidth="1.5" />
-                              <circle cx="65" cy="25" r="8" fill="none" stroke="white" strokeWidth="2" />
-                              <circle cx="65" cy="25" r="3" fill="white" />
-                              <line x1="23" y1="25" x2="32" y2="25" stroke="white" strokeWidth="1.5" />
-                              <line x1="48" y1="25" x2="57" y2="25" stroke="white" strokeWidth="1.5" />
+                              <circle cx="15" cy="25" r="8" fill="none" stroke="#374151" strokeWidth="2" />
+                              <circle cx="15" cy="25" r="3" fill="#374151" />
+                              <circle cx="40" cy="25" r="10" fill="none" stroke="#374151" strokeWidth="2" />
+                              <circle cx="40" cy="25" r="4" fill="#374151" />
+                              <line x1="35" y1="25" x2="45" y2="25" stroke="#374151" strokeWidth="1.5" />
+                              <line x1="40" y1="20" x2="40" y2="30" stroke="#374151" strokeWidth="1.5" />
+                              <circle cx="65" cy="25" r="8" fill="none" stroke="#374151" strokeWidth="2" />
+                              <circle cx="65" cy="25" r="3" fill="#374151" />
+                              <line x1="23" y1="25" x2="32" y2="25" stroke="#374151" strokeWidth="1.5" />
+                              <line x1="48" y1="25" x2="57" y2="25" stroke="#374151" strokeWidth="1.5" />
                             </svg>
                           </div>
                           <div className="flex items-center justify-center mb-3">
-                            <div className="w-10 h-10 rounded-full bg-white flex items-center justify-center">
+                            <div className="w-10 h-10 rounded-full bg-gray-100 flex items-center justify-center">
                               <span className="text-lg font-bold text-gray-700">
                                 {line.name.substring(0, 2)}
                               </span>
                             </div>
                           </div>
-                          <h2 className="text-xl font-semibold text-white tracking-wider">
+                          <h2 className="text-xl font-semibold text-gray-700 tracking-wider">
                             {line.name}
                           </h2>
                         </button>
@@ -185,14 +185,14 @@ export default function CategoryProductsPage() {
                           viewBox="0 0 160 240"
                           className="opacity-40"
                         >
-                          <rect x="40" y="50" width="80" height="140" fill="white" stroke="white" strokeWidth="3" rx="6" />
-                          <ellipse cx="80" cy="50" rx="40" ry="12" fill="white" />
-                          <rect x="45" y="195" width="70" height="30" fill="white" />
-                          <circle cx="60" cy="90" r="12" fill="none" stroke="white" strokeWidth="3" />
-                          <circle cx="100" cy="130" r="12" fill="none" stroke="white" strokeWidth="3" />
-                          <line x1="70" y1="140" x2="100" y2="140" stroke="white" strokeWidth="4" />
+                          <rect x="40" y="50" width="80" height="140" fill="#374151" stroke="#374151" strokeWidth="3" rx="6" />
+                          <ellipse cx="80" cy="50" rx="40" ry="12" fill="#374151" />
+                          <rect x="45" y="195" width="70" height="30" fill="#374151" />
+                          <circle cx="60" cy="90" r="12" fill="none" stroke="#374151" strokeWidth="3" />
+                          <circle cx="100" cy="130" r="12" fill="none" stroke="#374151" strokeWidth="3" />
+                          <line x1="70" y1="140" x2="100" y2="140" stroke="#374151" strokeWidth="4" />
                         </svg>
-                        <span className="absolute bottom-12 text-white text-3xl font-bold tracking-wider">
+                        <span className="absolute bottom-12 text-gray-700 text-3xl font-bold tracking-wider">
                           VESSELS
                         </span>
                       </div>
@@ -215,16 +215,16 @@ export default function CategoryProductsPage() {
                             viewBox="0 0 80 50"
                             className="opacity-60 group-hover:opacity-80 transition-opacity"
                           >
-                            <circle cx="15" cy="25" r="8" fill="none" stroke="white" strokeWidth="2" />
-                            <circle cx="15" cy="25" r="3" fill="white" />
-                            <circle cx="40" cy="25" r="10" fill="none" stroke="white" strokeWidth="2" />
-                            <circle cx="40" cy="25" r="4" fill="white" />
-                            <line x1="35" y1="25" x2="45" y2="25" stroke="white" strokeWidth="1.5" />
-                            <line x1="40" y1="20" x2="40" y2="30" stroke="white" strokeWidth="1.5" />
-                            <circle cx="65" cy="25" r="8" fill="none" stroke="white" strokeWidth="2" />
-                            <circle cx="65" cy="25" r="3" fill="white" />
-                            <line x1="23" y1="25" x2="32" y2="25" stroke="white" strokeWidth="1.5" />
-                            <line x1="48" y1="25" x2="57" y2="25" stroke="white" strokeWidth="1.5" />
+                            <circle cx="15" cy="25" r="8" fill="none" stroke="#374151" strokeWidth="2" />
+                            <circle cx="15" cy="25" r="3" fill="#374151" />
+                            <circle cx="40" cy="25" r="10" fill="none" stroke="#374151" strokeWidth="2" />
+                            <circle cx="40" cy="25" r="4" fill="#374151" />
+                            <line x1="35" y1="25" x2="45" y2="25" stroke="#374151" strokeWidth="1.5" />
+                            <line x1="40" y1="20" x2="40" y2="30" stroke="#374151" strokeWidth="1.5" />
+                            <circle cx="65" cy="25" r="8" fill="none" stroke="#374151" strokeWidth="2" />
+                            <circle cx="65" cy="25" r="3" fill="#374151" />
+                            <line x1="23" y1="25" x2="32" y2="25" stroke="#374151" strokeWidth="1.5" />
+                            <line x1="48" y1="25" x2="57" y2="25" stroke="#374151" strokeWidth="1.5" />
                           </svg>
                         </div>
                         <div className="flex items-center justify-center mb-3">
@@ -252,14 +252,14 @@ export default function CategoryProductsPage() {
                           viewBox="0 0 160 240"
                           className="opacity-40"
                         >
-                          <rect x="40" y="50" width="80" height="140" fill="white" stroke="white" strokeWidth="3" rx="6" />
-                          <ellipse cx="80" cy="50" rx="40" ry="12" fill="white" />
-                          <rect x="45" y="195" width="70" height="30" fill="white" />
-                          <circle cx="60" cy="90" r="12" fill="none" stroke="white" strokeWidth="3" />
-                          <circle cx="100" cy="130" r="12" fill="none" stroke="white" strokeWidth="3" />
-                          <line x1="70" y1="140" x2="100" y2="140" stroke="white" strokeWidth="4" />
+                          <rect x="40" y="50" width="80" height="140" fill="#374151" stroke="#374151" strokeWidth="3" rx="6" />
+                          <ellipse cx="80" cy="50" rx="40" ry="12" fill="#374151" />
+                          <rect x="45" y="195" width="70" height="30" fill="#374151" />
+                          <circle cx="60" cy="90" r="12" fill="none" stroke="#374151" strokeWidth="3" />
+                          <circle cx="100" cy="130" r="12" fill="none" stroke="#374151" strokeWidth="3" />
+                          <line x1="70" y1="140" x2="100" y2="140" stroke="#374151" strokeWidth="4" />
                         </svg>
-                        <span className="absolute bottom-12 text-white text-3xl font-bold tracking-wider">
+                        <span className="absolute bottom-12 text-gray-700 text-3xl font-bold tracking-wider">
                           VESSELS
                         </span>
                       </div>
@@ -291,16 +291,16 @@ export default function CategoryProductsPage() {
                                 viewBox="0 0 80 50"
                                 className="opacity-60 group-hover:opacity-80 transition-opacity"
                               >
-                                <circle cx="15" cy="25" r="8" fill="none" stroke="white" strokeWidth="2" />
-                                <circle cx="15" cy="25" r="3" fill="white" />
-                                <circle cx="40" cy="25" r="10" fill="none" stroke="white" strokeWidth="2" />
-                                <circle cx="40" cy="25" r="4" fill="white" />
-                                <line x1="35" y1="25" x2="45" y2="25" stroke="white" strokeWidth="1.5" />
-                                <line x1="40" y1="20" x2="40" y2="30" stroke="white" strokeWidth="1.5" />
-                                <circle cx="65" cy="25" r="8" fill="none" stroke="white" strokeWidth="2" />
-                                <circle cx="65" cy="25" r="3" fill="white" />
-                                <line x1="23" y1="25" x2="32" y2="25" stroke="white" strokeWidth="1.5" />
-                                <line x1="48" y1="25" x2="57" y2="25" stroke="white" strokeWidth="1.5" />
+                                <circle cx="15" cy="25" r="8" fill="none" stroke="#374151" strokeWidth="2" />
+                                <circle cx="15" cy="25" r="3" fill="#374151" />
+                                <circle cx="40" cy="25" r="10" fill="none" stroke="#374151" strokeWidth="2" />
+                                <circle cx="40" cy="25" r="4" fill="#374151" />
+                                <line x1="35" y1="25" x2="45" y2="25" stroke="#374151" strokeWidth="1.5" />
+                                <line x1="40" y1="20" x2="40" y2="30" stroke="#374151" strokeWidth="1.5" />
+                                <circle cx="65" cy="25" r="8" fill="none" stroke="#374151" strokeWidth="2" />
+                                <circle cx="65" cy="25" r="3" fill="#374151" />
+                                <line x1="23" y1="25" x2="32" y2="25" stroke="#374151" strokeWidth="1.5" />
+                                <line x1="48" y1="25" x2="57" y2="25" stroke="#374151" strokeWidth="1.5" />
                               </svg>
                             </div>
                             <div className="flex items-center justify-center mb-3">
@@ -329,14 +329,14 @@ export default function CategoryProductsPage() {
                           viewBox="0 0 160 240"
                           className="opacity-40"
                         >
-                          <rect x="40" y="50" width="80" height="140" fill="white" stroke="white" strokeWidth="3" rx="6" />
-                          <ellipse cx="80" cy="50" rx="40" ry="12" fill="white" />
-                          <rect x="45" y="195" width="70" height="30" fill="white" />
-                          <circle cx="60" cy="90" r="12" fill="none" stroke="white" strokeWidth="3" />
-                          <circle cx="100" cy="130" r="12" fill="none" stroke="white" strokeWidth="3" />
-                          <line x1="70" y1="140" x2="100" y2="140" stroke="white" strokeWidth="4" />
+                          <rect x="40" y="50" width="80" height="140" fill="#374151" stroke="#374151" strokeWidth="3" rx="6" />
+                          <ellipse cx="80" cy="50" rx="40" ry="12" fill="#374151" />
+                          <rect x="45" y="195" width="70" height="30" fill="#374151" />
+                          <circle cx="60" cy="90" r="12" fill="none" stroke="#374151" strokeWidth="3" />
+                          <circle cx="100" cy="130" r="12" fill="none" stroke="#374151" strokeWidth="3" />
+                          <line x1="70" y1="140" x2="100" y2="140" stroke="#374151" strokeWidth="4" />
                         </svg>
-                        <span className="absolute bottom-12 text-white text-2xl font-bold tracking-wider">
+                        <span className="absolute bottom-12 text-gray-700 text-2xl font-bold tracking-wider">
                           VESSELS
                         </span>
                       </div>
