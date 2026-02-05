@@ -192,32 +192,32 @@ export default function ProductsPage() {
                               </svg>
                             )}
                             {category.id === 'gs' && (
-                              /* Gas | Solid - Filtration */
+                              /* Gas | Solid - Match exact layout from image */
                               <svg width="140" height="80" viewBox="0 0 140 80" className="opacity-90">
-                                {/* Input - gas with particles */}
-                                <circle cx="25" cy="40" r="14" fill="none" stroke="white" strokeWidth="2.5" />
-                                <circle cx="22" cy="38" r="1.5" fill="white" />
-                                <circle cx="28" cy="38" r="1.5" fill="white" />
-                                <circle cx="25" cy="42" r="1.5" fill="white" />
-                                <circle cx="25" cy="40" r="4" fill="white" opacity="0.3" />
+                                {/* Top left circle - gas input */}
+                                <circle cx="35" cy="25" r="13" fill="none" stroke="white" strokeWidth="2.5" />
+                                <circle cx="35" cy="25" r="5" fill="white" opacity="0.3" />
 
-                                {/* Filter (center) - dense mesh */}
-                                <circle cx="70" cy="40" r="18" fill="none" stroke="white" strokeWidth="2.5" />
-                                <rect x="62" y="32" width="16" height="16" fill="none" stroke="white" strokeWidth="1.5" />
-                                <line x1="66" y1="32" x2="66" y2="48" stroke="white" strokeWidth="1" />
-                                <line x1="70" y1="32" x2="70" y2="48" stroke="white" strokeWidth="1" />
-                                <line x1="74" y1="32" x2="74" y2="48" stroke="white" strokeWidth="1" />
-                                <line x1="62" y1="36" x2="78" y2="36" stroke="white" strokeWidth="1" />
-                                <line x1="62" y1="40" x2="78" y2="40" stroke="white" strokeWidth="1" />
-                                <line x1="62" y1="44" x2="78" y2="44" stroke="white" strokeWidth="1" />
+                                {/* Center circle - filter with mesh pattern */}
+                                <circle cx="70" cy="40" r="16" fill="none" stroke="white" strokeWidth="2.5" />
+                                {/* Mesh/dot pattern */}
+                                <circle cx="64" cy="34" r="1.5" fill="white" />
+                                <circle cx="70" cy="34" r="1.5" fill="white" />
+                                <circle cx="76" cy="34" r="1.5" fill="white" />
+                                <circle cx="64" cy="40" r="1.5" fill="white" />
+                                <circle cx="70" cy="40" r="1.5" fill="white" />
+                                <circle cx="76" cy="40" r="1.5" fill="white" />
+                                <circle cx="64" cy="46" r="1.5" fill="white" />
+                                <circle cx="70" cy="46" r="1.5" fill="white" />
+                                <circle cx="76" cy="46" r="1.5" fill="white" />
 
-                                {/* Output - clean gas */}
-                                <circle cx="115" cy="40" r="14" fill="none" stroke="white" strokeWidth="2.5" />
-                                <circle cx="115" cy="40" r="4" fill="white" opacity="0.3" />
+                                {/* Top right circle - output */}
+                                <circle cx="105" cy="25" r="13" fill="none" stroke="white" strokeWidth="2.5" />
+                                <circle cx="105" cy="25" r="5" fill="white" opacity="0.3" />
 
                                 {/* Connection lines */}
-                                <line x1="39" y1="40" x2="52" y2="40" stroke="white" strokeWidth="2.5" />
-                                <line x1="88" y1="40" x2="101" y2="40" stroke="white" strokeWidth="2.5" />
+                                <line x1="35" y1="38" x2="58" y2="48" stroke="white" strokeWidth="2.5" />
+                                <line x1="82" y1="48" x2="105" y2="38" stroke="white" strokeWidth="2.5" />
                               </svg>
                             )}
                             <div className="w-14 h-14 rounded-full bg-white flex items-center justify-center">
