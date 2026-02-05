@@ -140,35 +140,13 @@ export default function CategoryProductsPage() {
                           onClick={() => router.push(`/products/${categoryId}/${line.slug}`)}
                           className="flex-1 bg-white rounded-2xl flex flex-col items-center justify-center transition-all hover:scale-[1.02] active:scale-[0.98] touch-manipulation group relative overflow-hidden"
                         >
-                          <div className="mb-4">
-                            <svg
-                              width="80"
-                              height="50"
-                              viewBox="0 0 80 50"
-                              className="opacity-60 group-hover:opacity-80 transition-opacity"
-                            >
-                              <circle cx="15" cy="25" r="8" fill="none" stroke="#374151" strokeWidth="2" />
-                              <circle cx="15" cy="25" r="3" fill="#374151" />
-                              <circle cx="40" cy="25" r="10" fill="none" stroke="#374151" strokeWidth="2" />
-                              <circle cx="40" cy="25" r="4" fill="#374151" />
-                              <line x1="35" y1="25" x2="45" y2="25" stroke="#374151" strokeWidth="1.5" />
-                              <line x1="40" y1="20" x2="40" y2="30" stroke="#374151" strokeWidth="1.5" />
-                              <circle cx="65" cy="25" r="8" fill="none" stroke="#374151" strokeWidth="2" />
-                              <circle cx="65" cy="25" r="3" fill="#374151" />
-                              <line x1="23" y1="25" x2="32" y2="25" stroke="#374151" strokeWidth="1.5" />
-                              <line x1="48" y1="25" x2="57" y2="25" stroke="#374151" strokeWidth="1.5" />
-                            </svg>
-                          </div>
-                          <div className="flex items-center justify-center mb-3">
-                            <div className="w-10 h-10 rounded-full bg-gray-100 flex items-center justify-center">
-                              <span className="text-lg font-bold text-gray-700">
-                                {line.name.substring(0, 2)}
-                              </span>
-                            </div>
-                          </div>
-                          <h2 className="text-xl font-semibold text-gray-700 tracking-wider">
-                            {line.name}
-                          </h2>
+                          <Image
+                            src={`/logos/brands/${line.name.charAt(0)}${line.name.slice(1).toLowerCase()}Color.png`}
+                            alt={line.name}
+                            width={180}
+                            height={60}
+                            className="h-16 w-auto mb-4"
+                          />
                         </button>
                       ))}
                     </div>
@@ -208,35 +186,13 @@ export default function CategoryProductsPage() {
                         onClick={() => router.push(`/products/${categoryId}/${line.slug}`)}
                         className="flex-1 bg-white rounded-2xl flex flex-col items-center justify-center transition-all hover:scale-[1.02] active:scale-[0.98] touch-manipulation group relative overflow-hidden"
                       >
-                        <div className="mb-4">
-                          <svg
-                            width="100"
-                            height="60"
-                            viewBox="0 0 80 50"
-                            className="opacity-60 group-hover:opacity-80 transition-opacity"
-                          >
-                            <circle cx="15" cy="25" r="8" fill="none" stroke="#374151" strokeWidth="2" />
-                            <circle cx="15" cy="25" r="3" fill="#374151" />
-                            <circle cx="40" cy="25" r="10" fill="none" stroke="#374151" strokeWidth="2" />
-                            <circle cx="40" cy="25" r="4" fill="#374151" />
-                            <line x1="35" y1="25" x2="45" y2="25" stroke="#374151" strokeWidth="1.5" />
-                            <line x1="40" y1="20" x2="40" y2="30" stroke="#374151" strokeWidth="1.5" />
-                            <circle cx="65" cy="25" r="8" fill="none" stroke="#374151" strokeWidth="2" />
-                            <circle cx="65" cy="25" r="3" fill="#374151" />
-                            <line x1="23" y1="25" x2="32" y2="25" stroke="#374151" strokeWidth="1.5" />
-                            <line x1="48" y1="25" x2="57" y2="25" stroke="#374151" strokeWidth="1.5" />
-                          </svg>
-                        </div>
-                        <div className="flex items-center justify-center mb-3">
-                          <div className="w-12 h-12 rounded-full bg-white flex items-center justify-center">
-                            <span className="text-xl font-bold text-gray-700">
-                              {line.name.substring(0, 2)}
-                            </span>
-                          </div>
-                        </div>
-                        <h2 className="text-2xl font-semibold text-white tracking-wider">
-                          {line.name}
-                        </h2>
+                        <Image
+                          src={`/logos/brands/${line.name.charAt(0)}${line.name.slice(1).toLowerCase()}Color.png`}
+                          alt={line.name}
+                          width={240}
+                          height={80}
+                          className="h-20 w-auto"
+                        />
                       </button>
                     ))}
 
@@ -275,46 +231,13 @@ export default function CategoryProductsPage() {
                         onClick={() => router.push(`/products/${categoryId}/${line.slug}`)}
                         className="bg-white rounded-2xl flex flex-col items-center justify-center transition-all hover:scale-[1.02] active:scale-[0.98] touch-manipulation group relative overflow-hidden"
                       >
-                        {line.hasLogo ? (
-                          <div className="flex flex-col items-center justify-center">
-                            <div className="mb-4 text-white text-5xl font-bold">V</div>
-                            <h2 className="text-xl font-bold text-white tracking-wider">
-                              {line.name}
-                            </h2>
-                          </div>
-                        ) : (
-                          <>
-                            <div className="mb-4">
-                              <svg
-                                width="80"
-                                height="50"
-                                viewBox="0 0 80 50"
-                                className="opacity-60 group-hover:opacity-80 transition-opacity"
-                              >
-                                <circle cx="15" cy="25" r="8" fill="none" stroke="#374151" strokeWidth="2" />
-                                <circle cx="15" cy="25" r="3" fill="#374151" />
-                                <circle cx="40" cy="25" r="10" fill="none" stroke="#374151" strokeWidth="2" />
-                                <circle cx="40" cy="25" r="4" fill="#374151" />
-                                <line x1="35" y1="25" x2="45" y2="25" stroke="#374151" strokeWidth="1.5" />
-                                <line x1="40" y1="20" x2="40" y2="30" stroke="#374151" strokeWidth="1.5" />
-                                <circle cx="65" cy="25" r="8" fill="none" stroke="#374151" strokeWidth="2" />
-                                <circle cx="65" cy="25" r="3" fill="#374151" />
-                                <line x1="23" y1="25" x2="32" y2="25" stroke="#374151" strokeWidth="1.5" />
-                                <line x1="48" y1="25" x2="57" y2="25" stroke="#374151" strokeWidth="1.5" />
-                              </svg>
-                            </div>
-                            <div className="flex items-center justify-center mb-3">
-                              <div className="w-10 h-10 rounded-full bg-white flex items-center justify-center">
-                                <span className="text-lg font-bold text-gray-700">
-                                  {line.name.substring(0, 2)}
-                                </span>
-                              </div>
-                            </div>
-                            <h2 className="text-lg font-semibold text-white tracking-wider">
-                              {line.name}
-                            </h2>
-                          </>
-                        )}
+                        <Image
+                          src={`/logos/brands/${line.name.charAt(0)}${line.name.slice(1).toLowerCase()}Color.png`}
+                          alt={line.name}
+                          width={140}
+                          height={50}
+                          className="h-12 w-auto"
+                        />
                       </button>
                     ))}
                     </div>
