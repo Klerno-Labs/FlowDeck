@@ -61,6 +61,20 @@ export default function CategoryProductsPage() {
         hasIcon: true,
       },
     ],
+    'gas-solid': [
+      {
+        id: 'tersus',
+        name: 'TERSUS',
+        slug: 'tersus',
+        hasIcon: true,
+      },
+      {
+        id: 'seprum',
+        name: 'SEPRUM',
+        slug: 'seprum',
+        hasIcon: true,
+      },
+    ],
   };
 
   const productLines = productLinesByCategory[categoryId] || [];
@@ -115,7 +129,76 @@ export default function CategoryProductsPage() {
 
               {/* Main Content */}
               <div className="h-full w-full p-8 pt-20 pb-16">
-                {(categoryId === 'liquid-liquid' || categoryId === 'gas-liquid') ? (
+                {categoryId === 'gas-solid' ? (
+                  /* Gas-Solid: 2 Brands (left) + Vessels (right) */
+                  <div className="h-full w-full flex gap-4">
+                    {/* Left: 2 Brands (TERSUS & SEPRUM) */}
+                    <div className="flex-1 flex flex-col gap-4">
+                      {productLines.map((line) => (
+                        <button
+                          key={line.id}
+                          onClick={() => router.push(`/products/${categoryId}/${line.slug}`)}
+                          className="flex-1 bg-gray-300 rounded-2xl flex flex-col items-center justify-center transition-all hover:scale-[1.02] active:scale-[0.98] touch-manipulation group relative overflow-hidden"
+                        >
+                          <div className="mb-4">
+                            <svg
+                              width="80"
+                              height="50"
+                              viewBox="0 0 80 50"
+                              className="opacity-60 group-hover:opacity-80 transition-opacity"
+                            >
+                              <circle cx="15" cy="25" r="8" fill="none" stroke="white" strokeWidth="2" />
+                              <circle cx="15" cy="25" r="3" fill="white" />
+                              <circle cx="40" cy="25" r="10" fill="none" stroke="white" strokeWidth="2" />
+                              <circle cx="40" cy="25" r="4" fill="white" />
+                              <line x1="35" y1="25" x2="45" y2="25" stroke="white" strokeWidth="1.5" />
+                              <line x1="40" y1="20" x2="40" y2="30" stroke="white" strokeWidth="1.5" />
+                              <circle cx="65" cy="25" r="8" fill="none" stroke="white" strokeWidth="2" />
+                              <circle cx="65" cy="25" r="3" fill="white" />
+                              <line x1="23" y1="25" x2="32" y2="25" stroke="white" strokeWidth="1.5" />
+                              <line x1="48" y1="25" x2="57" y2="25" stroke="white" strokeWidth="1.5" />
+                            </svg>
+                          </div>
+                          <div className="flex items-center justify-center mb-3">
+                            <div className="w-10 h-10 rounded-full bg-white flex items-center justify-center">
+                              <span className="text-lg font-bold text-gray-700">
+                                {line.name.substring(0, 2)}
+                              </span>
+                            </div>
+                          </div>
+                          <h2 className="text-xl font-semibold text-white tracking-wider">
+                            {line.name}
+                          </h2>
+                        </button>
+                      ))}
+                    </div>
+
+                    {/* Right: VESSELS */}
+                    <button
+                      onClick={() => router.push(`/products/${categoryId}/vessels`)}
+                      className="flex-1 bg-gray-300 rounded-2xl flex flex-col items-center justify-center transition-all hover:scale-[1.02] active:scale-[0.98] touch-manipulation group relative overflow-hidden"
+                    >
+                      <div className="w-full h-full flex items-center justify-center p-8 relative">
+                        <svg
+                          width="180"
+                          height="260"
+                          viewBox="0 0 160 240"
+                          className="opacity-40"
+                        >
+                          <rect x="40" y="50" width="80" height="140" fill="white" stroke="white" strokeWidth="3" rx="6" />
+                          <ellipse cx="80" cy="50" rx="40" ry="12" fill="white" />
+                          <rect x="45" y="195" width="70" height="30" fill="white" />
+                          <circle cx="60" cy="90" r="12" fill="none" stroke="white" strokeWidth="3" />
+                          <circle cx="100" cy="130" r="12" fill="none" stroke="white" strokeWidth="3" />
+                          <line x1="70" y1="140" x2="100" y2="140" stroke="white" strokeWidth="4" />
+                        </svg>
+                        <span className="absolute bottom-12 text-white text-3xl font-bold tracking-wider">
+                          VESSELS
+                        </span>
+                      </div>
+                    </button>
+                  </div>
+                ) : (categoryId === 'liquid-liquid' || categoryId === 'gas-liquid') ? (
                   /* Liquid-Liquid & Gas-Liquid: Split Screen (Product Line + VESSELS) */
                   <div className="h-full w-full flex gap-4">
                     {/* Left: Product Line (STRATA or CYPHON) */}

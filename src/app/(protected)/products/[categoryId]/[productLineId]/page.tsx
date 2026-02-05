@@ -195,6 +195,30 @@ export default function ProductLineDetailPage() {
         image: '/images/products/cyphon/cyphon_60_B&W.png',
       },
     ],
+    tersus: [
+      {
+        id: 'tersus-380',
+        name: 'TERSUS 380 Series',
+        image: '/images/products/tersus/tersus_380_B&W.png',
+      },
+      {
+        id: 'tersus-450',
+        name: 'TERSUS 450 Series',
+        image: '/images/products/tersus/tersus_450_B&W.png',
+      },
+      {
+        id: 'tersus-600',
+        name: 'TERSUS 600 Series',
+        image: '/images/products/tersus/tersus_600_B&W.png',
+      },
+    ],
+    seprum: [
+      {
+        id: 'seprum-450',
+        name: 'SEPRUM 450 Series',
+        image: '/images/products/seprum/seprum_450_B&W.png',
+      },
+    ],
   };
 
   // Category-specific vessels data
@@ -238,6 +262,18 @@ export default function ProductLineDetailPage() {
         id: 'cyphon-gas-coalescer-vessels',
         name: 'CYPHON Gas Coalescer Vessels',
         image: '/images/products/vessels/cyphon_coalescer_B&W.png',
+      },
+    ],
+    'gas-solid': [
+      {
+        id: 'tersus-gas-filtration-vessels',
+        name: 'TERSUS Gas Filtration Vessels',
+        image: '/images/products/vessels/tersus_gas_filtration_B&W.png',
+      },
+      {
+        id: 'seprum-gas-filtration-vessels',
+        name: 'SEPRUM Gas Filtration Vessels',
+        image: '/images/products/vessels/seprum_gas_filtration_B&W.png',
       },
     ],
   };
