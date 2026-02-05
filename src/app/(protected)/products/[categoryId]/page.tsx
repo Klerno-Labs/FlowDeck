@@ -115,10 +115,10 @@ export default function CategoryProductsPage() {
 
               {/* Main Content */}
               <div className="h-full w-full p-8 pt-20 pb-16">
-                {categoryId === 'liquid-liquid' ? (
-                  /* Liquid-Liquid: Split Screen (STRATA + VESSELS) */
+                {(categoryId === 'liquid-liquid' || categoryId === 'gas-liquid') ? (
+                  /* Liquid-Liquid & Gas-Liquid: Split Screen (Product Line + VESSELS) */
                   <div className="h-full w-full flex gap-4">
-                    {/* Left: STRATA */}
+                    {/* Left: Product Line (STRATA or CYPHON) */}
                     {productLines.map((line) => (
                       <button
                         key={line.id}
