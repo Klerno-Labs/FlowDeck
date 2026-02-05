@@ -3,6 +3,7 @@
 import Image from 'next/image';
 import { useRouter, useParams } from 'next/navigation';
 import { Home, Download, Mail } from 'lucide-react';
+import { productSpecs } from '@/data/productSpecs';
 
 export default function ProductDetailPage() {
   const router = useRouter();
@@ -22,32 +23,7 @@ export default function ProductDetailPage() {
   const categoryCode = categoryMap[categoryId] || 'LS';
   const categoryName = categoryId.toUpperCase().replace('-', ' | ');
 
-  // Hardcoded product data - in the future, this could come from a database
-  const productData: Record<string, any> = {
-    'clarify-740-premium': {
-      name: 'CLARIFY 740 Premium',
-      image: '/images/products/clarify/pdp740_pair_full_B&W.png',
-      specs: {
-        'Common Markets': ['General Industrial', 'Oil & Gas', 'Chemical Production', 'Power Generation', 'Water Treatment'],
-        'Common Applications': 'More capacity than common deep pleat style 740 cartridges. Ideal for applications where cellulose media is required. Fits common 740 style filter vessels.',
-        'Flow Direction': 'Outside-to-Inside',
-        'Micron Ratings': '0.5 - 150 micron',
-        'Standard Efficiency Rating': '99.98%',
-        'Standard Media Material Options': ['Polypropylene', 'Phenolic Cellulose'],
-        'Hardware Options': ['Polypropylene', 'Tinned Steel', '304 SS', '316 SS'],
-        'Diameter (inches)': '6.25"',
-        'Standard Lengths': '30" & 40"',
-        'Recommended flow rate for optimal Dirt Loading (gpm, m³/hr)': ['40 gpm', '9.10 m³/hr'],
-        'Dirt Loading (lbs, grams)': ['Up to 19.6 lbs', 'Up to 8,890 grams'],
-        'Surface Area (ft², m²)': 'Varies based on Media & Micron Rating',
-        'Max Recommended Change-Out Differential (PSID, bar)': ['35 PSID', '2.4 bar'],
-        'Max Recommended Differential Pressure (PSID, bar)': ['50 PSID', '3.45 bar'],
-        'Vessel Technology': 'Clarify™',
-      },
-    },
-  };
-
-  const product = productData[productId] || {
+  const product = productSpecs[productId] || {
     name: productId.toUpperCase().replace(/-/g, ' '),
     image: '/images/products/clarify/Clarify430_B&W.png',
     specs: {},
