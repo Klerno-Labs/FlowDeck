@@ -13,7 +13,8 @@ export default function ProductsPage() {
       code: 'LS',
       name: 'LIQUID | SOLID',
       slug: 'liquid-solid',
-      bgColor: 'bg-gray-300',
+      bgColor: 'bg-[#F17A2C]',
+      customLayout: true,
     },
     {
       id: 'll',
@@ -93,52 +94,100 @@ export default function ProductsPage() {
                     <button
                       key={category.id}
                       onClick={() => router.push(`/products/${category.slug}`)}
-                      className={`${category.bgColor} rounded-2xl flex flex-col items-center justify-center transition-all hover:scale-[1.02] active:scale-[0.98] touch-manipulation group relative overflow-hidden`}
+                      className={`${category.bgColor} rounded-2xl flex ${category.customLayout ? 'flex-row items-center justify-start px-8' : 'flex-col items-center justify-center'} transition-all hover:scale-[1.02] active:scale-[0.98] touch-manipulation group relative overflow-hidden`}
                     >
-                      {/* Filtration Icon/Diagram */}
-                      <div className="mb-6">
-                        <svg
-                          width="100"
-                          height="60"
-                          viewBox="0 0 100 60"
-                          className="opacity-60 group-hover:opacity-80 transition-opacity"
-                        >
-                          {/* Input circle */}
-                          <circle cx="15" cy="30" r="10" fill="none" stroke="white" strokeWidth="2.5" />
-                          <circle cx="15" cy="30" r="4" fill="white" />
+                      {category.customLayout ? (
+                        /* Custom Liquid | Solid Layout */
+                        <>
+                          {/* Left Side - Diagram and Badge */}
+                          <div className="flex flex-col items-center gap-2 mr-8">
+                            <svg
+                              width="120"
+                              height="70"
+                              viewBox="0 0 120 70"
+                              className="opacity-80"
+                            >
+                              {/* Input circle */}
+                              <circle cx="20" cy="35" r="12" fill="none" stroke="white" strokeWidth="2.5" />
+                              <circle cx="20" cy="35" r="5" fill="white" />
 
-                          {/* Filter/Process circle (center) */}
-                          <circle cx="50" cy="30" r="14" fill="none" stroke="white" strokeWidth="2.5" />
-                          <circle cx="50" cy="30" r="6" fill="white" />
-                          <line x1="43" y1="30" x2="57" y2="30" stroke="white" strokeWidth="1.5" />
-                          <line x1="50" y1="23" x2="50" y2="37" stroke="white" strokeWidth="1.5" />
+                              {/* Filter/Process circle (center) */}
+                              <circle cx="60" cy="35" r="16" fill="none" stroke="white" strokeWidth="2.5" />
+                              <circle cx="60" cy="35" r="7" fill="white" />
+                              <line x1="51" y1="35" x2="69" y2="35" stroke="white" strokeWidth="2" />
+                              <line x1="60" y1="26" x2="60" y2="44" stroke="white" strokeWidth="2" />
 
-                          {/* Output circle */}
-                          <circle cx="85" cy="30" r="10" fill="none" stroke="white" strokeWidth="2.5" />
-                          <circle cx="85" cy="30" r="4" fill="white" />
+                              {/* Output circle */}
+                              <circle cx="100" cy="35" r="12" fill="none" stroke="white" strokeWidth="2.5" />
+                              <circle cx="100" cy="35" r="5" fill="white" />
 
-                          {/* Connection lines with arrows */}
-                          <line x1="25" y1="30" x2="36" y2="30" stroke="white" strokeWidth="2" />
-                          <polygon points="36,30 31,27 31,33" fill="white" />
+                              {/* Connection lines */}
+                              <line x1="32" y1="35" x2="44" y2="35" stroke="white" strokeWidth="2.5" />
+                              <line x1="76" y1="35" x2="88" y2="35" stroke="white" strokeWidth="2.5" />
+                            </svg>
+                            <div className="w-14 h-14 rounded-full bg-white flex items-center justify-center">
+                              <span className="text-2xl font-bold text-[#F17A2C]">
+                                {category.code}
+                              </span>
+                            </div>
+                          </div>
 
-                          <line x1="64" y1="30" x2="75" y2="30" stroke="white" strokeWidth="2" />
-                          <polygon points="75,30 70,27 70,33" fill="white" />
-                        </svg>
-                      </div>
+                          {/* Right Side - Text */}
+                          <div className="flex-1 text-left">
+                            <h2 className="text-4xl font-bold text-white tracking-wider leading-tight">
+                              {category.name} FILTRATION
+                            </h2>
+                          </div>
+                        </>
+                      ) : (
+                        /* Default Layout for Other Categories */
+                        <>
+                          {/* Filtration Icon/Diagram */}
+                          <div className="mb-6">
+                            <svg
+                              width="100"
+                              height="60"
+                              viewBox="0 0 100 60"
+                              className="opacity-60 group-hover:opacity-80 transition-opacity"
+                            >
+                              {/* Input circle */}
+                              <circle cx="15" cy="30" r="10" fill="none" stroke="white" strokeWidth="2.5" />
+                              <circle cx="15" cy="30" r="4" fill="white" />
 
-                      {/* Category Code */}
-                      <div className="flex items-center justify-center mb-3">
-                        <div className="w-12 h-12 rounded-full bg-white flex items-center justify-center">
-                          <span className="text-2xl font-bold text-gray-700">
-                            {category.code}
-                          </span>
-                        </div>
-                      </div>
+                              {/* Filter/Process circle (center) */}
+                              <circle cx="50" cy="30" r="14" fill="none" stroke="white" strokeWidth="2.5" />
+                              <circle cx="50" cy="30" r="6" fill="white" />
+                              <line x1="43" y1="30" x2="57" y2="30" stroke="white" strokeWidth="1.5" />
+                              <line x1="50" y1="23" x2="50" y2="37" stroke="white" strokeWidth="1.5" />
 
-                      {/* Category Name */}
-                      <h2 className="text-lg font-semibold text-gray-700 tracking-wider">
-                        {category.name}
-                      </h2>
+                              {/* Output circle */}
+                              <circle cx="85" cy="30" r="10" fill="none" stroke="white" strokeWidth="2.5" />
+                              <circle cx="85" cy="30" r="4" fill="white" />
+
+                              {/* Connection lines with arrows */}
+                              <line x1="25" y1="30" x2="36" y2="30" stroke="white" strokeWidth="2" />
+                              <polygon points="36,30 31,27 31,33" fill="white" />
+
+                              <line x1="64" y1="30" x2="75" y2="30" stroke="white" strokeWidth="2" />
+                              <polygon points="75,30 70,27 70,33" fill="white" />
+                            </svg>
+                          </div>
+
+                          {/* Category Code */}
+                          <div className="flex items-center justify-center mb-3">
+                            <div className="w-12 h-12 rounded-full bg-white flex items-center justify-center">
+                              <span className="text-2xl font-bold text-gray-700">
+                                {category.code}
+                              </span>
+                            </div>
+                          </div>
+
+                          {/* Category Name */}
+                          <h2 className="text-lg font-semibold text-gray-700 tracking-wider">
+                            {category.name}
+                          </h2>
+                        </>
+                      )}
                     </button>
                   ))}
                 </div>
