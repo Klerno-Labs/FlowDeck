@@ -1,162 +1,200 @@
+'use client';
+
 import Image from 'next/image';
-import { sanityClient } from '@/lib/sanity/client';
-import { productDetailQuery } from '@/lib/sanity/queries';
-import { Product } from '@/types';
-import { Breadcrumbs } from '@/components/layout/Breadcrumbs';
-import { EmailSection } from '@/components/product/EmailSection';
+import { useRouter, useParams } from 'next/navigation';
+import { Home, Download, Mail } from 'lucide-react';
 
-export default async function ProductDetailPage({
-  params,
-}: {
-  params: { categoryId: string; productLineId: string; productId: string };
-}) {
-  const product: Product = await sanityClient.fetch(productDetailQuery, {
-    slug: params.productId,
-  });
+export default function ProductDetailPage() {
+  const router = useRouter();
+  const params = useParams();
+  const categoryId = params.categoryId as string;
+  const productLineId = params.productLineId as string;
+  const productId = params.productId as string;
 
-  if (!product) {
-    return <div>Product not found</div>;
-  }
+  // Map category slugs to codes
+  const categoryMap: Record<string, string> = {
+    'liquid-solid': 'LS',
+    'liquid-liquid': 'LL',
+    'gas-liquid': 'GL',
+    'gas-solid': 'GS',
+  };
+
+  const categoryCode = categoryMap[categoryId] || 'LS';
+  const categoryName = categoryId.toUpperCase().replace('-', ' | ');
+
+  // Hardcoded product data - in the future, this could come from a database
+  const productData: Record<string, any> = {
+    'clarify-740-premium': {
+      name: 'CLARIFY 740 Premium',
+      image: '/images/products/clarify/pdp740_pair_full_B&W.png',
+      specs: {
+        'Common Markets': ['General Industrial', 'Oil & Gas', 'Chemical Production', 'Power Generation', 'Water Treatment'],
+        'Common Applications': 'More capacity than common deep pleat style 740 cartridges. Ideal for applications where cellulose media is required. Fits common 740 style filter vessels.',
+        'Flow Direction': 'Outside-to-Inside',
+        'Micron Ratings': '0.5 - 150 micron',
+        'Standard Efficiency Rating': '99.98%',
+        'Standard Media Material Options': ['Polypropylene', 'Phenolic Cellulose'],
+        'Hardware Options': ['Polypropylene', 'Tinned Steel', '304 SS', '316 SS'],
+        'Diameter (inches)': '6.25"',
+        'Standard Lengths': '30" & 40"',
+        'Recommended flow rate for optimal Dirt Loading (gpm, m³/hr)': ['40 gpm', '9.10 m³/hr'],
+        'Dirt Loading (lbs, grams)': ['Up to 19.6 lbs', 'Up to 8,890 grams'],
+        'Surface Area (ft², m²)': 'Varies based on Media & Micron Rating',
+        'Max Recommended Change-Out Differential (PSID, bar)': ['35 PSID', '2.4 bar'],
+        'Max Recommended Differential Pressure (PSID, bar)': ['50 PSID', '3.45 bar'],
+        'Vessel Technology': 'Clarify™',
+      },
+    },
+  };
+
+  const product = productData[productId] || {
+    name: productId.toUpperCase().replace(/-/g, ' '),
+    image: '/images/products/clarify/Clarify430_B&W.png',
+    specs: {},
+  };
 
   return (
-    <div className="min-h-screen">
-      {/* Above the fold - Product Image + Specs */}
-      <div className="px-8 py-8">
-        <Breadcrumbs
-          items={[
-            { label: 'TOP', href: '/home' },
-            { label: 'CAT', href: '/products' },
-            { label: 'PROD', href: `/products/${params.categoryId}` },
-            {
-              label: product.productLine?.category?.code?.toUpperCase() || '',
-              href: `/products/${params.categoryId}/${params.productLineId}`,
-            },
-          ]}
-        />
+    <div className="fixed inset-0 bg-ftc-lightBlue overflow-hidden">
+      <div className="h-full w-full flex items-center justify-center p-8">
+        {/* Main Tablet Container */}
+        <div className="w-full max-w-7xl h-[90vh] relative z-20">
+          {/* Tablet Frame */}
+          <div className="bg-black rounded-[2.5rem] p-2 h-full">
+            {/* Screen */}
+            <div className="bg-[#9ca3af] rounded-[2rem] overflow-hidden h-full flex flex-col relative">
+              {/* Top Left - Product Line Logo and Name */}
+              <div className="absolute top-8 left-8 z-10 flex items-center gap-4">
+                {/* Filtration Icon */}
+                <div className="flex flex-col items-center">
+                  <svg
+                    width="60"
+                    height="40"
+                    viewBox="0 0 80 50"
+                    className="mb-1"
+                  >
+                    <circle cx="15" cy="25" r="8" fill="none" stroke="white" strokeWidth="2" />
+                    <circle cx="15" cy="25" r="3" fill="white" />
+                    <circle cx="40" cy="25" r="10" fill="none" stroke="white" strokeWidth="2" />
+                    <circle cx="40" cy="25" r="4" fill="white" />
+                    <line x1="35" y1="25" x2="45" y2="25" stroke="white" strokeWidth="1.5" />
+                    <line x1="40" y1="20" x2="40" y2="30" stroke="white" strokeWidth="1.5" />
+                    <circle cx="65" cy="25" r="8" fill="none" stroke="white" strokeWidth="2" />
+                    <circle cx="65" cy="25" r="3" fill="white" />
+                    <line x1="23" y1="25" x2="32" y2="25" stroke="white" strokeWidth="1.5" />
+                    <line x1="48" y1="25" x2="57" y2="25" stroke="white" strokeWidth="1.5" />
+                  </svg>
+                  <div className="w-10 h-10 rounded-full bg-white flex items-center justify-center">
+                    <span className="text-sm font-bold text-gray-700">{categoryCode}</span>
+                  </div>
+                </div>
 
-        <div className="grid grid-cols-2 gap-12 max-w-7xl mx-auto">
-          {/* Left: Product Image */}
-          <div className="flex items-center justify-center">
-            {product.imageColor && (
-              <Image
-                src={product.imageColor}
-                alt={product.title}
-                width={500}
-                height={700}
-                className="object-contain"
-              />
-            )}
-          </div>
+                {/* Product Line Name */}
+                <div className="border-l-2 border-white pl-4">
+                  <h2 className="text-2xl font-bold text-white tracking-wider">
+                    {productLineId.toUpperCase()}
+                  </h2>
+                </div>
+              </div>
 
-          {/* Right: Specifications Table */}
-          <div>
-            <h1 className="text-4xl font-bold text-gray-900 mb-8">{product.title}</h1>
+              {/* Top Right - Product Name */}
+              <div className="absolute top-8 right-8 z-10">
+                <h1 className="text-3xl font-bold text-white tracking-wider text-right">
+                  {product.name}
+                </h1>
+              </div>
 
-            <table className="spec-table">
-              <tbody>
-                {product.commonMarkets && product.commonMarkets.length > 0 && (
-                  <tr>
-                    <td>Common Markets</td>
-                    <td>{product.commonMarkets.join(', ')}</td>
-                  </tr>
-                )}
-                {product.applications && (
-                  <tr>
-                    <td>Common Applications</td>
-                    <td>{product.applications}</td>
-                  </tr>
-                )}
-                {product.flowDirection && (
-                  <tr>
-                    <td>Flow Direction</td>
-                    <td>{product.flowDirection}</td>
-                  </tr>
-                )}
-                {product.micronRatings && (
-                  <tr>
-                    <td>Micron Ratings</td>
-                    <td>{product.micronRatings}</td>
-                  </tr>
-                )}
-                {product.standardEfficiency && (
-                  <tr>
-                    <td>Standard Efficiency Rating</td>
-                    <td>{product.standardEfficiency}</td>
-                  </tr>
-                )}
-                {product.mediaOptions && product.mediaOptions.length > 0 && (
-                  <tr>
-                    <td>Standard Media Material Options</td>
-                    <td>{product.mediaOptions.join(', ')}</td>
-                  </tr>
-                )}
-                {product.hardwareOptions && product.hardwareOptions.length > 0 && (
-                  <tr>
-                    <td>Hardware Options</td>
-                    <td>{product.hardwareOptions.join(', ')}</td>
-                  </tr>
-                )}
-                {product.diameter && (
-                  <tr>
-                    <td>Diameter (inches)</td>
-                    <td>{product.diameter}</td>
-                  </tr>
-                )}
-                {product.standardLengths && (
-                  <tr>
-                    <td>Standard Lengths</td>
-                    <td>{product.standardLengths}</td>
-                  </tr>
-                )}
-                {(product.flowRateMin || product.flowRateMax) && (
-                  <tr>
-                    <td>Recommended flow rate for optimal Dirt Loading</td>
-                    <td>
-                      {product.flowRateMin && `${product.flowRateMin} gpm`}
-                      {product.flowRateMax && `, ${product.flowRateMax} m³/hr`}
-                    </td>
-                  </tr>
-                )}
-                {(product.dirtLoadingMin || product.dirtLoadingMax) && (
-                  <tr>
-                    <td>Dirt Loading (lbs, grams)</td>
-                    <td>
-                      {product.dirtLoadingMin && `Up to ${product.dirtLoadingMin} lbs`}
-                      {product.dirtLoadingMax && `, Up to ${product.dirtLoadingMax} grams`}
-                    </td>
-                  </tr>
-                )}
-                {product.surfaceArea && (
-                  <tr>
-                    <td>Surface Area (ft², m²)</td>
-                    <td>{product.surfaceArea}</td>
-                  </tr>
-                )}
-                {product.maxDifferentialPressure && (
-                  <tr>
-                    <td>Max Recommended Differential Pressure (PSID, bar)</td>
-                    <td>{product.maxDifferentialPressure}</td>
-                  </tr>
-                )}
-                {product.vesselTechnology && (
-                  <tr>
-                    <td>Vessel Technology</td>
-                    <td>{product.vesselTechnology}</td>
-                  </tr>
-                )}
-              </tbody>
-            </table>
+              {/* Main Content - Product Details */}
+              <div className="h-full w-full p-8 pt-32 pb-24 overflow-y-auto">
+                <div className="grid grid-cols-2 gap-8 h-full">
+                  {/* Left: Product Image */}
+                  <div className="flex items-center justify-center">
+                    <Image
+                      src={product.image}
+                      alt={product.name}
+                      width={400}
+                      height={600}
+                      className="object-contain max-h-[70vh]"
+                    />
+                  </div>
+
+                  {/* Right: Specifications */}
+                  <div className="text-white space-y-4 text-sm">
+                    {Object.entries(product.specs).map(([key, value]) => (
+                      <div key={key} className="grid grid-cols-2 gap-4">
+                        <div className="font-semibold text-right pr-4 border-r border-white/30">
+                          {key}
+                        </div>
+                        <div className="pl-4">
+                          {Array.isArray(value) ? (
+                            <div className="space-y-1">
+                              {value.map((item, idx) => (
+                                <div key={idx}>{item}</div>
+                              ))}
+                            </div>
+                          ) : (
+                            String(value)
+                          )}
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </div>
+
+              {/* FTC Logo - Bottom Left */}
+              <div className="absolute bottom-6 left-6 z-10">
+                <Image
+                  src="/logos/ftc/FTC_LogoNotag.png"
+                  alt="FTC"
+                  width={80}
+                  height={30}
+                  className="h-8 w-auto opacity-80"
+                />
+              </div>
+
+              {/* Navigation & Actions - Bottom Right */}
+              <div className="absolute bottom-6 right-6 z-10 flex items-center gap-4">
+                <button
+                  onClick={() => {/* PDF download functionality */}}
+                  className="px-4 py-2 rounded-lg bg-white/20 hover:bg-white/30 transition-all flex items-center gap-2"
+                  aria-label="Download PDF"
+                >
+                  <Download className="w-4 h-4 text-white" />
+                  <span className="text-white text-sm font-semibold">PDF</span>
+                </button>
+                <button
+                  onClick={() => {/* Email functionality */}}
+                  className="px-4 py-2 rounded-lg bg-white/20 hover:bg-white/30 transition-all flex items-center gap-2"
+                  aria-label="Email Content"
+                >
+                  <Mail className="w-4 h-4 text-white" />
+                  <span className="text-white text-sm font-semibold">Email Content</span>
+                </button>
+                <button
+                  onClick={() => router.push('/home')}
+                  className="w-10 h-10 rounded-full bg-white/20 hover:bg-white/30 transition-all flex items-center justify-center"
+                  aria-label="Home"
+                >
+                  <Home className="w-5 h-5 text-white" />
+                </button>
+                <div className="text-white text-sm font-semibold tracking-wider">
+                  <button onClick={() => router.push('/home')} className="hover:underline">TOP</button>
+                  {' | '}
+                  <button onClick={() => router.push('/products')} className="hover:underline">CAT</button>
+                  {' | '}
+                  <button onClick={() => router.push(`/products/${categoryId}`)} className="hover:underline">{categoryName}</button>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
-      </div>
 
-      {/* Below the fold - Email Section */}
-      <EmailSection product={product} />
-
-      {/* Bottom Navigation */}
-      <div className="bg-white py-6">
-        <div className="text-center text-ftc-gray-400 text-sm uppercase tracking-wider">
-          INTRO PRESENTATION | PRODUCTS | KNOWLEDGE BASE
+        {/* Bottom Right Color Bars */}
+        <div className="absolute bottom-0 right-0 flex h-12 w-[40vw] max-w-[500px]">
+          <div className="flex-1 bg-orange-500"></div>
+          <div className="flex-1 bg-blue-700"></div>
+          <div className="flex-1 bg-green-500"></div>
+          <div className="flex-1 bg-cyan-400"></div>
         </div>
       </div>
     </div>
