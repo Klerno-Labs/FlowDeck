@@ -37,7 +37,7 @@ export default function ProductDetailPage() {
           {/* Tablet Frame */}
           <div className="bg-black rounded-[2.5rem] p-2 h-full">
             {/* Screen */}
-            <div className="bg-[#9ca3af] rounded-[2rem] overflow-hidden h-full flex flex-col relative">
+            <div className="bg-white rounded-[2rem] overflow-hidden h-full flex flex-col relative">
               {/* Top Left - Product Line Logo and Name */}
               <div className="absolute top-8 left-8 z-10 flex items-center gap-4">
                 {/* Filtration Icon */}

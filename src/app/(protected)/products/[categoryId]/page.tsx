@@ -138,7 +138,7 @@ export default function CategoryProductsPage() {
                         <button
                           key={line.id}
                           onClick={() => router.push(`/products/${categoryId}/${line.slug}`)}
-                          className="flex-1 bg-gray-300 rounded-2xl flex flex-col items-center justify-center transition-all hover:scale-[1.02] active:scale-[0.98] touch-manipulation group relative overflow-hidden"
+                          className="flex-1 bg-white rounded-2xl flex flex-col items-center justify-center transition-all hover:scale-[1.02] active:scale-[0.98] touch-manipulation group relative overflow-hidden"
                         >
                           <div className="mb-4">
                             <svg
@@ -176,7 +176,7 @@ export default function CategoryProductsPage() {
                     {/* Right: VESSELS */}
                     <button
                       onClick={() => router.push(`/products/${categoryId}/vessels`)}
-                      className="flex-1 bg-gray-300 rounded-2xl flex flex-col items-center justify-center transition-all hover:scale-[1.02] active:scale-[0.98] touch-manipulation group relative overflow-hidden"
+                      className="flex-1 bg-white rounded-2xl flex flex-col items-center justify-center transition-all hover:scale-[1.02] active:scale-[0.98] touch-manipulation group relative overflow-hidden"
                     >
                       <div className="w-full h-full flex items-center justify-center p-8 relative">
                         <svg
@@ -206,7 +206,7 @@ export default function CategoryProductsPage() {
                       <button
                         key={line.id}
                         onClick={() => router.push(`/products/${categoryId}/${line.slug}`)}
-                        className="flex-1 bg-gray-300 rounded-2xl flex flex-col items-center justify-center transition-all hover:scale-[1.02] active:scale-[0.98] touch-manipulation group relative overflow-hidden"
+                        className="flex-1 bg-white rounded-2xl flex flex-col items-center justify-center transition-all hover:scale-[1.02] active:scale-[0.98] touch-manipulation group relative overflow-hidden"
                       >
                         <div className="mb-4">
                           <svg
@@ -243,7 +243,7 @@ export default function CategoryProductsPage() {
                     {/* Right: VESSELS */}
                     <button
                       onClick={() => router.push(`/products/${categoryId}/vessels`)}
-                      className="flex-1 bg-gray-300 rounded-2xl flex flex-col items-center justify-center transition-all hover:scale-[1.02] active:scale-[0.98] touch-manipulation group relative overflow-hidden"
+                      className="flex-1 bg-white rounded-2xl flex flex-col items-center justify-center transition-all hover:scale-[1.02] active:scale-[0.98] touch-manipulation group relative overflow-hidden"
                     >
                       <div className="w-full h-full flex items-center justify-center p-8 relative">
                         <svg
@@ -273,7 +273,7 @@ export default function CategoryProductsPage() {
                       <button
                         key={line.id}
                         onClick={() => router.push(`/products/${categoryId}/${line.slug}`)}
-                        className="bg-gray-300 rounded-2xl flex flex-col items-center justify-center transition-all hover:scale-[1.02] active:scale-[0.98] touch-manipulation group relative overflow-hidden"
+                        className="bg-white rounded-2xl flex flex-col items-center justify-center transition-all hover:scale-[1.02] active:scale-[0.98] touch-manipulation group relative overflow-hidden"
                       >
                         {line.hasLogo ? (
                           <div className="flex flex-col items-center justify-center">
@@ -320,7 +320,7 @@ export default function CategoryProductsPage() {
                     </div>
                     <button
                       onClick={() => router.push(`/products/${categoryId}/vessels`)}
-                      className="w-1/3 bg-gray-300 rounded-2xl flex flex-col items-center justify-center transition-all hover:scale-[1.02] active:scale-[0.98] touch-manipulation group relative overflow-hidden"
+                      className="w-1/3 bg-white rounded-2xl flex flex-col items-center justify-center transition-all hover:scale-[1.02] active:scale-[0.98] touch-manipulation group relative overflow-hidden"
                     >
                       <div className="w-full h-full flex items-center justify-center p-8 relative">
                         <svg
