@@ -106,13 +106,13 @@ export default function ProductDetailPage() {
               {/* Main Content - Product Details */}
               <div className="h-full w-full flex p-8 pt-28 pb-24 gap-8">
                 {/* Left: Product Image */}
-                <div className="w-[35%] flex items-center justify-center">
+                <div className="w-[28%] flex items-center justify-center">
                   <Image
                     src={product.image}
                     alt={product.name}
-                    width={350}
-                    height={500}
-                    className="object-contain w-full h-auto"
+                    width={280}
+                    height={400}
+                    className="object-contain w-full h-auto max-h-[60vh]"
                   />
                 </div>
 
