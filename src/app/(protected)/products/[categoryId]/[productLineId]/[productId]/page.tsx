@@ -97,36 +97,36 @@ export default function ProductDetailPage() {
               </div>
 
               {/* Top Right - Product Name */}
-              <div className="absolute top-8 right-8 z-10">
-                <h1 className="text-3xl font-bold text-white tracking-wider text-right">
+              <div className="absolute top-8 right-8 z-10 max-w-md">
+                <h1 className="text-3xl font-bold text-white tracking-wide text-right leading-tight">
                   {product.name}
                 </h1>
               </div>
 
               {/* Main Content - Product Details */}
-              <div className="h-full w-full p-8 pt-32 pb-24 overflow-y-auto">
-                <div className="grid grid-cols-2 gap-8 h-full">
-                  {/* Left: Product Image */}
-                  <div className="flex items-center justify-center">
-                    <Image
-                      src={product.image}
-                      alt={product.name}
-                      width={400}
-                      height={600}
-                      className="object-contain max-h-[70vh]"
-                    />
-                  </div>
+              <div className="h-full w-full flex p-8 pt-28 pb-24 gap-8">
+                {/* Left: Product Image */}
+                <div className="w-[35%] flex items-center justify-center">
+                  <Image
+                    src={product.image}
+                    alt={product.name}
+                    width={350}
+                    height={500}
+                    className="object-contain w-full h-auto"
+                  />
+                </div>
 
-                  {/* Right: Specifications */}
-                  <div className="text-white space-y-4 text-sm">
+                {/* Right: Specifications */}
+                <div className="flex-1 overflow-y-auto pr-4">
+                  <div className="space-y-3 text-white">
                     {Object.entries(product.specs).map(([key, value]) => (
-                      <div key={key} className="grid grid-cols-2 gap-4">
-                        <div className="font-semibold text-right pr-4 border-r border-white/30">
+                      <div key={key} className="grid grid-cols-[45%_55%] gap-4 text-sm">
+                        <div className="font-semibold text-right pr-4">
                           {key}
                         </div>
-                        <div className="pl-4">
+                        <div className="pl-4 border-l-2 border-white/20">
                           {Array.isArray(value) ? (
-                            <div className="space-y-1">
+                            <div className="space-y-0.5">
                               {value.map((item, idx) => (
                                 <div key={idx}>{item}</div>
                               ))}
