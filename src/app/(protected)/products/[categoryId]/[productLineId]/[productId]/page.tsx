@@ -129,7 +129,7 @@ export default function ProductDetailPage() {
               </div>
 
               {/* Navigation & Actions - Bottom Right */}
-              <div className="absolute bottom-6 right-6 z-10 flex items-center gap-4">
+              <div className="absolute bottom-6 right-6 z-10 flex items-center gap-3">
                 <button
                   onClick={() => {/* PDF download functionality */}}
                   className="px-4 py-2 rounded-lg bg-white/20 hover:bg-white/30 transition-all flex items-center gap-2"
@@ -153,13 +153,6 @@ export default function ProductDetailPage() {
                 >
                   <Home className="w-5 h-5 text-white" />
                 </button>
-                <div className="text-white text-sm font-semibold tracking-wider">
-                  <button onClick={() => router.push('/home')} className="hover:underline">TOP</button>
-                  {' | '}
-                  <button onClick={() => router.push('/products')} className="hover:underline">CAT</button>
-                  {' | '}
-                  <button onClick={() => router.push(`/products/${categoryId}`)} className="hover:underline">{categoryName}</button>
-                </div>
               </div>
             </div>
           </div>
