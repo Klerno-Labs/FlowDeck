@@ -106,122 +106,37 @@ export default function ProductsPage() {
                       {category.customLayout ? (
                         /* Custom Category Layouts */
                         <>
-                          {/* Left Side - Diagram and Badge */}
-                          <div className="flex flex-col items-center gap-2 mr-8">
-                            {category.id === 'ls' && (
-                              /* Liquid | Solid - Filtration with particles */
-                              <svg width="140" height="80" viewBox="0 0 140 80" className="opacity-90">
-                                {/* Input - liquid with particles */}
-                                <circle cx="25" cy="40" r="14" fill="none" stroke="white" strokeWidth="2.5" />
-                                <circle cx="25" cy="40" r="6" fill="white" />
-                                <circle cx="21" cy="36" r="2" fill="white" />
-                                <circle cx="29" cy="36" r="2" fill="white" />
-                                <circle cx="25" cy="44" r="2" fill="white" />
+                          {/* Left Side - Brand Logos and Badge */}
+                          <div className="flex flex-col items-center gap-3 mr-8">
+                            {/* Brand Logos */}
+                            <div className="flex flex-wrap items-center justify-center gap-3 max-w-[200px]">
+                              {category.id === 'ls' && (
+                                /* Liquid | Solid - Multiple brands */
+                                <>
+                                  <Image src="/logos/brands/ClarifyColor.png" alt="Clarify" width={80} height={30} className="h-6 w-auto" />
+                                  <Image src="/logos/brands/SievaColor.png" alt="Sieva" width={80} height={30} className="h-6 w-auto" />
+                                  <Image src="/logos/brands/TorrentColor.png" alt="Torrent" width={80} height={30} className="h-6 w-auto" />
+                                  <Image src="/logos/brands/InvictaColor.png" alt="Invicta" width={80} height={30} className="h-6 w-auto" />
+                                </>
+                              )}
+                              {category.id === 'll' && (
+                                /* Liquid | Liquid - Strata */
+                                <Image src="/logos/brands/StrataColor.png" alt="Strata" width={100} height={40} className="h-8 w-auto" />
+                              )}
+                              {category.id === 'gl' && (
+                                /* Gas | Liquid - Cyphon */
+                                <Image src="/logos/brands/CyphonColor.png" alt="Cyphon" width={100} height={40} className="h-8 w-auto" />
+                              )}
+                              {category.id === 'gs' && (
+                                /* Gas | Solid - Tersus & Seprum */
+                                <>
+                                  <Image src="/logos/brands/TersusColor.png" alt="Tersus" width={90} height={35} className="h-7 w-auto" />
+                                  <Image src="/logos/brands/SeprumColor.png" alt="Seprum" width={90} height={35} className="h-7 w-auto" />
+                                </>
+                              )}
+                            </div>
 
-                                {/* Filter (center) - mesh pattern */}
-                                <circle cx="70" cy="40" r="18" fill="none" stroke="white" strokeWidth="2.5" />
-                                <circle cx="70" cy="40" r="8" fill="white" opacity="0.3" />
-                                <line x1="60" y1="40" x2="80" y2="40" stroke="white" strokeWidth="2" />
-                                <line x1="70" y1="30" x2="70" y2="50" stroke="white" strokeWidth="2" />
-                                <circle cx="70" cy="40" r="3" fill="white" />
-
-                                {/* Output - clean liquid */}
-                                <circle cx="115" cy="40" r="14" fill="none" stroke="white" strokeWidth="2.5" />
-                                <circle cx="115" cy="40" r="6" fill="white" />
-
-                                {/* Connection lines */}
-                                <line x1="39" y1="40" x2="52" y2="40" stroke="white" strokeWidth="2.5" />
-                                <line x1="88" y1="40" x2="101" y2="40" stroke="white" strokeWidth="2.5" />
-                              </svg>
-                            )}
-                            {category.id === 'll' && (
-                              /* Liquid | Liquid - Separation with droplets */
-                              <svg width="140" height="80" viewBox="0 0 140 80" className="opacity-90">
-                                {/* Input - mixed liquids */}
-                                <circle cx="25" cy="40" r="14" fill="none" stroke="white" strokeWidth="2.5" />
-                                <circle cx="22" cy="38" r="3" fill="white" />
-                                <circle cx="28" cy="38" r="3" fill="white" opacity="0.5" />
-                                <circle cx="25" cy="43" r="3" fill="white" />
-
-                                {/* Separator (center) - coalescer dots */}
-                                <circle cx="70" cy="40" r="18" fill="none" stroke="white" strokeWidth="2.5" />
-                                <circle cx="64" cy="35" r="2.5" fill="white" />
-                                <circle cx="70" cy="35" r="2.5" fill="white" opacity="0.6" />
-                                <circle cx="76" cy="35" r="2.5" fill="white" />
-                                <circle cx="64" cy="40" r="2.5" fill="white" opacity="0.6" />
-                                <circle cx="70" cy="40" r="2.5" fill="white" />
-                                <circle cx="76" cy="40" r="2.5" fill="white" opacity="0.6" />
-                                <circle cx="64" cy="45" r="2.5" fill="white" />
-                                <circle cx="70" cy="45" r="2.5" fill="white" opacity="0.6" />
-                                <circle cx="76" cy="45" r="2.5" fill="white" />
-
-                                {/* Output - separated liquid */}
-                                <circle cx="115" cy="40" r="14" fill="none" stroke="white" strokeWidth="2.5" />
-                                <circle cx="115" cy="40" r="5" fill="white" />
-
-                                {/* Connection lines */}
-                                <line x1="39" y1="40" x2="52" y2="40" stroke="white" strokeWidth="2.5" />
-                                <line x1="88" y1="40" x2="101" y2="40" stroke="white" strokeWidth="2.5" />
-                              </svg>
-                            )}
-                            {category.id === 'gl' && (
-                              /* Gas | Liquid - Match exact layout from image */
-                              <svg width="140" height="80" viewBox="0 0 140 80" className="opacity-90">
-                                {/* Top left circle - gas input */}
-                                <circle cx="35" cy="25" r="13" fill="none" stroke="white" strokeWidth="2.5" />
-                                <circle cx="35" cy="25" r="5" fill="white" opacity="0.3" />
-
-                                {/* Center circle - coalescer with dot pattern */}
-                                <circle cx="70" cy="40" r="16" fill="none" stroke="white" strokeWidth="2.5" />
-                                {/* Dot pattern */}
-                                <circle cx="64" cy="34" r="1.5" fill="white" />
-                                <circle cx="70" cy="34" r="1.5" fill="white" />
-                                <circle cx="76" cy="34" r="1.5" fill="white" />
-                                <circle cx="64" cy="40" r="1.5" fill="white" />
-                                <circle cx="70" cy="40" r="1.5" fill="white" />
-                                <circle cx="76" cy="40" r="1.5" fill="white" />
-                                <circle cx="64" cy="46" r="1.5" fill="white" />
-                                <circle cx="70" cy="46" r="1.5" fill="white" />
-                                <circle cx="76" cy="46" r="1.5" fill="white" />
-
-                                {/* Top right circle - liquid droplet output */}
-                                <circle cx="105" cy="25" r="13" fill="none" stroke="white" strokeWidth="2.5" />
-                                <circle cx="105" cy="25" r="5" fill="white" />
-
-                                {/* Connection lines */}
-                                <line x1="35" y1="38" x2="58" y2="48" stroke="white" strokeWidth="2.5" />
-                                <line x1="82" y1="48" x2="105" y2="38" stroke="white" strokeWidth="2.5" />
-                              </svg>
-                            )}
-                            {category.id === 'gs' && (
-                              /* Gas | Solid - Match exact layout from image */
-                              <svg width="140" height="80" viewBox="0 0 140 80" className="opacity-90">
-                                {/* Top left circle - gas input */}
-                                <circle cx="35" cy="25" r="13" fill="none" stroke="white" strokeWidth="2.5" />
-                                <circle cx="35" cy="25" r="5" fill="white" opacity="0.3" />
-
-                                {/* Center circle - filter with mesh pattern */}
-                                <circle cx="70" cy="40" r="16" fill="none" stroke="white" strokeWidth="2.5" />
-                                {/* Mesh/dot pattern */}
-                                <circle cx="64" cy="34" r="1.5" fill="white" />
-                                <circle cx="70" cy="34" r="1.5" fill="white" />
-                                <circle cx="76" cy="34" r="1.5" fill="white" />
-                                <circle cx="64" cy="40" r="1.5" fill="white" />
-                                <circle cx="70" cy="40" r="1.5" fill="white" />
-                                <circle cx="76" cy="40" r="1.5" fill="white" />
-                                <circle cx="64" cy="46" r="1.5" fill="white" />
-                                <circle cx="70" cy="46" r="1.5" fill="white" />
-                                <circle cx="76" cy="46" r="1.5" fill="white" />
-
-                                {/* Top right circle - output */}
-                                <circle cx="105" cy="25" r="13" fill="none" stroke="white" strokeWidth="2.5" />
-                                <circle cx="105" cy="25" r="5" fill="white" opacity="0.3" />
-
-                                {/* Connection lines */}
-                                <line x1="35" y1="38" x2="58" y2="48" stroke="white" strokeWidth="2.5" />
-                                <line x1="82" y1="48" x2="105" y2="38" stroke="white" strokeWidth="2.5" />
-                              </svg>
-                            )}
+                            {/* Category Badge */}
                             <div className="w-14 h-14 rounded-full bg-white flex items-center justify-center">
                               <span className="text-2xl font-bold" style={{ color: category.bgColor.replace('bg-[', '').replace(']', '') }}>
                                 {category.code}
