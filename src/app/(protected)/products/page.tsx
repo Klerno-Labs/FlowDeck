@@ -40,7 +40,9 @@ export default function ProductsPage() {
       code: 'GS',
       name: 'GAS | SOLID',
       slug: 'gas-solid',
-      bgColor: 'bg-gray-400',
+      bgColor: 'bg-[#7AC142]',
+      customLayout: true,
+      subtitle: 'FILTRATION',
     },
   ];
 
