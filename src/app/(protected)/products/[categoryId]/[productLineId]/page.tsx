@@ -79,32 +79,32 @@ export default function ProductLineDetailPage() {
       {
         id: 'sieva-100',
         name: 'SIEVA 100 Series',
-        image: '/images/products/sieva/nb100_series_full_B&W.png',
+        image: '/images/products/sieva/sieva_100.jpg',
       },
       {
         id: 'sieva-550',
         name: 'SIEVA 550 Series',
-        image: '/images/products/sieva/hc550_series_full_badseal_B&W.png',
+        image: '/images/products/sieva/sieva_550.jpg',
       },
       {
         id: 'sieva-600-ht',
         name: 'SIEVA 600 HT Series',
-        image: '/images/products/sieva/hc550_series_full_badseal_B&W.png',
+        image: '/images/products/sieva/sieva_600ht.jpg',
       },
       {
         id: 'sieva-650',
         name: 'SIEVA 650 Series',
-        image: '/images/products/sieva/mc650_series_pair_full_B&W.png',
+        image: '/images/products/sieva/sieva_650.jpg',
       },
       {
         id: 'sieva-maxout',
         name: 'SIEVA Max Out Series',
-        image: '/images/products/sieva/maxout_series_combo_full_B&W.png',
+        image: '/images/products/sieva/sieva_maxout.jpg',
       },
       {
         id: 'sieva-maxout-basket',
         name: 'SIEVA Max-Out Basket',
-        image: '/images/products/sieva/maxout_series_combo_full_B&W.png',
+        image: '/images/products/sieva/sieva_maxout_basket.jpg',
       },
     ],
     torrent: [
