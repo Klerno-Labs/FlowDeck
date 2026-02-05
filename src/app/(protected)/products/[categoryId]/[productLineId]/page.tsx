@@ -227,53 +227,53 @@ export default function ProductLineDetailPage() {
       {
         id: 'clarify-vessels',
         name: 'Clarify Cartridge Filter Vessels',
-        image: '/images/products/vessels/clarify_vessels_B&W.png',
+        image: '/images/products/vessels/clarify_vessels.jpg',
       },
       {
         id: 'sieva-vessels',
         name: 'Sieva Bag Filter Vessels',
-        image: '/images/products/vessels/sieva_vessels_B&W.png',
+        image: '/images/products/vessels/sieva_vessels.jpg',
       },
       {
         id: 'torrent-vessels',
         name: 'Torrent High Flow Vessels',
-        image: '/images/products/vessels/torrent_vessels_B&W.png',
+        image: '/images/products/vessels/torrent_vessels.jpg',
       },
       {
         id: 'invicta-vessels',
         name: 'Invicta Filter Vessels',
-        image: '/images/products/vessels/invicta_vessels_B&W.png',
+        image: '/images/products/vessels/invicta_vessels.jpg',
       },
     ],
     'liquid-liquid': [
       {
         id: 'strata-emerald-absorption-vessels',
         name: 'STRATA Emerald Hydrocarbon Absorption Vessels',
-        image: '/images/products/vessels/strata_emerald_absorption_B&W.png',
+        image: '/images/products/vessels/strata_emerald_absorption.jpg',
       },
       {
         id: 'strata-coalescer-vessels',
         name: 'STRATA Liquid-Liquid Coalescer Vessels',
-        image: '/images/products/vessels/strata_coalescer_B&W.png',
+        image: '/images/products/vessels/strata_coalescer.jpg',
       },
     ],
     'gas-liquid': [
       {
         id: 'cyphon-gas-coalescer-vessels',
         name: 'CYPHON Gas Coalescer Vessels',
-        image: '/images/products/vessels/cyphon_coalescer_B&W.png',
+        image: '/images/products/vessels/cyphon_coalescer.jpg',
       },
     ],
     'gas-solid': [
       {
         id: 'tersus-gas-filtration-vessels',
         name: 'TERSUS Gas Filtration Vessels',
-        image: '/images/products/vessels/tersus_gas_filtration_B&W.png',
+        image: '/images/products/vessels/tersus_gas_filtration.jpg',
       },
       {
         id: 'seprum-gas-filtration-vessels',
         name: 'SEPRUM Gas Filtration Vessels',
-        image: '/images/products/vessels/seprum_gas_filtration_B&W.png',
+        image: '/images/products/vessels/seprum_gas_filtration.jpg',
       },
     ],
   };
