@@ -331,28 +331,59 @@ export default function ProductLineDetailPage() {
 
               {/* Main Content - Products Grid */}
               <div className="h-full w-full p-8 pt-32 pb-24">
-                <div className="grid grid-cols-5 grid-rows-2 gap-6 h-full">
-                  {products.map((product) => (
-                    <button
-                      key={product.id}
-                      onClick={() => router.push(`/products/${categoryId}/${productLineId}/${product.id}`)}
-                      className="bg-transparent flex flex-col items-center justify-center transition-all hover:scale-105 active:scale-95 touch-manipulation"
-                    >
-                      <div className="relative w-full h-full flex items-center justify-center mb-2">
-                        <Image
-                          src={product.image}
-                          alt={product.name}
-                          width={120}
-                          height={180}
-                          className="object-contain h-full w-auto"
-                        />
-                      </div>
-                      <p className="text-white text-xs font-semibold text-center leading-tight">
-                        {product.name}
-                      </p>
-                    </button>
-                  ))}
-                </div>
+                {productLineId === 'vessels' ? (
+                  /* Vessels Layout - Larger grid for fewer items */
+                  <div className={`grid gap-8 h-full ${
+                    products.length === 2 ? 'grid-cols-2' :
+                    products.length === 3 ? 'grid-cols-3' :
+                    'grid-cols-2 grid-rows-2'
+                  }`}>
+                    {products.map((product) => (
+                      <button
+                        key={product.id}
+                        onClick={() => router.push(`/products/${categoryId}/${productLineId}/${product.id}`)}
+                        className="bg-transparent flex flex-col items-center justify-center transition-all hover:scale-105 active:scale-95 touch-manipulation p-4"
+                      >
+                        <div className="relative w-full h-full flex items-center justify-center mb-4">
+                          <Image
+                            src={product.image}
+                            alt={product.name}
+                            width={300}
+                            height={400}
+                            className="object-contain h-full w-auto max-h-[50vh]"
+                          />
+                        </div>
+                        <p className="text-white text-sm font-semibold text-center leading-tight">
+                          {product.name}
+                        </p>
+                      </button>
+                    ))}
+                  </div>
+                ) : (
+                  /* Regular Products Layout - 5x2 grid */
+                  <div className="grid grid-cols-5 grid-rows-2 gap-6 h-full">
+                    {products.map((product) => (
+                      <button
+                        key={product.id}
+                        onClick={() => router.push(`/products/${categoryId}/${productLineId}/${product.id}`)}
+                        className="bg-transparent flex flex-col items-center justify-center transition-all hover:scale-105 active:scale-95 touch-manipulation"
+                      >
+                        <div className="relative w-full h-full flex items-center justify-center mb-2">
+                          <Image
+                            src={product.image}
+                            alt={product.name}
+                            width={120}
+                            height={180}
+                            className="object-contain h-full w-auto"
+                          />
+                        </div>
+                        <p className="text-white text-xs font-semibold text-center leading-tight">
+                          {product.name}
+                        </p>
+                      </button>
+                    ))}
+                  </div>
+                )}
               </div>
 
               {/* FTC Logo - Bottom Left */}
@@ -375,13 +406,6 @@ export default function ProductLineDetailPage() {
                 >
                   <Home className="w-5 h-5 text-white" />
                 </button>
-                <div className="text-white text-sm font-semibold tracking-wider">
-                  <button onClick={() => router.push('/home')} className="hover:underline">TOP</button>
-                  {' | '}
-                  <button onClick={() => router.push('/products')} className="hover:underline">CAT</button>
-                  {' | '}
-                  <span>{categoryName}</span>
-                </div>
               </div>
             </div>
           </div>
