@@ -111,17 +111,12 @@ export default function ProductLineDetailPage() {
       {
         id: 'torrent-600',
         name: 'TORRENT 600 Series',
-        image: '/images/products/torrent/dpu600_highflow_family_B&W.png',
+        image: '/images/products/torrent/torrent_600.jpg',
       },
       {
         id: 'torrent-700',
         name: 'TORRENT 700 Series',
-        image: '/images/products/torrent/Torrent700_series_full_B&W.png',
-      },
-      {
-        id: 'torrent-dpw',
-        name: 'TORRENT DPW Series',
-        image: '/images/products/torrent/dpw_series_full_filter_B&W.png',
+        image: '/images/products/torrent/torrent_700.jpg',
       },
     ],
     invicta: [
