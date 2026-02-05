@@ -15,20 +15,25 @@ export default function ProductsPage() {
       slug: 'liquid-solid',
       bgColor: 'bg-[#F17A2C]',
       customLayout: true,
+      subtitle: 'FILTRATION',
     },
     {
       id: 'll',
       code: 'LL',
       name: 'LIQUID | LIQUID',
       slug: 'liquid-liquid',
-      bgColor: 'bg-gray-100',
+      bgColor: 'bg-[#00B4D8]',
+      customLayout: true,
+      subtitle: 'SEPARATION',
     },
     {
       id: 'gl',
       code: 'GL',
       name: 'GAS | LIQUID',
       slug: 'gas-liquid',
-      bgColor: 'bg-gray-200',
+      bgColor: 'bg-[#4169E1]',
+      customLayout: true,
+      subtitle: 'SEPARATION',
     },
     {
       id: 'gs',
@@ -126,7 +131,7 @@ export default function ProductsPage() {
                               <line x1="76" y1="35" x2="88" y2="35" stroke="white" strokeWidth="2.5" />
                             </svg>
                             <div className="w-14 h-14 rounded-full bg-white flex items-center justify-center">
-                              <span className="text-2xl font-bold text-[#F17A2C]">
+                              <span className="text-2xl font-bold" style={{ color: category.bgColor.replace('bg-[', '').replace(']', '') }}>
                                 {category.code}
                               </span>
                             </div>
@@ -135,7 +140,7 @@ export default function ProductsPage() {
                           {/* Right Side - Text */}
                           <div className="flex-1 text-left">
                             <h2 className="text-4xl font-bold text-white tracking-wider leading-tight">
-                              {category.name} FILTRATION
+                              {category.name} {category.subtitle || 'FILTRATION'}
                             </h2>
                           </div>
                         </>
