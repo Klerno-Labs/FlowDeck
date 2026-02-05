@@ -165,30 +165,32 @@ export default function ProductsPage() {
                               </svg>
                             )}
                             {category.id === 'gl' && (
-                              /* Gas | Liquid - Coalescer */
+                              /* Gas | Liquid - Match exact layout from image */
                               <svg width="140" height="80" viewBox="0 0 140 80" className="opacity-90">
-                                {/* Input - gas bubbles */}
-                                <circle cx="25" cy="40" r="14" fill="none" stroke="white" strokeWidth="2.5" />
-                                <circle cx="22" cy="37" r="2.5" fill="white" opacity="0.4" />
-                                <circle cx="28" cy="37" r="2.5" fill="white" opacity="0.4" />
-                                <circle cx="25" cy="42" r="3" fill="white" />
+                                {/* Top left circle - gas input */}
+                                <circle cx="35" cy="25" r="13" fill="none" stroke="white" strokeWidth="2.5" />
+                                <circle cx="35" cy="25" r="5" fill="white" opacity="0.3" />
 
-                                {/* Coalescer (center) - mesh with droplets */}
-                                <circle cx="70" cy="40" r="18" fill="none" stroke="white" strokeWidth="2.5" />
-                                <line x1="62" y1="32" x2="78" y2="48" stroke="white" strokeWidth="1.5" />
-                                <line x1="78" y1="32" x2="62" y2="48" stroke="white" strokeWidth="1.5" />
-                                <circle cx="67" cy="37" r="2" fill="white" />
-                                <circle cx="73" cy="37" r="2" fill="white" />
-                                <circle cx="67" cy="43" r="2" fill="white" />
-                                <circle cx="73" cy="43" r="2" fill="white" />
+                                {/* Center circle - coalescer with dot pattern */}
+                                <circle cx="70" cy="40" r="16" fill="none" stroke="white" strokeWidth="2.5" />
+                                {/* Dot pattern */}
+                                <circle cx="64" cy="34" r="1.5" fill="white" />
+                                <circle cx="70" cy="34" r="1.5" fill="white" />
+                                <circle cx="76" cy="34" r="1.5" fill="white" />
+                                <circle cx="64" cy="40" r="1.5" fill="white" />
+                                <circle cx="70" cy="40" r="1.5" fill="white" />
+                                <circle cx="76" cy="40" r="1.5" fill="white" />
+                                <circle cx="64" cy="46" r="1.5" fill="white" />
+                                <circle cx="70" cy="46" r="1.5" fill="white" />
+                                <circle cx="76" cy="46" r="1.5" fill="white" />
 
-                                {/* Output - clean gas */}
-                                <circle cx="115" cy="40" r="14" fill="none" stroke="white" strokeWidth="2.5" />
-                                <circle cx="115" cy="40" r="3" fill="white" opacity="0.4" />
+                                {/* Top right circle - liquid droplet output */}
+                                <circle cx="105" cy="25" r="13" fill="none" stroke="white" strokeWidth="2.5" />
+                                <circle cx="105" cy="25" r="5" fill="white" />
 
                                 {/* Connection lines */}
-                                <line x1="39" y1="40" x2="52" y2="40" stroke="white" strokeWidth="2.5" />
-                                <line x1="88" y1="40" x2="101" y2="40" stroke="white" strokeWidth="2.5" />
+                                <line x1="35" y1="38" x2="58" y2="48" stroke="white" strokeWidth="2.5" />
+                                <line x1="82" y1="48" x2="105" y2="38" stroke="white" strokeWidth="2.5" />
                               </svg>
                             )}
                             {category.id === 'gs' && (
