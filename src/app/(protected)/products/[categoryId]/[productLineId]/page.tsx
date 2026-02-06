@@ -33,11 +33,17 @@ export default async function ProductLineDetailPage({
 
   const bgColor = categoryColors[categoryId] || 'bg-gray-400';
 
-  // Transform products to match expected structure
-  const productList = products.map((product) => ({
+  // Filter out products without images and separate vessels from filters
+  const allProducts = products.filter(product => product.image_path && product.image_path.trim() !== '');
+
+  // If this is the vessels page, show all products; otherwise, exclude vessels
+  const productList = (productLineId === 'vessels'
+    ? allProducts
+    : allProducts.filter(product => !product.name.toLowerCase().includes('vessel'))
+  ).map((product) => ({
     id: product.slug,
     name: product.name,
-    image: product.image_path || '/images/products/clarify/Clarify430_B&W.png',
+    image: product.image_path!,
   }));
 
   return (
