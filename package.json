@@ -13,7 +13,8 @@
     "email:dev": "email dev",
     "db:migrate": "node scripts/migrate.js",
     "db:seed": "node scripts/seed-user.js",
-    "db:setup": "npm run db:migrate && npm run db:seed"
+    "db:setup": "npm run db:migrate && npm run db:seed",
+    "db:migrate-products": "tsx scripts/migrate-products-to-db.ts"
   },
   "dependencies": {
     "@neondatabase/serverless": "^1.0.2",
@@ -22,6 +23,7 @@
     "@sanity/client": "6.23.0",
     "@sanity/image-url": "1.1.0",
     "@sanity/vision": "3.62.0",
+    "@vercel/blob": "^2.1.0",
     "bcryptjs": "^3.0.3",
     "class-variance-authority": "0.7.1",
     "clsx": "2.1.1",
@@ -58,7 +60,8 @@
     "eslint": "8.57.1",
     "eslint-config-next": "14.2.15",
     "postcss": "8.4.49",
-    "prettier": "3.4.2"
+    "prettier": "3.4.2",
+    "tsx": "^4.21.0"
   },
   "engines": {
     "node": ">=20.0.0",

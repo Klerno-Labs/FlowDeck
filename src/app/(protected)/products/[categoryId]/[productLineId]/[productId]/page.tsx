@@ -1,16 +1,17 @@
-'use client';
-
 import Image from 'next/image';
-import { useRouter, useParams } from 'next/navigation';
+import Link from 'next/link';
 import { Home, Download, Mail } from 'lucide-react';
-import { productSpecs } from '@/data/productSpecs';
+import * as db from '@/lib/db/products';
 
-export default function ProductDetailPage() {
-  const router = useRouter();
-  const params = useParams();
-  const categoryId = params.categoryId as string;
-  const productLineId = params.productLineId as string;
-  const productId = params.productId as string;
+export default async function ProductDetailPage({
+  params,
+}: {
+  params: { categoryId: string; productLineId: string; productId: string };
+}) {
+  const { categoryId, productLineId, productId } = params;
+
+  // Fetch product with specifications from database
+  const productData = await db.getProductWithSpecsBySlug(productId);
 
   // Map category slugs to codes
   const categoryMap: Record<string, string> = {
@@ -21,13 +22,6 @@ export default function ProductDetailPage() {
   };
 
   const categoryCode = categoryMap[categoryId] || 'LS';
-  const categoryName = categoryId.toUpperCase().replace('-', ' | ');
-
-  const product = productSpecs[productId] || {
-    name: productId.toUpperCase().replace(/-/g, ' '),
-    image: '/images/products/clarify/Clarify430_B&W.png',
-    specs: {},
-  };
 
   // Map category to background colors
   const categoryColors: Record<string, string> = {
@@ -38,6 +32,38 @@ export default function ProductDetailPage() {
   };
 
   const bgColor = categoryColors[categoryId] || 'bg-gray-400';
+
+  // If product not found, show fallback
+  if (!productData) {
+    return (
+      <div className="fixed inset-0 bg-ftc-lightBlue flex items-center justify-center">
+        <div className="text-center">
+          <h1 className="text-2xl font-bold text-gray-900 mb-4">Product Not Found</h1>
+          <Link
+            href="/home"
+            className="inline-flex items-center gap-2 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700"
+          >
+            <Home className="w-4 h-4" />
+            Back to Home
+          </Link>
+        </div>
+      </div>
+    );
+  }
+
+  // Transform specifications from database format to display format
+  const specs: Record<string, any> = {};
+  if (productData.specs) {
+    productData.specs.forEach((spec) => {
+      try {
+        // Parse the JSON value
+        specs[spec.spec_key] = JSON.parse(spec.spec_value);
+      } catch {
+        // If not JSON, use as-is
+        specs[spec.spec_key] = spec.spec_value;
+      }
+    });
+  }
 
   return (
     <div className="fixed inset-0 bg-ftc-lightBlue overflow-hidden">
@@ -68,7 +94,7 @@ export default function ProductDetailPage() {
               {/* Top Right - Product Name */}
               <div className="absolute top-10 right-10 z-10 max-w-xl">
                 <h1 className="text-4xl font-bold text-white tracking-wide text-right leading-tight drop-shadow-lg">
-                  {product.name}
+                  {productData.name}
                 </h1>
               </div>
 
@@ -76,19 +102,23 @@ export default function ProductDetailPage() {
               <div className="h-full w-full flex p-12 pt-32 pb-32 gap-10">
                 {/* Left: Product Image */}
                 <div className="w-[30%] flex items-center justify-center bg-white/10 backdrop-blur-sm rounded-3xl p-8 border-2 border-white/20">
-                  <Image
-                    src={product.image}
-                    alt={product.name}
-                    width={320}
-                    height={450}
-                    className="object-contain w-full h-auto max-h-[65vh] drop-shadow-2xl"
-                  />
+                  {productData.image_path ? (
+                    <Image
+                      src={productData.image_path}
+                      alt={productData.name}
+                      width={320}
+                      height={450}
+                      className="object-contain w-full h-auto max-h-[65vh] drop-shadow-2xl"
+                    />
+                  ) : (
+                    <div className="text-white/50 text-center">No image</div>
+                  )}
                 </div>
 
                 {/* Right: Specifications */}
                 <div className="flex-1 overflow-y-auto pr-4 bg-white/10 backdrop-blur-sm rounded-3xl p-8 border-2 border-white/20">
                   <div className="space-y-4 text-white">
-                    {Object.entries(product.specs).map(([key, value]) => (
+                    {Object.entries(specs).map(([key, value]) => (
                       <div key={key} className="grid grid-cols-[45%_55%] gap-6 text-sm">
                         <div className="font-bold text-right pr-4 text-white/90">
                           {key}
@@ -139,13 +169,13 @@ export default function ProductDetailPage() {
                   <Mail className="w-5 h-5" style={{ color: bgColor.replace('bg-[', '').replace(']', '') }} />
                   <span className="font-bold text-sm" style={{ color: bgColor.replace('bg-[', '').replace(']', '') }}>Email</span>
                 </button>
-                <button
-                  onClick={() => router.push('/home')}
+                <Link
+                  href="/home"
                   className="w-14 h-14 rounded-full bg-white/90 hover:bg-white shadow-lg transition-all flex items-center justify-center"
                   aria-label="Home"
                 >
                   <Home className="w-6 h-6" style={{ color: bgColor.replace('bg-[', '').replace(']', '') }} />
-                </button>
+                </Link>
               </div>
             </div>
           </div>

@@ -1,6 +1,7 @@
 import { auth } from '@/lib/auth/auth';
 import { redirect } from 'next/navigation';
 import { SessionTimeoutWarning } from '@/components/auth/SessionTimeoutWarning';
+import RealTimeWrapper from '@/components/RealTimeWrapper';
 
 export default async function ProtectedLayout({
   children,
@@ -14,9 +15,9 @@ export default async function ProtectedLayout({
   }
 
   return (
-    <>
+    <RealTimeWrapper>
       <SessionTimeoutWarning />
       {children}
-    </>
+    </RealTimeWrapper>
   );
 }

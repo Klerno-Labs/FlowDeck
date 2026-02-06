@@ -178,7 +178,7 @@ async function migrate() {
         user_agent TEXT,
         device_type TEXT,
         created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
-        last_activity TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
+        last_active TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
         expires_at TIMESTAMP WITH TIME ZONE NOT NULL,
         invalidated BOOLEAN DEFAULT false
       )
@@ -186,9 +186,27 @@ async function migrate() {
 
     await pool.query(`CREATE INDEX IF NOT EXISTS idx_sessions_user_id ON sessions(user_id)`);
     await pool.query(`CREATE INDEX IF NOT EXISTS idx_sessions_expires_at ON sessions(expires_at)`);
-    await pool.query(`CREATE INDEX IF NOT EXISTS idx_sessions_last_activity ON sessions(last_activity DESC)`);
+    await pool.query(`CREATE INDEX IF NOT EXISTS idx_sessions_last_active ON sessions(last_active DESC)`);
 
     console.log('   ✓ sessions table created');
+
+    // Run SQL migration files from migrations directory
+    console.log('\n📝 Running SQL migrations...');
+    const migrationsDir = path.join(__dirname, '..', 'src', 'lib', 'db', 'migrations');
+
+    if (fs.existsSync(migrationsDir)) {
+      const migrationFiles = fs.readdirSync(migrationsDir)
+        .filter(file => file.endsWith('.sql'))
+        .sort(); // Run migrations in alphabetical order
+
+      for (const file of migrationFiles) {
+        console.log(`   Running ${file}...`);
+        const migrationPath = path.join(migrationsDir, file);
+        const migrationSQL = fs.readFileSync(migrationPath, 'utf8');
+        await pool.query(migrationSQL);
+        console.log(`   ✓ ${file} completed`);
+      }
+    }
 
     console.log('\n✅ Migration completed successfully!');
     console.log('\n📊 Next step: Create your dev user');
