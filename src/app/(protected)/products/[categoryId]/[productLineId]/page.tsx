@@ -26,53 +26,53 @@ export default function ProductLineDetailPage() {
     clarify: [
       {
         id: 'clarify-250',
-        name: 'CLARIFY 250',
+        name: 'CLARIFY 250 Series',
         image: '/images/products/clarify/Clarify430_B&W.png',
       },
       {
         id: 'clarify-300',
-        name: 'CLARIFY 300',
+        name: 'CLARIFY 300 Series',
         image: '/images/products/clarify/Clarify430_B&W.png',
       },
       {
         id: 'clarify-380',
-        name: 'CLARIFY 380',
+        name: 'CLARIFY 380 Series',
         image: '/images/products/clarify/Clarify430_B&W.png',
       },
       {
         id: 'clarify-430',
-        name: 'CLARIFY 430',
+        name: 'CLARIFY 430 Series',
         image: '/images/products/clarify/Clarify430_B&W.png',
       },
       {
         id: 'clarify-500',
-        name: 'CLARIFY 500',
+        name: 'CLARIFY 500 Series',
         image: '/images/products/clarify/Clarify430_B&W.png',
+      },
+      {
+        id: 'clarify-ab-series',
+        name: 'CLARIFY AB Series',
+        image: '/images/products/clarify/ab_series_SOE_222_full_B&W.png',
+      },
+      {
+        id: 'clarify-ab500',
+        name: 'CLARIFY AB500 Series',
+        image: '/images/products/clarify/ab500_series_pair_full_B&W.png',
+      },
+      {
+        id: 'clarify-abp',
+        name: 'CLARIFY ABP Series',
+        image: '/images/products/clarify/abp_series_full_1_B&W.png',
+      },
+      {
+        id: 'clarify-aby',
+        name: 'CLARIFY ABY Series',
+        image: '/images/products/clarify/aby_series_full_B&W.png',
       },
       {
         id: 'clarify-740-premium',
         name: 'CLARIFY 740 Premium',
         image: '/images/products/clarify/pdp740_pair_full_B&W.png',
-      },
-      {
-        id: 'clarify-740-platinum-select',
-        name: 'CLARIFY 740 Platinum Select®',
-        image: '/images/products/clarify/pss740_platinum_select_polypro_full_B&W.png',
-      },
-      {
-        id: 'clarify-740-nsf',
-        name: 'CLARIFY 740 Platinum Select® NSF/ANSI 61 Certified',
-        image: '/images/products/clarify/pss740_platinum_select_polypro_full_B&W.png',
-      },
-      {
-        id: 'clarify-940-platinum',
-        name: 'CLARIFY 940 Platinum®',
-        image: '/images/products/clarify/ps940_series_cellulose_full_B&W.png',
-      },
-      {
-        id: 'clarify-2040-platinum',
-        name: 'CLARIFY 2040 Platinum®',
-        image: '/images/products/clarify/ps2040_sereis_full_cross_B&W.png',
       },
     ],
     sieva: [
@@ -121,24 +121,14 @@ export default function ProductLineDetailPage() {
     ],
     invicta: [
       {
-        id: 'invicta-ab-series',
-        name: 'INVICTA AB Series',
-        image: '/images/products/invicta/ab_series_SOE_222_full_B&W.png',
+        id: 'invicta-cartridge-filter',
+        name: 'INVICTA Trapezoidal Cartridge Filter',
+        image: '/images/products/invicta/invicta_vessel_features.png',
       },
       {
-        id: 'invicta-ab500',
-        name: 'INVICTA AB500 Series',
-        image: '/images/products/invicta/ab500_series_pair_full_B&W.png',
-      },
-      {
-        id: 'invicta-abp',
-        name: 'INVICTA ABP Series',
-        image: '/images/products/invicta/abp_series_full_1_B&W.png',
-      },
-      {
-        id: 'invicta-aby',
-        name: 'INVICTA ABY Series',
-        image: '/images/products/invicta/aby_series_full_2_B&W.png',
+        id: 'invicta-vessel-system',
+        name: 'INVICTA Vessel System',
+        image: '/images/products/invicta/invicta_vessel_side.png',
       },
     ],
     strata: [
