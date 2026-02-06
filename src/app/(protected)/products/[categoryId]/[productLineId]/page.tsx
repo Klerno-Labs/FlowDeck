@@ -3,6 +3,10 @@ import Link from 'next/link';
 import { Home } from 'lucide-react';
 import * as db from '@/lib/db/products';
 
+// Force dynamic rendering to always fetch fresh data
+export const dynamic = 'force-dynamic';
+export const revalidate = 0;
+
 export default async function ProductLineDetailPage({
   params,
 }: {
