@@ -2,8 +2,9 @@ import { auth } from '@/lib/auth/auth';
 import { redirect } from 'next/navigation';
 import Link from 'next/link';
 import Image from 'next/image';
-import { Home, Package, Layers, Settings } from 'lucide-react';
+import { Home, Package, Layers, LayoutGrid } from 'lucide-react';
 import { ToastContainer } from '@/components/ui/Toast';
+import { UserMenu } from '@/components/admin/UserMenu';
 
 export default async function AdminLayout({
   children,
@@ -35,7 +36,7 @@ export default async function AdminLayout({
                     <div className="flex items-center gap-8">
                       <Link href="/admin" className="flex items-center gap-3">
                         <div className="w-12 h-12 rounded-full bg-white shadow-lg flex items-center justify-center">
-                          <Settings className="w-6 h-6 text-blue-600" />
+                          <LayoutGrid className="w-6 h-6 text-blue-600" />
                         </div>
                         <span className="text-3xl font-bold text-white tracking-wide drop-shadow-lg">
                           FlowDeck Admin
@@ -51,18 +52,19 @@ export default async function AdminLayout({
                       </div>
                     </div>
 
-                    {/* Right: User Info and Exit */}
-                    <div className="flex items-center gap-4">
-                      <div className="text-right">
-                        <div className="text-sm font-medium text-white/90">{session.user.name}</div>
-                        <div className="text-xs text-white/70">{session.user.role}</div>
-                      </div>
+                    {/* Right: Settings and Exit */}
+                    <div className="flex items-center gap-3">
+                      <UserMenu user={{
+                        name: session.user.name,
+                        email: session.user.email,
+                        role: session.user.role
+                      }} />
                       <Link
                         href="/home"
-                        className="w-14 h-14 rounded-full bg-white/90 hover:bg-white shadow-lg transition-all flex items-center justify-center group"
+                        className="w-12 h-12 rounded-full bg-white/10 hover:bg-white/20 backdrop-blur-sm border border-white/20 hover:border-white/30 transition-all flex items-center justify-center group active:scale-95 touch-manipulation"
                         title="Exit to App"
                       >
-                        <Home className="w-6 h-6 text-blue-600 group-hover:scale-110 transition-transform" />
+                        <Home className="w-5 h-5 text-white group-hover:scale-110 transition-transform" />
                       </Link>
                     </div>
                   </div>
