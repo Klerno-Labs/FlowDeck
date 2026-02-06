@@ -79,6 +79,16 @@ export default function CategoryProductsPage() {
 
   const productLines = productLinesByCategory[categoryId] || [];
 
+  // Map category to background colors
+  const categoryColors: Record<string, string> = {
+    'liquid-solid': 'bg-[#F17A2C]',
+    'liquid-liquid': 'bg-[#00B4D8]',
+    'gas-liquid': 'bg-[#4169E1]',
+    'gas-solid': 'bg-[#7AC142]',
+  };
+
+  const bgColor = categoryColors[categoryId] || 'bg-gray-400';
+
   return (
     <div className="fixed inset-0 bg-ftc-lightBlue overflow-hidden">
       <div className="h-full w-full flex items-center justify-center p-8">
@@ -87,7 +97,7 @@ export default function CategoryProductsPage() {
           {/* Tablet Frame */}
           <div className="bg-black rounded-[2.5rem] p-2 h-full">
             {/* Screen */}
-            <div className="bg-white rounded-[2rem] overflow-hidden h-full flex flex-col relative">
+            <div className={`${bgColor} rounded-[2rem] overflow-hidden h-full flex flex-col relative`}>
               {/* Back Button - Top Left */}
               <button
                 onClick={() => router.back()}
@@ -131,21 +141,21 @@ export default function CategoryProductsPage() {
               <div className="h-full w-full p-8 pt-20 pb-16">
                 {categoryId === 'gas-solid' ? (
                   /* Gas-Solid: 2 Brands (left) + Vessels (right) */
-                  <div className="h-full w-full flex gap-6">
+                  <div className="h-full w-full flex gap-8">
                     {/* Left: 2 Brands (TERSUS & SEPRUM) */}
-                    <div className="flex-1 flex flex-col gap-6">
+                    <div className="flex-1 flex flex-col gap-8">
                       {productLines.map((line) => (
                         <button
                           key={line.id}
                           onClick={() => router.push(`/products/${categoryId}/${line.slug}`)}
-                          className="flex-1 bg-white rounded-3xl flex flex-col items-center justify-center transition-all hover:scale-[1.03] active:scale-[0.97] touch-manipulation group relative overflow-hidden shadow-lg hover:shadow-xl border-4 border-gray-100 hover:border-gray-200 p-8"
+                          className="flex-1 bg-white/95 backdrop-blur-sm rounded-3xl flex flex-col items-center justify-center transition-all hover:scale-[1.02] hover:bg-white active:scale-[0.98] touch-manipulation group relative overflow-hidden shadow-2xl p-10"
                         >
                           <Image
                             src={`/logos/brands/${line.name.charAt(0)}${line.name.slice(1).toLowerCase()}Color.png`}
                             alt={line.name}
-                            width={220}
-                            height={80}
-                            className="h-20 w-auto"
+                            width={240}
+                            height={90}
+                            className="h-24 w-auto"
                           />
                         </button>
                       ))}
@@ -154,14 +164,14 @@ export default function CategoryProductsPage() {
                     {/* Right: VESSELS */}
                     <button
                       onClick={() => router.push(`/products/${categoryId}/vessels`)}
-                      className="flex-1 bg-white rounded-3xl flex flex-col items-center justify-center transition-all hover:scale-[1.03] active:scale-[0.97] touch-manipulation group relative overflow-hidden shadow-lg hover:shadow-xl border-4 border-gray-100 hover:border-gray-200"
+                      className="flex-1 bg-white/95 backdrop-blur-sm rounded-3xl flex flex-col items-center justify-center transition-all hover:scale-[1.02] hover:bg-white active:scale-[0.98] touch-manipulation group relative overflow-hidden shadow-2xl"
                     >
                       <div className="w-full h-full flex items-center justify-center p-8 relative">
                         <svg
-                          width="180"
-                          height="260"
+                          width="200"
+                          height="280"
                           viewBox="0 0 160 240"
-                          className="opacity-40"
+                          className="opacity-30"
                         >
                           <rect x="40" y="50" width="80" height="140" fill="#374151" stroke="#374151" strokeWidth="3" rx="6" />
                           <ellipse cx="80" cy="50" rx="40" ry="12" fill="#374151" />
@@ -170,7 +180,7 @@ export default function CategoryProductsPage() {
                           <circle cx="100" cy="130" r="12" fill="none" stroke="#374151" strokeWidth="3" />
                           <line x1="70" y1="140" x2="100" y2="140" stroke="#374151" strokeWidth="4" />
                         </svg>
-                        <span className="absolute bottom-12 text-gray-700 text-3xl font-bold tracking-wider">
+                        <span className="absolute bottom-16 text-gray-700 text-4xl font-bold tracking-wider">
                           VESSELS
                         </span>
                       </div>
@@ -178,20 +188,20 @@ export default function CategoryProductsPage() {
                   </div>
                 ) : (categoryId === 'liquid-liquid' || categoryId === 'gas-liquid') ? (
                   /* Liquid-Liquid & Gas-Liquid: Split Screen (Product Line + VESSELS) */
-                  <div className="h-full w-full flex gap-6">
+                  <div className="h-full w-full flex gap-8">
                     {/* Left: Product Line (STRATA or CYPHON) */}
                     {productLines.map((line) => (
                       <button
                         key={line.id}
                         onClick={() => router.push(`/products/${categoryId}/${line.slug}`)}
-                        className="flex-1 bg-white rounded-3xl flex flex-col items-center justify-center transition-all hover:scale-[1.03] active:scale-[0.97] touch-manipulation group relative overflow-hidden shadow-lg hover:shadow-xl border-4 border-gray-100 hover:border-gray-200 p-12"
+                        className="flex-1 bg-white/95 backdrop-blur-sm rounded-3xl flex flex-col items-center justify-center transition-all hover:scale-[1.02] hover:bg-white active:scale-[0.98] touch-manipulation group relative overflow-hidden shadow-2xl p-16"
                       >
                         <Image
                           src={`/logos/brands/${line.name.charAt(0)}${line.name.slice(1).toLowerCase()}Color.png`}
                           alt={line.name}
-                          width={280}
-                          height={100}
-                          className="h-24 w-auto"
+                          width={320}
+                          height={120}
+                          className="h-28 w-auto"
                         />
                       </button>
                     ))}
@@ -199,14 +209,14 @@ export default function CategoryProductsPage() {
                     {/* Right: VESSELS */}
                     <button
                       onClick={() => router.push(`/products/${categoryId}/vessels`)}
-                      className="flex-1 bg-white rounded-3xl flex flex-col items-center justify-center transition-all hover:scale-[1.03] active:scale-[0.97] touch-manipulation group relative overflow-hidden shadow-lg hover:shadow-xl border-4 border-gray-100 hover:border-gray-200"
+                      className="flex-1 bg-white/95 backdrop-blur-sm rounded-3xl flex flex-col items-center justify-center transition-all hover:scale-[1.02] hover:bg-white active:scale-[0.98] touch-manipulation group relative overflow-hidden shadow-2xl"
                     >
                       <div className="w-full h-full flex items-center justify-center p-8 relative">
                         <svg
-                          width="180"
-                          height="260"
+                          width="200"
+                          height="280"
                           viewBox="0 0 160 240"
-                          className="opacity-40"
+                          className="opacity-30"
                         >
                           <rect x="40" y="50" width="80" height="140" fill="#374151" stroke="#374151" strokeWidth="3" rx="6" />
                           <ellipse cx="80" cy="50" rx="40" ry="12" fill="#374151" />
@@ -215,7 +225,7 @@ export default function CategoryProductsPage() {
                           <circle cx="100" cy="130" r="12" fill="none" stroke="#374151" strokeWidth="3" />
                           <line x1="70" y1="140" x2="100" y2="140" stroke="#374151" strokeWidth="4" />
                         </svg>
-                        <span className="absolute bottom-12 text-gray-700 text-3xl font-bold tracking-wider">
+                        <span className="absolute bottom-16 text-gray-700 text-4xl font-bold tracking-wider">
                           VESSELS
                         </span>
                       </div>
@@ -223,34 +233,34 @@ export default function CategoryProductsPage() {
                   </div>
                 ) : (
                   /* Other categories: 2x2 Grid + Vessels */
-                  <div className="h-full w-full flex gap-6">
-                    <div className="flex-1 grid grid-cols-2 grid-rows-2 gap-6">
+                  <div className="h-full w-full flex gap-8">
+                    <div className="flex-1 grid grid-cols-2 grid-rows-2 gap-8">
                       {productLines.map((line) => (
                       <button
                         key={line.id}
                         onClick={() => router.push(`/products/${categoryId}/${line.slug}`)}
-                        className="bg-white rounded-3xl flex flex-col items-center justify-center transition-all hover:scale-[1.03] active:scale-[0.97] touch-manipulation group relative overflow-hidden shadow-lg hover:shadow-xl border-4 border-gray-100 hover:border-gray-200 p-8"
+                        className="bg-white/95 backdrop-blur-sm rounded-3xl flex flex-col items-center justify-center transition-all hover:scale-[1.02] hover:bg-white active:scale-[0.98] touch-manipulation group relative overflow-hidden shadow-2xl p-10"
                       >
                         <Image
                           src={`/logos/brands/${line.name.charAt(0)}${line.name.slice(1).toLowerCase()}Color.png`}
                           alt={line.name}
-                          width={160}
-                          height={60}
-                          className="h-14 w-auto"
+                          width={180}
+                          height={70}
+                          className="h-16 w-auto"
                         />
                       </button>
                     ))}
                     </div>
                     <button
                       onClick={() => router.push(`/products/${categoryId}/vessels`)}
-                      className="w-1/3 bg-white rounded-3xl flex flex-col items-center justify-center transition-all hover:scale-[1.03] active:scale-[0.97] touch-manipulation group relative overflow-hidden shadow-lg hover:shadow-xl border-4 border-gray-100 hover:border-gray-200"
+                      className="w-1/3 bg-white/95 backdrop-blur-sm rounded-3xl flex flex-col items-center justify-center transition-all hover:scale-[1.02] hover:bg-white active:scale-[0.98] touch-manipulation group relative overflow-hidden shadow-2xl"
                     >
                       <div className="w-full h-full flex items-center justify-center p-8 relative">
                         <svg
-                          width="160"
-                          height="240"
+                          width="180"
+                          height="260"
                           viewBox="0 0 160 240"
-                          className="opacity-40"
+                          className="opacity-30"
                         >
                           <rect x="40" y="50" width="80" height="140" fill="#374151" stroke="#374151" strokeWidth="3" rx="6" />
                           <ellipse cx="80" cy="50" rx="40" ry="12" fill="#374151" />
@@ -259,7 +269,7 @@ export default function CategoryProductsPage() {
                           <circle cx="100" cy="130" r="12" fill="none" stroke="#374151" strokeWidth="3" />
                           <line x1="70" y1="140" x2="100" y2="140" stroke="#374151" strokeWidth="4" />
                         </svg>
-                        <span className="absolute bottom-12 text-gray-700 text-2xl font-bold tracking-wider">
+                        <span className="absolute bottom-16 text-gray-700 text-3xl font-bold tracking-wider">
                           VESSELS
                         </span>
                       </div>
@@ -269,19 +279,19 @@ export default function CategoryProductsPage() {
               </div>
 
               {/* FTC Logo - Bottom Left */}
-              <div className="absolute bottom-4 left-4 z-10">
+              <div className="absolute bottom-6 left-6 z-10">
                 <Image
                   src="/logos/ftc/FTC_LogoNotag.png"
                   alt="FTC"
-                  width={60}
-                  height={20}
-                  className="h-6 w-auto opacity-50"
+                  width={80}
+                  height={30}
+                  className="h-8 w-auto opacity-80 drop-shadow-lg"
                 />
               </div>
 
               {/* Category Name - Bottom Right */}
-              <div className="absolute bottom-4 right-4 z-10">
-                <span className="text-xs text-gray-400 font-semibold tracking-wider">
+              <div className="absolute bottom-6 right-6 z-10">
+                <span className="text-sm text-white font-bold tracking-wider drop-shadow-lg">
                   {categoryNames[categoryId] || categoryId.toUpperCase()}
                 </span>
               </div>

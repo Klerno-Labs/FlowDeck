@@ -281,6 +281,16 @@ export default function ProductLineDetailPage() {
     products = productData[productLineId] || [];
   }
 
+  // Map category to background colors
+  const categoryColors: Record<string, string> = {
+    'liquid-solid': 'bg-[#F17A2C]',
+    'liquid-liquid': 'bg-[#00B4D8]',
+    'gas-liquid': 'bg-[#4169E1]',
+    'gas-solid': 'bg-[#7AC142]',
+  };
+
+  const bgColor = categoryColors[categoryId] || 'bg-gray-400';
+
   return (
     <div className="fixed inset-0 bg-ftc-lightBlue overflow-hidden">
       <div className="h-full w-full flex items-center justify-center p-8">
@@ -289,46 +299,29 @@ export default function ProductLineDetailPage() {
           {/* Tablet Frame */}
           <div className="bg-black rounded-[2.5rem] p-2 h-full">
             {/* Screen */}
-            <div className="bg-white rounded-[2rem] overflow-hidden h-full flex flex-col relative">
+            <div className={`${bgColor} rounded-[2rem] overflow-hidden h-full flex flex-col relative`}>
               {/* Top Left - Product Line Logo and Name */}
-              <div className="absolute top-8 left-8 z-10 flex items-center gap-4">
-                {/* Filtration Icon */}
-                <div className="flex flex-col items-center">
-                  <svg
-                    width="60"
-                    height="40"
-                    viewBox="0 0 80 50"
-                    className="mb-1"
-                  >
-                    <circle cx="15" cy="25" r="8" fill="none" stroke="white" strokeWidth="2" />
-                    <circle cx="15" cy="25" r="3" fill="white" />
-                    <circle cx="40" cy="25" r="10" fill="none" stroke="white" strokeWidth="2" />
-                    <circle cx="40" cy="25" r="4" fill="white" />
-                    <line x1="35" y1="25" x2="45" y2="25" stroke="white" strokeWidth="1.5" />
-                    <line x1="40" y1="20" x2="40" y2="30" stroke="white" strokeWidth="1.5" />
-                    <circle cx="65" cy="25" r="8" fill="none" stroke="white" strokeWidth="2" />
-                    <circle cx="65" cy="25" r="3" fill="white" />
-                    <line x1="23" y1="25" x2="32" y2="25" stroke="white" strokeWidth="1.5" />
-                    <line x1="48" y1="25" x2="57" y2="25" stroke="white" strokeWidth="1.5" />
-                  </svg>
-                  <div className="w-10 h-10 rounded-full bg-white flex items-center justify-center">
-                    <span className="text-sm font-bold text-gray-700">{categoryCode}</span>
-                  </div>
+              <div className="absolute top-10 left-10 z-10 flex items-center gap-6">
+                {/* Category Badge */}
+                <div className="w-16 h-16 rounded-full bg-white shadow-lg flex items-center justify-center">
+                  <span className="text-2xl font-bold" style={{ color: bgColor.replace('bg-[', '').replace(']', '') }}>
+                    {categoryCode}
+                  </span>
                 </div>
 
                 {/* Product Line Name */}
-                <div className="border-l-2 border-white pl-4">
-                  <h1 className="text-2xl font-bold text-white tracking-wider">
+                <div className="border-l-4 border-white/50 pl-6">
+                  <h1 className="text-4xl font-bold text-white tracking-wider drop-shadow-lg">
                     {productLineId.toUpperCase()}
                   </h1>
                 </div>
               </div>
 
               {/* Main Content - Products Grid */}
-              <div className="h-full w-full p-8 pt-32 pb-24">
+              <div className="h-full w-full p-12 pt-32 pb-28">
                 {productLineId === 'vessels' ? (
                   /* Vessels Layout - Larger grid for fewer items */
-                  <div className={`grid gap-8 h-full ${
+                  <div className={`grid gap-10 h-full ${
                     products.length === 2 ? 'grid-cols-2' :
                     products.length === 3 ? 'grid-cols-3' :
                     'grid-cols-2 grid-rows-2'
@@ -337,7 +330,7 @@ export default function ProductLineDetailPage() {
                       <button
                         key={product.id}
                         onClick={() => router.push(`/products/${categoryId}/${productLineId}/${product.id}`)}
-                        className="bg-transparent flex flex-col items-center justify-center transition-all hover:scale-105 active:scale-95 touch-manipulation p-4"
+                        className="bg-white/10 backdrop-blur-sm rounded-2xl flex flex-col items-center justify-center transition-all hover:scale-105 hover:bg-white/20 active:scale-95 touch-manipulation p-6 border-2 border-white/20"
                       >
                         <div className="relative w-full h-full flex items-center justify-center mb-4">
                           <Image
@@ -345,10 +338,10 @@ export default function ProductLineDetailPage() {
                             alt={product.name}
                             width={300}
                             height={400}
-                            className="object-contain h-full w-auto max-h-[50vh]"
+                            className="object-contain h-full w-auto max-h-[50vh] drop-shadow-xl"
                           />
                         </div>
-                        <p className="text-white text-sm font-semibold text-center leading-tight">
+                        <p className="text-white text-base font-bold text-center leading-tight drop-shadow-lg">
                           {product.name}
                         </p>
                       </button>
@@ -361,18 +354,18 @@ export default function ProductLineDetailPage() {
                       <button
                         key={product.id}
                         onClick={() => router.push(`/products/${categoryId}/${productLineId}/${product.id}`)}
-                        className="bg-transparent flex flex-col items-center justify-center transition-all hover:scale-105 active:scale-95 touch-manipulation"
+                        className="bg-white/10 backdrop-blur-sm rounded-2xl flex flex-col items-center justify-center transition-all hover:scale-105 hover:bg-white/20 active:scale-95 touch-manipulation p-4 border-2 border-white/20"
                       >
-                        <div className="relative w-full h-full flex items-center justify-center mb-2">
+                        <div className="relative w-full h-full flex items-center justify-center mb-3">
                           <Image
                             src={product.image}
                             alt={product.name}
-                            width={120}
-                            height={180}
-                            className="object-contain h-full w-auto"
+                            width={140}
+                            height={200}
+                            className="object-contain h-full w-auto drop-shadow-xl"
                           />
                         </div>
-                        <p className="text-white text-xs font-semibold text-center leading-tight">
+                        <p className="text-white text-xs font-bold text-center leading-tight drop-shadow-lg">
                           {product.name}
                         </p>
                       </button>
@@ -382,24 +375,24 @@ export default function ProductLineDetailPage() {
               </div>
 
               {/* FTC Logo - Bottom Left */}
-              <div className="absolute bottom-6 left-6 z-10">
+              <div className="absolute bottom-8 left-8 z-10">
                 <Image
                   src="/logos/ftc/FTC_LogoNotag.png"
                   alt="FTC"
-                  width={80}
-                  height={30}
-                  className="h-8 w-auto opacity-80"
+                  width={100}
+                  height={40}
+                  className="h-10 w-auto opacity-90 drop-shadow-lg"
                 />
               </div>
 
               {/* Navigation - Bottom Right */}
-              <div className="absolute bottom-6 right-6 z-10 flex items-center gap-4">
+              <div className="absolute bottom-8 right-8 z-10 flex items-center gap-4">
                 <button
                   onClick={() => router.push('/home')}
-                  className="w-10 h-10 rounded-full bg-white/20 hover:bg-white/30 transition-all flex items-center justify-center"
+                  className="w-14 h-14 rounded-full bg-white/90 hover:bg-white shadow-lg transition-all flex items-center justify-center"
                   aria-label="Home"
                 >
-                  <Home className="w-5 h-5 text-white" />
+                  <Home className="w-6 h-6" style={{ color: bgColor.replace('bg-[', '').replace(']', '') }} />
                 </button>
               </div>
             </div>
