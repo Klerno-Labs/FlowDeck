@@ -18,7 +18,7 @@ export default async function AdminDashboard() {
       description: 'Manage all products and their specifications',
       href: '/admin/products',
       icon: Package,
-      gradient: 'from-blue-500 to-blue-600',
+      color: 'bg-blue-600',
       shadow: 'shadow-blue-500/30',
     },
     {
@@ -26,7 +26,7 @@ export default async function AdminDashboard() {
       description: 'Manage product categories (LS, LL, GL, GS)',
       href: '/admin/categories',
       icon: Layers,
-      gradient: 'from-green-500 to-green-600',
+      color: 'bg-green-600',
       shadow: 'shadow-green-500/30',
     },
     {
@@ -34,7 +34,7 @@ export default async function AdminDashboard() {
       description: 'Manage product lines (Clarify, Sieva, etc.)',
       href: '/admin/product-lines',
       icon: FolderTree,
-      gradient: 'from-purple-500 to-purple-600',
+      color: 'bg-purple-600',
       shadow: 'shadow-purple-500/30',
     },
   ];
@@ -44,7 +44,6 @@ export default async function AdminDashboard() {
       title: 'Total Products',
       value: products.products?.length || 0,
       icon: Package,
-      color: 'from-blue-500 to-blue-600',
       bgColor: 'bg-blue-50',
       iconColor: 'text-blue-600',
     },
@@ -52,7 +51,6 @@ export default async function AdminDashboard() {
       title: 'Categories',
       value: categories.categories?.length || 0,
       icon: Layers,
-      color: 'from-green-500 to-green-600',
       bgColor: 'bg-green-50',
       iconColor: 'text-green-600',
     },
@@ -60,7 +58,6 @@ export default async function AdminDashboard() {
       title: 'Product Lines',
       value: productLines.productLines?.length || 0,
       icon: FolderTree,
-      color: 'from-purple-500 to-purple-600',
       bgColor: 'bg-purple-50',
       iconColor: 'text-purple-600',
     },
@@ -115,13 +112,10 @@ export default async function AdminDashboard() {
               href={link.href}
               className="group relative bg-white rounded-3xl shadow-xl hover:shadow-2xl transition-all duration-300 overflow-hidden border-2 border-gray-100 hover:border-gray-200 active:scale-95 touch-manipulation"
             >
-              {/* Gradient Background */}
-              <div className={`absolute inset-0 bg-gradient-to-br ${link.gradient} opacity-0 group-hover:opacity-5 transition-opacity`}></div>
-
               <div className="relative p-8">
                 {/* Icon with Count Badge */}
                 <div className="relative inline-block mb-6">
-                  <div className={`inline-flex items-center justify-center w-20 h-20 rounded-2xl bg-gradient-to-br ${link.gradient} ${link.shadow} shadow-lg group-hover:scale-110 transition-transform`}>
+                  <div className={`inline-flex items-center justify-center w-20 h-20 rounded-2xl ${link.color} ${link.shadow} shadow-lg group-hover:scale-110 transition-transform`}>
                     <Icon className="w-10 h-10 text-white" />
                   </div>
                   <div className="absolute -top-2 -right-2 bg-white border-2 border-gray-100 rounded-full w-10 h-10 flex items-center justify-center shadow-lg">
@@ -149,7 +143,7 @@ export default async function AdminDashboard() {
       </div>
 
       {/* Quick Tips Section */}
-      <div className="bg-gradient-to-r from-amber-50 to-orange-50 rounded-3xl shadow-lg border-2 border-amber-100 p-8 mb-10">
+      <div className="bg-amber-50 rounded-3xl shadow-lg border-2 border-amber-100 p-8 mb-10">
         <div className="flex items-start gap-4">
           <div className="w-12 h-12 rounded-full bg-amber-500 flex items-center justify-center flex-shrink-0">
             <TrendingUp className="w-6 h-6 text-white" />
@@ -187,7 +181,7 @@ export default async function AdminDashboard() {
       </div>
 
       {/* Info Panel */}
-      <div className="bg-gradient-to-r from-blue-500 to-purple-600 rounded-3xl shadow-xl overflow-hidden">
+      <div className="bg-blue-600 rounded-3xl shadow-xl overflow-hidden">
         <div className="p-8">
           <h2 className="text-2xl font-bold text-white mb-6 flex items-center gap-3">
             <div className="w-10 h-10 rounded-full bg-white/20 backdrop-blur-sm flex items-center justify-center">

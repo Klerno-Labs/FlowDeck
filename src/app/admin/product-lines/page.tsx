@@ -112,7 +112,7 @@ export default function ProductLinesPage() {
         </div>
         <button
           onClick={handleCreate}
-          className="inline-flex items-center gap-3 px-8 py-4 bg-gradient-to-r from-purple-600 to-purple-700 text-white rounded-2xl hover:shadow-xl hover:scale-105 transition-all text-lg font-bold shadow-lg shadow-purple-500/30 active:scale-95 touch-manipulation"
+          className="inline-flex items-center gap-3 px-8 py-4 bg-purple-600 text-white rounded-2xl hover:shadow-xl hover:scale-105 transition-all text-lg font-bold shadow-lg shadow-purple-500/30 active:scale-95 touch-manipulation"
         >
           <Plus className="w-6 h-6" />
           Add Product Line
@@ -179,7 +179,7 @@ export default function ProductLinesPage() {
                 {/* Content */}
                 <div className="p-6">
                   {/* Logo */}
-                  <div className="aspect-square bg-gradient-to-br from-gray-50 to-gray-100 rounded-xl flex items-center justify-center mb-4 overflow-hidden">
+                  <div className="aspect-square bg-gray-50 rounded-xl flex items-center justify-center mb-4 overflow-hidden">
                     {line.logo_path ? (
                       <Image
                         src={line.logo_path}
@@ -447,7 +447,7 @@ function ProductLineModal({
             <button
               type="submit"
               disabled={saving}
-              className="flex-1 px-8 py-5 bg-gradient-to-r from-purple-600 to-purple-700 text-white rounded-2xl hover:shadow-xl disabled:opacity-50 disabled:cursor-not-allowed font-bold text-lg transition-all active:scale-95 touch-manipulation"
+              className="flex-1 px-8 py-5 bg-purple-600 text-white rounded-2xl hover:shadow-xl disabled:opacity-50 disabled:cursor-not-allowed font-bold text-lg transition-all active:scale-95 touch-manipulation"
             >
               {saving ? 'Saving...' : productLine ? 'Update' : 'Create'}
             </button>

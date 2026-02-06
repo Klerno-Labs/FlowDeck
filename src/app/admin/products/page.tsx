@@ -82,7 +82,7 @@ export default function ProductsAdminPage() {
         </div>
         <Link
           href="/admin/products/new"
-          className="inline-flex items-center gap-3 px-8 py-4 bg-gradient-to-r from-blue-600 to-blue-700 text-white rounded-2xl hover:shadow-xl hover:scale-105 transition-all text-lg font-bold shadow-lg shadow-blue-500/30 active:scale-95 touch-manipulation"
+          className="inline-flex items-center gap-3 px-8 py-4 bg-blue-600 text-white rounded-2xl hover:shadow-xl hover:scale-105 transition-all text-lg font-bold shadow-lg shadow-blue-500/30 active:scale-95 touch-manipulation"
         >
           <Plus className="w-6 h-6" />
           Add Product
@@ -125,7 +125,7 @@ export default function ProductsAdminPage() {
               className="group bg-white rounded-2xl shadow-md hover:shadow-2xl transition-all duration-300 overflow-hidden border-2 border-gray-100 hover:border-blue-300 active:scale-95 touch-manipulation"
             >
               {/* Product Image */}
-              <div className="relative h-48 bg-gradient-to-br from-gray-50 to-gray-100 flex items-center justify-center p-4 group-hover:from-blue-50 group-hover:to-purple-50 transition-colors">
+              <div className="relative h-48 bg-gray-50 flex items-center justify-center p-4 group-hover:bg-blue-50 transition-colors">
                 {product.image_path ? (
                   <Image
                     src={product.image_path}

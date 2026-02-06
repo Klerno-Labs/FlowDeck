@@ -227,7 +227,7 @@ export default function EditProductPage() {
           <div className="bg-white shadow-xl rounded-3xl border-2 border-gray-100 p-8">
             <h2 className="text-2xl font-bold text-gray-900 mb-6">Product Image</h2>
 
-            <div className="aspect-square bg-gradient-to-br from-gray-50 to-gray-100 rounded-2xl flex items-center justify-center mb-6 overflow-hidden border-2 border-gray-200">
+            <div className="aspect-square bg-gray-50 rounded-2xl flex items-center justify-center mb-6 overflow-hidden border-2 border-gray-200">
               {imagePath ? (
                 <Image
                   src={imagePath}
@@ -339,7 +339,7 @@ export default function EditProductPage() {
                 </h2>
                 <Link
                   href={`/admin/products/${params.id}/specifications`}
-                  className="inline-flex items-center gap-2 px-5 py-3 bg-gradient-to-r from-green-500 to-green-600 text-white rounded-xl hover:shadow-lg hover:scale-105 transition-all font-semibold shadow-green-500/30 active:scale-95 touch-manipulation"
+                  className="inline-flex items-center gap-2 px-5 py-3 bg-green-600 text-white rounded-xl hover:shadow-lg hover:scale-105 transition-all font-semibold shadow-green-500/30 active:scale-95 touch-manipulation"
                 >
                   <Plus className="w-5 h-5" />
                   Manage Specs
@@ -380,7 +380,7 @@ export default function EditProductPage() {
               <button
                 type="submit"
                 disabled={saving}
-                className="inline-flex items-center justify-center gap-3 px-8 py-5 bg-gradient-to-r from-blue-600 to-blue-700 text-white rounded-2xl hover:shadow-2xl hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100 transition-all text-xl font-bold shadow-lg shadow-blue-500/30 active:scale-95 touch-manipulation"
+                className="inline-flex items-center justify-center gap-3 px-8 py-5 bg-blue-600 text-white rounded-2xl hover:shadow-2xl hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100 transition-all text-xl font-bold shadow-lg shadow-blue-500/30 active:scale-95 touch-manipulation"
               >
                 {saving ? (
                   <>

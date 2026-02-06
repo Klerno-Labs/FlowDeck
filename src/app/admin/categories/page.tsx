@@ -89,7 +89,7 @@ export default function CategoriesPage() {
         </div>
         <button
           onClick={handleCreate}
-          className="inline-flex items-center gap-3 px-8 py-4 bg-gradient-to-r from-green-600 to-green-700 text-white rounded-2xl hover:shadow-xl hover:scale-105 transition-all text-lg font-bold shadow-lg shadow-green-500/30 active:scale-95 touch-manipulation"
+          className="inline-flex items-center gap-3 px-8 py-4 bg-green-600 text-white rounded-2xl hover:shadow-xl hover:scale-105 transition-all text-lg font-bold shadow-lg shadow-green-500/30 active:scale-95 touch-manipulation"
         >
           <Plus className="w-6 h-6" />
           Add Category

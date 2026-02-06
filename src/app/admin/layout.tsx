@@ -26,10 +26,10 @@ export default async function AdminLayout({
           {/* Tablet Frame */}
           <div className="bg-black rounded-[2.5rem] p-2 h-full shadow-2xl">
             {/* Screen */}
-            <div className="bg-gradient-to-br from-gray-50 to-gray-100 rounded-[2rem] overflow-hidden h-full flex flex-col relative">
+            <div className="bg-gray-50 rounded-[2rem] overflow-hidden h-full flex flex-col relative">
 
-              {/* Top Navigation Bar with Gradient */}
-              <div className="relative bg-gradient-to-r from-blue-600 via-blue-700 to-purple-700 shadow-lg">
+              {/* Top Navigation Bar */}
+              <div className="relative bg-blue-600 shadow-lg">
                 <div className="px-8 py-6">
                   <div className="flex justify-between items-center">
                     {/* Left: Logo and Nav */}
