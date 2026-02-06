@@ -271,6 +271,28 @@ export async function getProductsByLineSlug(lineSlug: string): Promise<Product[]
   );
 }
 
+export async function getProductsByLineSlugAndCategory(lineSlug: string, categorySlug: string): Promise<Product[]> {
+  return query<Product>(
+    `SELECT p.* FROM products p
+     JOIN product_lines pl ON p.product_line_id = pl.id
+     JOIN categories c ON pl.category_id = c.id
+     WHERE pl.slug = $1 AND c.slug = $2
+     ORDER BY p.display_order ASC`,
+    [lineSlug, categorySlug]
+  );
+}
+
+export async function getProductsByLineTitleAndCategory(lineTitle: string, categorySlug: string): Promise<Product[]> {
+  return query<Product>(
+    `SELECT p.* FROM products p
+     JOIN product_lines pl ON p.product_line_id = pl.id
+     JOIN categories c ON pl.category_id = c.id
+     WHERE pl.title = $1 AND c.slug = $2
+     ORDER BY p.display_order ASC`,
+    [lineTitle, categorySlug]
+  );
+}
+
 export async function getProductById(id: string): Promise<Product | null> {
   return queryOne<Product>('SELECT * FROM products WHERE id = $1', [id]);
 }

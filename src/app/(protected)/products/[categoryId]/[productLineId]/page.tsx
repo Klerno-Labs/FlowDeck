@@ -10,8 +10,11 @@ export default async function ProductLineDetailPage({
 }) {
   const { categoryId, productLineId } = params;
 
-  // Fetch products from database by product line slug
-  const products = await db.getProductsByLineSlug(productLineId);
+  // Fetch products from database
+  // For vessels, we need to find the vessels product line for this specific category
+  const products = productLineId === 'vessels'
+    ? await db.getProductsByLineTitleAndCategory('Vessels', categoryId)
+    : await db.getProductsByLineSlug(productLineId);
 
   // Map category slugs to codes
   const categoryMap: Record<string, string> = {
@@ -33,18 +36,14 @@ export default async function ProductLineDetailPage({
 
   const bgColor = categoryColors[categoryId] || 'bg-gray-400';
 
-  // Filter out products without images and separate vessels from filters
-  const allProducts = products.filter(product => product.image_path && product.image_path.trim() !== '');
-
-  // If this is the vessels page, show all products; otherwise, exclude vessels
-  const productList = (productLineId === 'vessels'
-    ? allProducts
-    : allProducts.filter(product => !product.name.toLowerCase().includes('vessel'))
-  ).map((product) => ({
-    id: product.slug,
-    name: product.name,
-    image: product.image_path!,
-  }));
+  // Filter out products without images
+  const productList = products
+    .filter(product => product.image_path && product.image_path.trim() !== '')
+    .map((product) => ({
+      id: product.slug,
+      name: product.name,
+      image: product.image_path!,
+    }));
 
   return (
     <div className="fixed inset-0 bg-ftc-lightBlue overflow-hidden">
