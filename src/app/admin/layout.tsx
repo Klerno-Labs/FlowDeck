@@ -55,9 +55,9 @@ export default async function AdminLayout({
                     {/* Right: Settings and Exit */}
                     <div className="flex items-center gap-3">
                       <UserMenu user={{
-                        name: session.user.name,
-                        email: session.user.email,
-                        role: session.user.role
+                        name: session.user.name || 'User',
+                        email: session.user.email || '',
+                        role: session.user.role || 'user'
                       }} />
                       <Link
                         href="/home"
