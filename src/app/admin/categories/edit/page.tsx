@@ -222,7 +222,7 @@ export default function VisualCategoryEditor() {
             </li>
             <li className="flex items-start gap-3">
               <span className="text-blue-600 font-bold">•</span>
-              <span><strong>Click Save</strong> when you're done to apply all changes</span>
+              <span><strong>Click Save</strong> when you&rsquo;re done to apply all changes</span>
             </li>
           </ul>
         </div>
