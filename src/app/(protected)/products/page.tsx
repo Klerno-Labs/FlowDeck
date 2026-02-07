@@ -106,16 +106,16 @@ export default function ProductsPage() {
                       {/* Left Side - Brand Logo */}
                       <div className="flex items-center justify-center">
                         {category.id === 'ls' && (
-                          <Image src="/logos/brands/ClarifyWhite.png" alt="Clarify" width={280} height={110} className="h-24 w-auto drop-shadow-lg" />
+                          <Image src="/logos/brands/ClarifyColor-Edited.png" alt="Clarify" width={320} height={120} className="h-28 w-auto" />
                         )}
                         {category.id === 'll' && (
-                          <Image src="/logos/brands/StrataWhite.png" alt="Strata" width={280} height={110} className="h-24 w-auto drop-shadow-lg" />
+                          <Image src="/logos/brands/StrataColor-Edited.png" alt="Strata" width={320} height={120} className="h-28 w-auto" />
                         )}
                         {category.id === 'gl' && (
-                          <Image src="/logos/brands/CyphonWhite.png" alt="Cyphon" width={280} height={110} className="h-24 w-auto drop-shadow-lg" />
+                          <Image src="/logos/brands/CyphonColor-Edited.png" alt="Cyphon" width={320} height={120} className="h-28 w-auto" />
                         )}
                         {category.id === 'gs' && (
-                          <Image src="/logos/brands/SeprumWhite.png" alt="Seprum" width={280} height={110} className="h-24 w-auto drop-shadow-lg" />
+                          <Image src="/logos/brands/SeprumColor-Edited.png" alt="Seprum" width={320} height={120} className="h-28 w-auto" />
                         )}
                       </div>
 
