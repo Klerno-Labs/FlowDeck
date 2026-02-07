@@ -152,11 +152,11 @@ export default function ProductsPage() {
                       </div>
 
                       {/* Right Side - Text */}
-                      <div className="flex-1 text-right">
-                        <h2 className="text-5xl font-bold text-white tracking-wider leading-tight drop-shadow-lg">
+                      <div className="flex-1 text-right pr-4">
+                        <h2 className="text-6xl font-black text-white tracking-[0.15em] leading-none mb-4">
                           {category.name}
                         </h2>
-                        <p className="text-2xl font-semibold text-white/90 mt-2 tracking-wide">
+                        <p className="text-3xl font-bold text-white tracking-[0.2em]">
                           {category.subtitle || 'FILTRATION'}
                         </p>
                       </div>
