@@ -11,7 +11,7 @@ export default function ProductsPage() {
     {
       id: 'ls',
       code: 'LS',
-      name: 'LIQUID | SOLID',
+      name: 'LIQUID SOLID',
       slug: 'liquid-solid',
       bgColor: 'bg-[#F17A2C]',
       customLayout: true,
@@ -20,7 +20,7 @@ export default function ProductsPage() {
     {
       id: 'll',
       code: 'LL',
-      name: 'LIQUID | LIQUID',
+      name: 'LIQUID LIQUID',
       slug: 'liquid-liquid',
       bgColor: 'bg-[#00B4D8]',
       customLayout: true,
@@ -29,7 +29,7 @@ export default function ProductsPage() {
     {
       id: 'gl',
       code: 'GL',
-      name: 'GAS | LIQUID',
+      name: 'GAS LIQUID',
       slug: 'gas-liquid',
       bgColor: 'bg-[#4169E1]',
       customLayout: true,
@@ -38,7 +38,7 @@ export default function ProductsPage() {
     {
       id: 'gs',
       code: 'GS',
-      name: 'GAS | SOLID',
+      name: 'GAS SOLID',
       slug: 'gas-solid',
       bgColor: 'bg-[#7AC142]',
       customLayout: true,
