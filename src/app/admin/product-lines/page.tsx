@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
-import { Plus, Pencil, Trash2, FolderTree, Loader2, Search } from 'lucide-react';
+import { Plus, Pencil, Trash2, FolderTree, Loader2, Search, Sparkles } from 'lucide-react';
 import Image from 'next/image';
 
 interface ProductLine {
@@ -110,13 +110,22 @@ export default function ProductLinesPage() {
             {productLines.length} total product lines • {filteredLines.length} shown
           </p>
         </div>
-        <button
-          onClick={handleCreate}
-          className="inline-flex items-center gap-3 px-8 py-4 bg-purple-600 text-white rounded-2xl hover:shadow-xl hover:scale-105 transition-all text-lg font-bold shadow-lg shadow-purple-500/30 active:scale-95 touch-manipulation"
-        >
-          <Plus className="w-6 h-6" />
-          Add Product Line
-        </button>
+        <div className="flex gap-4">
+          <button
+            onClick={() => window.location.href = '/admin/product-lines/edit'}
+            className="inline-flex items-center gap-3 px-8 py-4 bg-gradient-to-r from-purple-600 to-indigo-600 text-white rounded-2xl hover:shadow-xl hover:scale-105 transition-all text-lg font-bold shadow-lg shadow-purple-500/30 active:scale-95 touch-manipulation"
+          >
+            <Sparkles className="w-6 h-6" />
+            Visual Editor
+          </button>
+          <button
+            onClick={handleCreate}
+            className="inline-flex items-center gap-3 px-8 py-4 bg-purple-600 text-white rounded-2xl hover:shadow-xl hover:scale-105 transition-all text-lg font-bold shadow-lg shadow-purple-500/30 active:scale-95 touch-manipulation"
+          >
+            <Plus className="w-6 h-6" />
+            Add Product Line
+          </button>
+        </div>
       </div>
 
       {/* Filters */}

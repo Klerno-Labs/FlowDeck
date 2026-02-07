@@ -3,7 +3,7 @@
 import { useState, useEffect, useRef } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
-import { Plus, Edit, Search, Loader2, Package } from 'lucide-react';
+import { Plus, Edit, Search, Loader2, Package, Sparkles } from 'lucide-react';
 import Image from 'next/image';
 import { useKeyboardShortcuts } from '@/lib/hooks/useKeyboardShortcuts';
 import { KeyboardShortcutsModal } from '@/components/ui/KeyboardShortcutsModal';
@@ -80,13 +80,22 @@ export default function ProductsAdminPage() {
             {products.length} total products • {filteredProducts.length} shown
           </p>
         </div>
-        <Link
-          href="/admin/products/new"
-          className="inline-flex items-center gap-3 px-8 py-4 bg-blue-600 text-white rounded-2xl hover:shadow-xl hover:scale-105 transition-all text-lg font-bold shadow-lg shadow-blue-500/30 active:scale-95 touch-manipulation"
-        >
-          <Plus className="w-6 h-6" />
-          Add Product
-        </Link>
+        <div className="flex gap-4">
+          <Link
+            href="/admin/products/edit"
+            className="inline-flex items-center gap-3 px-8 py-4 bg-gradient-to-r from-blue-600 to-cyan-600 text-white rounded-2xl hover:shadow-xl hover:scale-105 transition-all text-lg font-bold shadow-lg shadow-blue-500/30 active:scale-95 touch-manipulation"
+          >
+            <Sparkles className="w-6 h-6" />
+            Visual Editor
+          </Link>
+          <Link
+            href="/admin/products/new"
+            className="inline-flex items-center gap-3 px-8 py-4 bg-blue-600 text-white rounded-2xl hover:shadow-xl hover:scale-105 transition-all text-lg font-bold shadow-lg shadow-blue-500/30 active:scale-95 touch-manipulation"
+          >
+            <Plus className="w-6 h-6" />
+            Add Product
+          </Link>
+        </div>
       </div>
 
       {/* Search Bar - iPad Optimized */}

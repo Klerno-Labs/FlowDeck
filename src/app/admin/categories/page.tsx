@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
-import { Layers, Plus, Pencil, Trash2, Loader2 } from 'lucide-react';
+import { Layers, Plus, Pencil, Trash2, Loader2, Sparkles } from 'lucide-react';
 import { showToast } from '@/components/ui/Toast';
 
 interface Category {
@@ -87,13 +87,22 @@ export default function CategoriesPage() {
             {categories.length} categories • Manage product separation types
           </p>
         </div>
-        <button
-          onClick={handleCreate}
-          className="inline-flex items-center gap-3 px-8 py-4 bg-green-600 text-white rounded-2xl hover:shadow-xl hover:scale-105 transition-all text-lg font-bold shadow-lg shadow-green-500/30 active:scale-95 touch-manipulation"
-        >
-          <Plus className="w-6 h-6" />
-          Add Category
-        </button>
+        <div className="flex gap-4">
+          <button
+            onClick={() => router.push('/admin/categories/edit')}
+            className="inline-flex items-center gap-3 px-8 py-4 bg-gradient-to-r from-purple-600 to-indigo-600 text-white rounded-2xl hover:shadow-xl hover:scale-105 transition-all text-lg font-bold shadow-lg shadow-purple-500/30 active:scale-95 touch-manipulation"
+          >
+            <Sparkles className="w-6 h-6" />
+            Visual Editor
+          </button>
+          <button
+            onClick={handleCreate}
+            className="inline-flex items-center gap-3 px-8 py-4 bg-green-600 text-white rounded-2xl hover:shadow-xl hover:scale-105 transition-all text-lg font-bold shadow-lg shadow-green-500/30 active:scale-95 touch-manipulation"
+          >
+            <Plus className="w-6 h-6" />
+            Add Category
+          </button>
+        </div>
       </div>
 
       {categories.length === 0 ? (
