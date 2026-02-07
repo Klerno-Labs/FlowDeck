@@ -3,6 +3,23 @@ import Link from 'next/link';
 import { Home, Download, Mail } from 'lucide-react';
 import * as db from '@/lib/db/products';
 
+// Force dynamic rendering to always fetch fresh data
+export const dynamic = 'force-dynamic';
+export const revalidate = 0;
+
+// Mapping of product lines to their specification sheet images
+const specificationSheets: Record<string, string> = {
+  'clarify': '/images/specifications/clarify-specs.jpg',
+  'sieva': '/images/specifications/sieva-torrent-specs.jpg',
+  'torrent': '/images/specifications/torrent-maxout-specs.jpg',
+  'invicta': '/images/specifications/sieva-torrent-specs.jpg',
+  'strata': '/images/specifications/clarify-specs.jpg',
+  'cyphon': '/images/specifications/gas-specs.jpg',
+  'tersus': '/images/specifications/seprum-tersus-specs.jpg',
+  'seprum': '/images/specifications/seprum-tersus-specs.jpg',
+  'vessels': '/images/specifications/clarify-specs.jpg', // Default for vessels
+};
+
 export default async function ProductDetailPage({
   params,
 }: {
@@ -10,8 +27,8 @@ export default async function ProductDetailPage({
 }) {
   const { categoryId, productLineId, productId } = params;
 
-  // Fetch product with specifications from database
-  const productData = await db.getProductWithSpecsBySlug(productId);
+  // Fetch product from database
+  const productData = await db.getProductBySlug(productId);
 
   // Map category slugs to codes
   const categoryMap: Record<string, string> = {
@@ -51,19 +68,8 @@ export default async function ProductDetailPage({
     );
   }
 
-  // Transform specifications from database format to display format
-  const specs: Record<string, any> = {};
-  if (productData.specs) {
-    productData.specs.forEach((spec) => {
-      try {
-        // Parse the JSON value
-        specs[spec.spec_key] = JSON.parse(spec.spec_value);
-      } catch {
-        // If not JSON, use as-is
-        specs[spec.spec_key] = spec.spec_value;
-      }
-    });
-  }
+  // Get the specification sheet for this product line
+  const specSheet = specificationSheets[productLineId] || specificationSheets['clarify'];
 
   return (
     <div className="fixed inset-0 bg-ftc-lightBlue overflow-hidden">
@@ -115,27 +121,17 @@ export default async function ProductDetailPage({
                   )}
                 </div>
 
-                {/* Right: Specifications */}
-                <div className="flex-1 overflow-y-auto pr-4 bg-white/10 backdrop-blur-sm rounded-3xl p-8 border-2 border-white/20">
-                  <div className="space-y-4 text-white">
-                    {Object.entries(specs).map(([key, value]) => (
-                      <div key={key} className="grid grid-cols-[45%_55%] gap-6 text-sm">
-                        <div className="font-bold text-right pr-4 text-white/90">
-                          {key}
-                        </div>
-                        <div className="pl-4 border-l-2 border-white/30">
-                          {Array.isArray(value) ? (
-                            <div className="space-y-1">
-                              {value.map((item, idx) => (
-                                <div key={idx} className="text-white">{item}</div>
-                              ))}
-                            </div>
-                          ) : (
-                            <span className="text-white">{String(value)}</span>
-                          )}
-                        </div>
-                      </div>
-                    ))}
+                {/* Right: Specifications Sheet */}
+                <div className="flex-1 overflow-y-auto bg-white/10 backdrop-blur-sm rounded-3xl p-6 border-2 border-white/20">
+                  <div className="bg-white rounded-2xl p-4 shadow-xl">
+                    <Image
+                      src={specSheet}
+                      alt={`${productLineId.toUpperCase()} Specifications`}
+                      width={1200}
+                      height={1600}
+                      className="w-full h-auto"
+                      priority
+                    />
                   </div>
                 </div>
               </div>
