@@ -27,8 +27,14 @@ export default async function ProductDetailPage({
 }) {
   const { categoryId, productLineId, productId } = params;
 
-  // Fetch product from database
-  const productData = await db.getProductBySlug(productId);
+  // Fetch product from database with error handling
+  let productData;
+  try {
+    productData = await db.getProductBySlug(productId);
+  } catch (error) {
+    console.error('Error fetching product:', error);
+    productData = null;
+  }
 
   // Map category slugs to codes
   const categoryMap: Record<string, string> = {
