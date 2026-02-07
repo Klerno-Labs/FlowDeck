@@ -56,6 +56,9 @@ export default async function ProductDetailPage({
 
   const bgColor = categoryColors[categoryId] || 'bg-gray-400';
 
+  // Get the specification sheet for this product line
+  const specSheet = specificationSheets[productLineId] || specificationSheets['clarify'];
+
   // If product not found, show fallback
   if (!productData) {
     return (
@@ -73,9 +76,6 @@ export default async function ProductDetailPage({
       </div>
     );
   }
-
-  // Get the specification sheet for this product line
-  const specSheet = specificationSheets[productLineId] || specificationSheets['clarify'];
 
   return (
     <div className="fixed inset-0 bg-ftc-lightBlue overflow-hidden">
