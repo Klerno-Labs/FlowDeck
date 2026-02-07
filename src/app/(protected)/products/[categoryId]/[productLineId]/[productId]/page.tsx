@@ -137,6 +137,7 @@ export default async function ProductDetailPage({
                       height={1600}
                       className="w-full h-auto"
                       priority
+                      unoptimized
                     />
                   </div>
                 </div>
