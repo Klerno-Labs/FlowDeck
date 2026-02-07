@@ -103,38 +103,20 @@ export default function ProductsPage() {
                       onClick={() => router.push(`/products/${category.slug}`)}
                       className={`${category.bgColor} rounded-3xl flex flex-row items-center justify-between px-12 py-10 transition-all hover:scale-[1.02] active:scale-[0.98] touch-manipulation group relative overflow-hidden shadow-2xl`}
                     >
-                      {/* Left Side - Brand Logos and Badge */}
-                      <div className="flex flex-col items-center gap-4">
-                        {/* Brand Logos */}
-                        <div className="flex flex-wrap items-center justify-center gap-3 max-w-[220px]">
-                          {category.id === 'ls' && (
-                            <>
-                              <Image src="/logos/brands/ClarifyColor.png" alt="Clarify" width={90} height={35} className="h-7 w-auto" />
-                              <Image src="/logos/brands/SievaColor.png" alt="Sieva" width={90} height={35} className="h-7 w-auto" />
-                              <Image src="/logos/brands/TorrentColor.png" alt="Torrent" width={90} height={35} className="h-7 w-auto" />
-                              <Image src="/logos/brands/InvictaColor.png" alt="Invicta" width={90} height={35} className="h-7 w-auto" />
-                            </>
-                          )}
-                          {category.id === 'll' && (
-                            <Image src="/logos/brands/StrataColor.png" alt="Strata" width={120} height={45} className="h-9 w-auto" />
-                          )}
-                          {category.id === 'gl' && (
-                            <Image src="/logos/brands/CyphonColor.png" alt="Cyphon" width={120} height={45} className="h-9 w-auto" />
-                          )}
-                          {category.id === 'gs' && (
-                            <>
-                              <Image src="/logos/brands/TersusColor.png" alt="Tersus" width={100} height={40} className="h-8 w-auto" />
-                              <Image src="/logos/brands/SeprumColor.png" alt="Seprum" width={100} height={40} className="h-8 w-auto" />
-                            </>
-                          )}
-                        </div>
-
-                        {/* Category Badge */}
-                        <div className="w-16 h-16 rounded-full bg-white shadow-lg flex items-center justify-center">
-                          <span className="text-3xl font-bold" style={{ color: category.bgColor.replace('bg-[', '').replace(']', '') }}>
-                            {category.code}
-                          </span>
-                        </div>
+                      {/* Left Side - Brand Logo */}
+                      <div className="flex items-center justify-center">
+                        {category.id === 'ls' && (
+                          <Image src="/logos/brands/ClarifyColor.png" alt="Clarify" width={180} height={70} className="h-16 w-auto" />
+                        )}
+                        {category.id === 'll' && (
+                          <Image src="/logos/brands/StrataColor.png" alt="Strata" width={180} height={70} className="h-16 w-auto" />
+                        )}
+                        {category.id === 'gl' && (
+                          <Image src="/logos/brands/CyphonColor.png" alt="Cyphon" width={180} height={70} className="h-16 w-auto" />
+                        )}
+                        {category.id === 'gs' && (
+                          <Image src="/logos/brands/SeprumColor.png" alt="Seprum" width={180} height={70} className="h-16 w-auto" />
+                        )}
                       </div>
 
                       {/* Right Side - Text */}
