@@ -80,6 +80,7 @@ export default function EditProductPage() {
     if (params.id) {
       fetchProduct();
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [params.id]);
 
   async function fetchProduct() {
@@ -370,7 +371,7 @@ export default function EditProductPage() {
                 <div className="text-center py-12">
                   <Package className="w-12 h-12 text-gray-300 mx-auto mb-3" />
                   <p className="text-base text-gray-500">No specifications yet</p>
-                  <p className="text-sm text-gray-400 mt-1">Click "Manage Specs" to add specifications</p>
+                  <p className="text-sm text-gray-400 mt-1">Click &ldquo;Manage Specs&rdquo; to add specifications</p>
                 </div>
               )}
             </div>
