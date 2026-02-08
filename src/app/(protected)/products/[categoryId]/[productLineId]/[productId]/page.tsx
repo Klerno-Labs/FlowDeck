@@ -1,4 +1,5 @@
 import Image from 'next/image';
+import Link from 'next/link';
 import * as db from '@/lib/db/products';
 import ProductActions from './ProductActions';
 
@@ -56,12 +57,16 @@ export default async function ProductDetailPage({
             <div className={`${bgColor} rounded-[2rem] overflow-hidden h-full flex flex-col relative`}>
               {/* Top Left - Product Line Logo and Name */}
               <div className="absolute top-10 left-10 z-10 flex items-center gap-6">
-                {/* Category Badge */}
-                <div className="w-16 h-16 rounded-full bg-white shadow-lg flex items-center justify-center">
+                {/* Category Badge - Back Button */}
+                <Link
+                  href={`/products/${categoryId}`}
+                  className="w-16 h-16 rounded-full bg-white shadow-lg flex items-center justify-center hover:scale-110 transition-transform cursor-pointer"
+                  aria-label="Back to category"
+                >
                   <span className="text-2xl font-bold" style={{ color: hexColor }}>
                     {categoryCode}
                   </span>
-                </div>
+                </Link>
 
                 {/* Product Line Name */}
                 <div className="border-l-4 border-white/50 pl-6">
