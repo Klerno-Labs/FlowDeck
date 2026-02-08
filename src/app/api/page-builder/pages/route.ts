@@ -28,7 +28,7 @@ export async function GET() {
       ORDER BY page_title ASC`
     );
 
-    return NextResponse.json({ pages: result.rows });
+    return NextResponse.json({ pages: result });
   } catch (err) {
     console.error('Failed to fetch pages:', err);
     return NextResponse.json(

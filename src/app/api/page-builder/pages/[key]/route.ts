@@ -46,14 +46,14 @@ export async function GET(
       [params.key]
     );
 
-    if (result.rows.length === 0) {
+    if (result.length === 0) {
       return NextResponse.json(
         { error: 'Page not found' },
         { status: 404 }
       );
     }
 
-    return NextResponse.json({ page: result.rows[0] });
+    return NextResponse.json({ page: result[0] });
   } catch (err) {
     console.error('Failed to fetch page:', err);
     return NextResponse.json(
@@ -104,7 +104,7 @@ export async function PATCH(
       [params.key, JSON.stringify(validatedData.config), session?.user?.id]
     );
 
-    if (result.rows.length === 0) {
+    if (result.length === 0) {
       return NextResponse.json(
         { error: 'Page not found' },
         { status: 404 }
@@ -112,7 +112,7 @@ export async function PATCH(
     }
 
     return NextResponse.json({
-      page: result.rows[0],
+      page: result[0],
       message: 'Page updated successfully',
     });
   } catch (err) {

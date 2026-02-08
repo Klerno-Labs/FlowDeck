@@ -25,7 +25,7 @@ export async function POST(
       [params.key, session?.user?.id]
     );
 
-    if (result.rows.length === 0) {
+    if (result.length === 0) {
       return NextResponse.json(
         { error: 'Page not found' },
         { status: 404 }
@@ -33,7 +33,7 @@ export async function POST(
     }
 
     return NextResponse.json({
-      page: result.rows[0],
+      page: result[0],
       message: 'Page published successfully',
     });
   } catch (err) {
