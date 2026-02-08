@@ -2,7 +2,7 @@ import { auth } from '@/lib/auth/auth';
 import { redirect } from 'next/navigation';
 import Link from 'next/link';
 import Image from 'next/image';
-import { Home, Package, Layers, LayoutGrid } from 'lucide-react';
+import { Home, Package, Layers, LayoutGrid, Palette } from 'lucide-react';
 import { ToastContainer } from '@/components/ui/Toast';
 import { UserMenu } from '@/components/admin/UserMenu';
 
@@ -46,6 +46,7 @@ export default async function AdminLayout({
                       {/* Navigation Tabs */}
                       <div className="flex items-center gap-2 ml-8">
                         <NavTab href="/admin" icon={<Home className="w-5 h-5" />} label="Dashboard" />
+                        <NavTab href="/admin/page-builder" icon={<Palette className="w-5 h-5" />} label="Page Builder" />
                         <NavTab href="/admin/products" icon={<Package className="w-5 h-5" />} label="Products" />
                         <NavTab href="/admin/categories" icon={<Layers className="w-5 h-5" />} label="Categories" />
                         <NavTab href="/admin/product-lines" icon={<Layers className="w-5 h-5" />} label="Product Lines" />
