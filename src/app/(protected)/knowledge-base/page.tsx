@@ -29,7 +29,7 @@ export default function KnowledgeBasePage() {
           'Impact on downstream equipment',
         ],
       },
-      image: '/images/john-paraskeva.jpg',
+      image: '/images/knowledge-base/bad-tattoo.jpg',
       quote: "There's always\nsomeone who will\ndo it cheaper.",
     },
     {
@@ -48,7 +48,7 @@ export default function KnowledgeBasePage() {
           '(Exchangers, Pumps, Tower Trays, Spray Nozzles, Control Valves, etc.)',
         ],
       },
-      image: '/images/products/filter-vessel.png',
+      image: '/images/knowledge-base/filter-vessel.png',
       quote: null,
     },
   ];
