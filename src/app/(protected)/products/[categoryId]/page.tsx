@@ -98,21 +98,21 @@ export default function CategoryProductsPage() {
           <div className="bg-black rounded-[2.5rem] p-2 h-full">
             {/* Screen */}
             <div className={`${bgColor} rounded-[2rem] overflow-hidden h-full flex flex-col relative`}>
-              {/* Navigation - Top Right */}
-              <div className="absolute top-8 right-8 z-20 flex items-center gap-4">
+              {/* Navigation - Bottom Right */}
+              <div className="absolute bottom-8 right-8 z-20 flex items-center gap-4">
                 <button
                   onClick={() => router.push('/products')}
-                  className="w-14 h-14 rounded-full bg-gray-900/95 hover:bg-gray-900 shadow-2xl ring-2 ring-white/20 transition-all flex items-center justify-center"
+                  className="w-14 h-14 rounded-full bg-white/90 hover:bg-white shadow-lg transition-all flex items-center justify-center"
                   aria-label="Back to categories"
                 >
-                  <ArrowLeft className="w-6 h-6 text-white" />
+                  <ArrowLeft className="w-6 h-6 text-gray-700" />
                 </button>
                 <button
                   onClick={() => router.push('/home')}
-                  className="w-14 h-14 rounded-full bg-gray-900/95 hover:bg-gray-900 shadow-2xl ring-2 ring-white/20 transition-all flex items-center justify-center"
+                  className="w-14 h-14 rounded-full bg-white/90 hover:bg-white shadow-lg transition-all flex items-center justify-center"
                   aria-label="Home"
                 >
-                  <Home className="w-6 h-6 text-white" />
+                  <Home className="w-6 h-6 text-gray-700" />
                 </button>
               </div>
 
