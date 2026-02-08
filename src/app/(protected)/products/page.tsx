@@ -100,44 +100,44 @@ export default function ProductsPage() {
                       <div className="flex items-center justify-center">
                         {category.id === 'ls' && (
                           <Image
-                            src="/logos/brands/ClarifyWhite.png"
+                            src="/logos/brands/ClarifyColor-Edited.png"
                             alt="Clarify"
                             width={400}
                             height={150}
-                            className="h-36 w-auto drop-shadow-2xl"
+                            className="h-36 w-auto drop-shadow-2xl brightness-0 invert"
                             quality={100}
                             priority
                           />
                         )}
                         {category.id === 'll' && (
                           <Image
-                            src="/logos/brands/StrataWhite.png"
+                            src="/logos/brands/StrataColor-Edited.png"
                             alt="Strata"
                             width={400}
                             height={150}
-                            className="h-36 w-auto drop-shadow-2xl"
+                            className="h-36 w-auto drop-shadow-2xl brightness-0 invert"
                             quality={100}
                             priority
                           />
                         )}
                         {category.id === 'gl' && (
                           <Image
-                            src="/logos/brands/CyphonWhite.png"
+                            src="/logos/brands/CyphonColor-Edited.png"
                             alt="Cyphon"
                             width={400}
                             height={150}
-                            className="h-36 w-auto drop-shadow-2xl"
+                            className="h-36 w-auto drop-shadow-2xl brightness-0 invert"
                             quality={100}
                             priority
                           />
                         )}
                         {category.id === 'gs' && (
                           <Image
-                            src="/logos/brands/SeprumWhite.png"
+                            src="/logos/brands/SeprumColor-Edited.png"
                             alt="Seprum"
                             width={400}
                             height={150}
-                            className="h-36 w-auto drop-shadow-2xl"
+                            className="h-36 w-auto drop-shadow-2xl brightness-0 invert"
                             quality={100}
                             priority
                           />
