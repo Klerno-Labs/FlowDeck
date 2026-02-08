@@ -2,19 +2,6 @@ import Image from 'next/image';
 import * as db from '@/lib/db/products';
 import ProductActions from './ProductActions';
 
-// Mapping of product lines to their specification sheet images
-const specificationSheets: Record<string, string> = {
-  'clarify': '/images/specifications/clarify-specs.jpg',
-  'sieva': '/images/specifications/sieva-torrent-specs.jpg',
-  'torrent': '/images/specifications/torrent-maxout-specs.jpg',
-  'invicta': '/images/specifications/sieva-torrent-specs.jpg',
-  'strata': '/images/specifications/clarify-specs.jpg',
-  'cyphon': '/images/specifications/gas-specs.jpg',
-  'tersus': '/images/specifications/seprum-tersus-specs.jpg',
-  'seprum': '/images/specifications/seprum-tersus-specs.jpg',
-  'vessels': '/images/specifications/clarify-specs.jpg',
-};
-
 export default async function ProductDetailPage({
   params,
 }: {
@@ -22,10 +9,10 @@ export default async function ProductDetailPage({
 }) {
   const { categoryId, productLineId, productId } = params;
 
-  // Fetch product from database with error handling
+  // Fetch product with specifications from database
   let productData;
   try {
-    productData = await db.getProductBySlug(productId);
+    productData = await db.getProductWithSpecsBySlug(productId);
   } catch (error) {
     console.error('Error fetching product:', error);
     productData = null;
@@ -51,9 +38,6 @@ export default async function ProductDetailPage({
 
   const bgColor = categoryColors[categoryId] || 'bg-gray-400';
   const hexColor = bgColor.replace('bg-[', '').replace(']', '');
-
-  // Get the specification sheet for this product line
-  const specSheet = specificationSheets[productLineId] || specificationSheets['clarify'];
 
   // Provide fallback data if product not in database
   const product = productData || {
@@ -111,15 +95,41 @@ export default async function ProductDetailPage({
                   )}
                 </div>
 
-                {/* Right: Specifications Sheet */}
+                {/* Right: Specifications */}
                 <div className="flex-1 overflow-y-auto bg-white/10 backdrop-blur-sm rounded-3xl p-6 border-2 border-white/20">
-                  <div className="bg-white rounded-2xl p-4 shadow-xl">
-                    {/* eslint-disable-next-line @next/next/no-img-element */}
-                    <img
-                      src={specSheet}
-                      alt={`${productLineId.toUpperCase()} Specifications`}
-                      className="w-full h-auto"
-                    />
+                  <div className="bg-white rounded-2xl p-6 shadow-xl">
+                    <h3 className="text-2xl font-bold mb-6 text-gray-900">Product Specifications</h3>
+                    {productData?.specs && productData.specs.length > 0 ? (
+                      <div className="space-y-4">
+                        {productData.specs.map((spec, index) => {
+                          let value;
+                          try {
+                            value = JSON.parse(spec.spec_value);
+                          } catch {
+                            value = spec.spec_value;
+                          }
+
+                          return (
+                            <div key={index} className="border-b border-gray-200 pb-4 last:border-0">
+                              <div className="font-semibold text-gray-900 mb-2">{spec.spec_key}</div>
+                              <div className="text-gray-700">
+                                {Array.isArray(value) ? (
+                                  <ul className="list-disc list-inside space-y-1">
+                                    {value.map((item, idx) => (
+                                      <li key={idx}>{item}</li>
+                                    ))}
+                                  </ul>
+                                ) : (
+                                  <p>{String(value)}</p>
+                                )}
+                              </div>
+                            </div>
+                          );
+                        })}
+                      </div>
+                    ) : (
+                      <p className="text-gray-500">No specifications available for this product.</p>
+                    )}
                   </div>
                 </div>
               </div>
