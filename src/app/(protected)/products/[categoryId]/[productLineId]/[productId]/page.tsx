@@ -57,16 +57,12 @@ export default async function ProductDetailPage({
             <div className={`${bgColor} rounded-[2rem] overflow-hidden h-full flex flex-col relative`}>
               {/* Top Left - Product Line Logo and Name */}
               <div className="absolute top-10 left-10 z-10 flex items-center gap-6">
-                {/* Category Badge - Back Button */}
-                <Link
-                  href={`/products/${categoryId}`}
-                  className="w-16 h-16 rounded-full bg-white shadow-lg flex items-center justify-center hover:scale-110 transition-transform cursor-pointer"
-                  aria-label="Back to category"
-                >
+                {/* Category Badge */}
+                <div className="w-16 h-16 rounded-full bg-white shadow-lg flex items-center justify-center">
                   <span className="text-2xl font-bold" style={{ color: hexColor }}>
                     {categoryCode}
                   </span>
-                </Link>
+                </div>
 
                 {/* Product Line Name */}
                 <div className="border-l-4 border-white/50 pl-6">
@@ -151,7 +147,11 @@ export default async function ProductDetailPage({
               </div>
 
               {/* Navigation & Actions - Bottom Right (Client Component) */}
-              <ProductActions bgColor={bgColor} />
+              <ProductActions
+                bgColor={bgColor}
+                categoryId={categoryId}
+                productLineId={productLineId}
+              />
             </div>
           </div>
         </div>
