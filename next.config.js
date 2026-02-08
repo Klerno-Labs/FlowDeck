@@ -37,23 +37,23 @@ const securityHeaders = [
     key: 'Permissions-Policy',
     value: 'camera=(), microphone=(), geolocation=(), interest-cohort=()'
   },
-  // Content Security Policy
-  {
-    key: 'Content-Security-Policy',
-    value: [
-      "default-src 'self'",
-      "script-src 'self' 'unsafe-eval' 'unsafe-inline' https://cdn.sanity.io",
-      "style-src 'self' 'unsafe-inline'",
-      "img-src 'self' data: https://cdn.sanity.io blob:",
-      "font-src 'self' data:",
-      "connect-src 'self' https://*.sanity.io wss://*.sanity.io https://*.vercel.app",
-      "frame-src 'self' https://*.sanity.io",
-      "frame-ancestors 'none'",
-      "base-uri 'self'",
-      "form-action 'self'",
-      "object-src 'none'",
-    ].join('; ')
-  }
+  // Content Security Policy - Temporarily disabled to debug CSS MIME type issue
+  // {
+  //   key: 'Content-Security-Policy',
+  //   value: [
+  //     "default-src 'self'",
+  //     "script-src 'self' 'unsafe-eval' 'unsafe-inline' https://cdn.sanity.io",
+  //     "style-src 'self' 'unsafe-inline'",
+  //     "img-src 'self' data: https://cdn.sanity.io blob:",
+  //     "font-src 'self' data:",
+  //     "connect-src 'self' https://*.sanity.io wss://*.sanity.io https://*.vercel.app",
+  //     "frame-src 'self' https://*.sanity.io",
+  //     "frame-ancestors 'none'",
+  //     "base-uri 'self'",
+  //     "form-action 'self'",
+  //     "object-src 'none'",
+  //   ].join('; ')
+  // }
 ];
 
 const nextConfig = {
