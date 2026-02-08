@@ -120,14 +120,11 @@ export default async function ProductDetailPage({
                 {/* Right: Specifications Sheet */}
                 <div className="flex-1 overflow-y-auto bg-white/10 backdrop-blur-sm rounded-3xl p-6 border-2 border-white/20">
                   <div className="bg-white rounded-2xl p-4 shadow-xl">
-                    <Image
+                    {/* eslint-disable-next-line @next/next/no-img-element */}
+                    <img
                       src={specSheet}
                       alt={`${productLineId.toUpperCase()} Specifications`}
-                      width={1200}
-                      height={1600}
                       className="w-full h-auto"
-                      priority
-                      unoptimized
                     />
                   </div>
                 </div>
