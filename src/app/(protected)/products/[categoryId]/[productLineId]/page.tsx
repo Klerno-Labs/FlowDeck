@@ -1,6 +1,6 @@
 import Image from 'next/image';
 import Link from 'next/link';
-import { Home } from 'lucide-react';
+import { Home, ArrowLeft } from 'lucide-react';
 import * as db from '@/lib/db/products';
 
 // Force dynamic rendering to always fetch fresh data
@@ -145,6 +145,13 @@ export default async function ProductLineDetailPage({
 
               {/* Navigation - Bottom Right */}
               <div className="absolute bottom-8 right-8 z-10 flex items-center gap-4">
+                <Link
+                  href={`/products/${categoryId}`}
+                  className="w-14 h-14 rounded-full bg-white/90 hover:bg-white shadow-lg transition-all flex items-center justify-center"
+                  aria-label="Back to category"
+                >
+                  <ArrowLeft className="w-6 h-6" style={{ color: bgColor.replace('bg-[', '').replace(']', '') }} />
+                </Link>
                 <Link
                   href="/home"
                   className="w-14 h-14 rounded-full bg-white/90 hover:bg-white shadow-lg transition-all flex items-center justify-center"
