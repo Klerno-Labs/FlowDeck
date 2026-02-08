@@ -2,7 +2,7 @@
 
 import Image from 'next/image';
 import { useRouter, useParams } from 'next/navigation';
-import { Home, Mail, ArrowLeft } from 'lucide-react';
+import { FlowDeckPage } from '@/components/layout/FlowDeckPage';
 
 export default function CategoryProductsPage() {
   const router = useRouter();
@@ -90,46 +90,16 @@ export default function CategoryProductsPage() {
   const bgColor = categoryColors[categoryId] || 'bg-gray-400';
 
   return (
-    <div className="fixed inset-0 bg-ftc-lightBlue overflow-hidden">
-      <div className="h-full w-full flex items-center justify-center p-8">
-        {/* Main Tablet Container */}
-        <div className="w-full max-w-6xl h-[90vh] relative z-20">
-          {/* Tablet Frame */}
-          <div className="bg-black rounded-[2.5rem] p-2 h-full">
-            {/* Screen */}
-            <div className={`${bgColor} rounded-[2rem] overflow-hidden h-full flex flex-col relative`}>
-              {/* Navigation - Bottom Right */}
-              <div className="absolute bottom-8 right-8 z-20 flex items-center gap-4">
-                <button
-                  onClick={() => router.push('/products')}
-                  className="w-14 h-14 rounded-full bg-white/90 hover:bg-white shadow-lg transition-all flex items-center justify-center"
-                  aria-label="Back to categories"
-                >
-                  <ArrowLeft className="w-6 h-6 text-gray-700" />
-                </button>
-                <button
-                  onClick={() => router.push('/home')}
-                  className="w-14 h-14 rounded-full bg-white/90 hover:bg-white shadow-lg transition-all flex items-center justify-center"
-                  aria-label="Home"
-                >
-                  <Home className="w-6 h-6 text-gray-700" />
-                </button>
-              </div>
-
-              {/* FTC Logo - Top Center */}
-              <div className="absolute top-4 left-1/2 -translate-x-1/2 z-10">
-                <Image
-                  src="/logos/ftc/FTC_LogoNotag.png"
-                  alt="FTC Logo"
-                  width={120}
-                  height={40}
-                  className="h-8 w-auto"
-                  priority
-                />
-              </div>
-
-              {/* Main Content */}
-              <div className="h-full w-full p-8 pt-20 pb-16">
+    <FlowDeckPage
+      section="products"
+      showHome={true}
+      showBack={true}
+      backTo="/products"
+      logoPosition="bottom-left"
+      backgroundColor={bgColor}
+    >
+      {/* Main Content */}
+      <div className="h-full w-full p-8 pt-20 pb-16">
                 {categoryId === 'gas-solid' ? (
                   /* Gas-Solid: 2 Brands (left) + Vessels (right) */
                   <div className="h-full w-full flex gap-8">
@@ -269,35 +239,12 @@ export default function CategoryProductsPage() {
                 )}
               </div>
 
-              {/* FTC Logo - Bottom Left */}
-              <div className="absolute bottom-6 left-6 z-10">
-                <Image
-                  src="/logos/ftc/FTC_LogoNotag.png"
-                  alt="FTC"
-                  width={80}
-                  height={30}
-                  className="h-8 w-auto opacity-80 drop-shadow-lg"
-                />
-              </div>
-
-              {/* Category Name - Bottom Right */}
-              <div className="absolute bottom-6 right-6 z-10">
-                <span className="text-sm text-white font-bold tracking-wider drop-shadow-lg">
-                  {categoryNames[categoryId] || categoryId.toUpperCase()}
-                </span>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        {/* Bottom Right Color Bars */}
-        <div className="absolute bottom-0 right-0 flex h-12 w-[40vw] max-w-[500px]">
-          <div className="flex-1 bg-orange-500"></div>
-          <div className="flex-1 bg-blue-700"></div>
-          <div className="flex-1 bg-green-500"></div>
-          <div className="flex-1 bg-cyan-400"></div>
-        </div>
+      {/* Category Name - Bottom Right */}
+      <div className="absolute bottom-6 right-6 z-10">
+        <span className="text-sm text-white font-bold tracking-wider drop-shadow-lg">
+          {categoryNames[categoryId] || categoryId.toUpperCase()}
+        </span>
       </div>
-    </div>
+    </FlowDeckPage>
   );
 }

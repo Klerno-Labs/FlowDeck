@@ -2,32 +2,21 @@
 
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
-import { Home, Mail, ArrowLeft, ChevronRight } from 'lucide-react';
+import { Mail, ChevronRight } from 'lucide-react';
+import { FlowDeckPage } from '@/components/layout/FlowDeckPage';
 
 export default function IntroductionPage() {
   const router = useRouter();
 
   return (
-    <div className="fixed inset-0 bg-ftc-lightBlue overflow-hidden">
-      <div className="h-full w-full flex items-center justify-center p-8">
-        {/* Main Tablet Container */}
-        <div className="w-full max-w-6xl h-[90vh] relative z-20">
-          {/* Tablet Frame */}
-          <div className="bg-black rounded-[2.5rem] p-2 h-full">
-            {/* Screen */}
-            <div className="bg-white rounded-[2rem] overflow-hidden h-full flex flex-col relative">
-              {/* Back Button - Top Left */}
-              <button
-                onClick={() => router.back()}
-                className="absolute top-4 left-4 z-20 p-3 rounded-full hover:bg-gray-100 active:bg-gray-200 transition-all touch-manipulation min-w-[44px] min-h-[44px] flex items-center justify-center"
-                aria-label="Go back"
-              >
-                <ArrowLeft className="w-6 h-6 text-gray-600" />
-              </button>
-
-              {/* Main Content Area */}
-              <div className="h-full bg-gradient-to-br from-gray-50 to-gray-100 flex items-center justify-center p-8">
-        {/* Slide Container */}
+    <FlowDeckPage
+      section="intro"
+      showHome={false}
+      showBack={true}
+      backgroundColor="bg-gradient-to-br from-gray-50 to-gray-100"
+    >
+      {/* Slide Container */}
+      <div className="h-full flex items-center justify-center p-8">
         <div className="relative w-full max-w-6xl aspect-[16/10] bg-white rounded-2xl shadow-2xl overflow-hidden">
           {/* Interactive Circle Buttons - top right */}
           <div className="absolute top-8 right-8 flex gap-3 z-30">
@@ -36,7 +25,9 @@ export default function IntroductionPage() {
               className="w-12 h-12 rounded-full bg-cyan-400 hover:bg-cyan-500 active:bg-cyan-600 transition-all flex items-center justify-center touch-manipulation"
               aria-label="Home"
             >
-              <Home className="w-6 h-6 text-white" />
+              <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
+              </svg>
             </button>
             <button
               onClick={() => {/* Email functionality */}}
@@ -52,18 +43,6 @@ export default function IntroductionPage() {
             >
               <ChevronRight className="w-6 h-6 text-white" />
             </button>
-          </div>
-
-          {/* FTC Logo - top center */}
-          <div className="absolute top-8 left-1/2 -translate-x-1/2 z-10">
-            <Image
-              src="/logos/ftc/FTC_LogoNotag.png"
-              alt="FTC Logo"
-              width={160}
-              height={53}
-              className="h-12 w-auto"
-              priority
-            />
           </div>
 
           {/* Main Content */}
@@ -143,19 +122,7 @@ export default function IntroductionPage() {
             <div className="flex-1 bg-orange-500"></div>
           </div>
         </div>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        {/* Bottom Right Color Bars */}
-        <div className="absolute bottom-0 right-0 flex h-12 w-[40vw] max-w-[500px]">
-          <div className="flex-1 bg-orange-500"></div>
-          <div className="flex-1 bg-blue-700"></div>
-          <div className="flex-1 bg-green-500"></div>
-          <div className="flex-1 bg-cyan-400"></div>
-        </div>
       </div>
-    </div>
+    </FlowDeckPage>
   );
 }

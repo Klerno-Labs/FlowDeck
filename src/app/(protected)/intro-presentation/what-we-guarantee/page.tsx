@@ -2,157 +2,124 @@
 
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
-import { Home, Mail, ArrowLeft, ChevronRight } from 'lucide-react';
+import { Mail, ChevronRight } from 'lucide-react';
+import { FlowDeckPage } from '@/components/layout/FlowDeckPage';
 
 export default function WhatWeGuaranteePage() {
   const router = useRouter();
 
   return (
-    <div className="fixed inset-0 bg-ftc-lightBlue overflow-hidden">
-      <div className="h-full w-full flex items-center justify-center p-8">
-        {/* Main Tablet Container */}
-        <div className="w-full max-w-6xl h-[90vh] relative z-20">
-          {/* Tablet Frame */}
-          <div className="bg-black rounded-[2.5rem] p-2 h-full">
-            {/* Screen */}
-            <div className="bg-white rounded-[2rem] overflow-hidden h-full flex flex-col relative">
-              {/* Back Button - Top Left */}
-              <button
-                onClick={() => router.back()}
-                className="absolute top-4 left-4 z-20 p-3 rounded-full hover:bg-gray-100 active:bg-gray-200 transition-all touch-manipulation min-w-[44px] min-h-[44px] flex items-center justify-center"
-                aria-label="Go back"
-              >
-                <ArrowLeft className="w-6 h-6 text-gray-600" />
-              </button>
+    <FlowDeckPage
+      section="intro"
+      showHome={false}
+      showBack={true}
+      backgroundColor="bg-gradient-to-br from-gray-50 to-gray-100"
+    >
+      {/* Slide Container */}
+      <div className="h-full flex items-center justify-center p-8">
+        <div className="relative w-full max-w-6xl aspect-[16/10] bg-white rounded-2xl shadow-2xl overflow-hidden">
+          {/* Interactive Circle Buttons - top right */}
+          <div className="absolute top-8 right-8 flex gap-3 z-30">
+            <button
+              onClick={() => router.push('/home')}
+              className="w-12 h-12 rounded-full bg-cyan-400 hover:bg-cyan-500 active:bg-cyan-600 transition-all flex items-center justify-center touch-manipulation"
+              aria-label="Home"
+            >
+              <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
+              </svg>
+            </button>
+            <button
+              onClick={() => {/* Email functionality */}}
+              className="w-12 h-12 rounded-full bg-blue-700 hover:bg-blue-800 active:bg-blue-900 transition-all flex items-center justify-center touch-manipulation"
+              aria-label="Email"
+            >
+              <Mail className="w-6 h-6 text-white" />
+            </button>
+            <button
+              onClick={() => router.push('/home')}
+              className="w-12 h-12 rounded-full bg-green-500 hover:bg-green-600 active:bg-green-700 transition-all flex items-center justify-center touch-manipulation"
+              aria-label="Return to home"
+            >
+              <ChevronRight className="w-6 h-6 text-white" />
+            </button>
+          </div>
 
-              {/* Main Content Area */}
-              <div className="h-full bg-gradient-to-br from-gray-50 to-gray-100 flex items-center justify-center p-8">
-                {/* Slide Container */}
-                <div className="relative w-full max-w-6xl aspect-[16/10] bg-white rounded-2xl shadow-2xl overflow-hidden">
-                  {/* Interactive Circle Buttons - top right */}
-                  <div className="absolute top-8 right-8 flex gap-3 z-30">
-                    <button
-                      onClick={() => router.push('/home')}
-                      className="w-12 h-12 rounded-full bg-cyan-400 hover:bg-cyan-500 active:bg-cyan-600 transition-all flex items-center justify-center touch-manipulation"
-                      aria-label="Home"
-                    >
-                      <Home className="w-6 h-6 text-white" />
-                    </button>
-                    <button
-                      onClick={() => {/* Email functionality */}}
-                      className="w-12 h-12 rounded-full bg-blue-700 hover:bg-blue-800 active:bg-blue-900 transition-all flex items-center justify-center touch-manipulation"
-                      aria-label="Email"
-                    >
-                      <Mail className="w-6 h-6 text-white" />
-                    </button>
-                    <button
-                      onClick={() => router.push('/home')}
-                      className="w-12 h-12 rounded-full bg-green-500 hover:bg-green-600 active:bg-green-700 transition-all flex items-center justify-center touch-manipulation"
-                      aria-label="Return to home"
-                    >
-                      <ChevronRight className="w-6 h-6 text-white" />
-                    </button>
-                  </div>
+          {/* Main Content */}
+          <div className="h-full flex items-center gap-8 pt-20 pb-12 px-12">
+            {/* Left Side - Content */}
+            <div className="w-[40%] flex-shrink-0">
+              <h1 className="text-4xl font-bold text-gray-800 mb-6 border-l-4 border-cyan-400 pl-4">
+                What We Guarantee
+              </h1>
 
-                  {/* FTC Logo - top center */}
-                  <div className="absolute top-8 left-1/2 -translate-x-1/2 z-10">
-                    <Image
-                      src="/logos/ftc/FTC_LogoNotag.png"
-                      alt="FTC Logo"
-                      width={160}
-                      height={53}
-                      className="h-12 w-auto"
-                      priority
-                    />
-                  </div>
+              <div className="space-y-4 text-gray-700">
+                <p className="text-sm leading-relaxed">
+                  We guarantee that our customers will receive products
+                  manufactured to the highest standard that function to
+                  the specifications listed in that order.
+                </p>
 
-                  {/* Main Content */}
-                  <div className="h-full flex items-center gap-8 pt-20 pb-12 px-12">
-                    {/* Left Side - Content */}
-                    <div className="w-[40%] flex-shrink-0">
-                      <h1 className="text-4xl font-bold text-gray-800 mb-6 border-l-4 border-cyan-400 pl-4">
-                        What We Guarantee
-                      </h1>
+                <p className="text-sm leading-relaxed font-semibold text-gray-800">
+                  SQF Version 9 - We use Codex HACCP to identify
+                  prominent food threats such as:
+                </p>
 
-                      <div className="space-y-4 text-gray-700">
-                        <p className="text-sm leading-relaxed">
-                          We guarantee that our customers will receive products
-                          manufactured to the highest standard that function to
-                          the specifications listed in that order.
-                        </p>
+                <ul className="space-y-2 text-sm">
+                  <li className="flex items-start">
+                    <span className="text-cyan-400 font-bold mr-2">•</span>
+                    <span>Product Integrity</span>
+                  </li>
+                  <li className="flex items-start">
+                    <span className="text-blue-700 font-bold mr-2">•</span>
+                    <span>Microbial</span>
+                  </li>
+                  <li className="flex items-start">
+                    <span className="text-green-500 font-bold mr-2">•</span>
+                    <span>Physical</span>
+                  </li>
+                  <li className="flex items-start">
+                    <span className="text-orange-500 font-bold mr-2">•</span>
+                    <span>Chemical</span>
+                  </li>
+                  <li className="flex items-start">
+                    <span className="text-blue-600 font-bold mr-2">•</span>
+                    <span>Allergen</span>
+                  </li>
+                </ul>
+              </div>
+            </div>
 
-                        <p className="text-sm leading-relaxed font-semibold text-gray-800">
-                          SQF Version 9 - We use Codex HACCP to identify
-                          prominent food threats such as:
-                        </p>
-
-                        <ul className="space-y-2 text-sm">
-                          <li className="flex items-start">
-                            <span className="text-cyan-400 font-bold mr-2">•</span>
-                            <span>Product Integrity</span>
-                          </li>
-                          <li className="flex items-start">
-                            <span className="text-blue-700 font-bold mr-2">•</span>
-                            <span>Microbial</span>
-                          </li>
-                          <li className="flex items-start">
-                            <span className="text-green-500 font-bold mr-2">•</span>
-                            <span>Physical</span>
-                          </li>
-                          <li className="flex items-start">
-                            <span className="text-orange-500 font-bold mr-2">•</span>
-                            <span>Chemical</span>
-                          </li>
-                          <li className="flex items-start">
-                            <span className="text-blue-600 font-bold mr-2">•</span>
-                            <span>Allergen</span>
-                          </li>
-                        </ul>
-                      </div>
-                    </div>
-
-                    {/* Right Side - Image */}
-                    <div className="flex-1 min-w-0 flex items-center justify-center">
-                      <div className="relative w-full aspect-[4/3] rounded-lg overflow-hidden shadow-xl">
-                        <Image
-                          src="/images/facility-interior.jpg"
-                          alt="FTC Facility Interior"
-                          fill
-                          className="object-cover"
-                          priority
-                        />
-                      </div>
-                    </div>
-                  </div>
-
-                  {/* Decorative circles - bottom left */}
-                  <div className="absolute bottom-8 left-8 flex gap-3">
-                    <div className="w-8 h-8 rounded-full bg-orange-500 opacity-70"></div>
-                    <div className="w-8 h-8 rounded-full bg-blue-700 opacity-70"></div>
-                    <div className="w-8 h-8 rounded-full bg-green-500 opacity-70"></div>
-                  </div>
-
-                  {/* Colorful accent bar at bottom */}
-                  <div className="absolute bottom-0 left-0 right-0 h-2 flex">
-                    <div className="flex-1 bg-cyan-400"></div>
-                    <div className="flex-1 bg-blue-700"></div>
-                    <div className="flex-1 bg-green-500"></div>
-                    <div className="flex-1 bg-orange-500"></div>
-                  </div>
-                </div>
+            {/* Right Side - Image */}
+            <div className="flex-1 min-w-0 flex items-center justify-center">
+              <div className="relative w-full aspect-[4/3] rounded-lg overflow-hidden shadow-xl">
+                <Image
+                  src="/images/facility-interior.jpg"
+                  alt="FTC Facility Interior"
+                  fill
+                  className="object-cover"
+                  priority
+                />
               </div>
             </div>
           </div>
-        </div>
 
-        {/* Bottom Right Color Bars */}
-        <div className="absolute bottom-0 right-0 flex h-12 w-[40vw] max-w-[500px]">
-          <div className="flex-1 bg-orange-500"></div>
-          <div className="flex-1 bg-blue-700"></div>
-          <div className="flex-1 bg-green-500"></div>
-          <div className="flex-1 bg-cyan-400"></div>
+          {/* Decorative circles - bottom left */}
+          <div className="absolute bottom-8 left-8 flex gap-3">
+            <div className="w-8 h-8 rounded-full bg-orange-500 opacity-70"></div>
+            <div className="w-8 h-8 rounded-full bg-blue-700 opacity-70"></div>
+            <div className="w-8 h-8 rounded-full bg-green-500 opacity-70"></div>
+          </div>
+
+          {/* Colorful accent bar at bottom */}
+          <div className="absolute bottom-0 left-0 right-0 h-2 flex">
+            <div className="flex-1 bg-cyan-400"></div>
+            <div className="flex-1 bg-blue-700"></div>
+            <div className="flex-1 bg-green-500"></div>
+            <div className="flex-1 bg-orange-500"></div>
+          </div>
         </div>
       </div>
-    </div>
+    </FlowDeckPage>
   );
 }
