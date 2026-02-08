@@ -114,12 +114,12 @@ export default function TotalCostOfFiltrationPage() {
                 <div className="absolute top-8 left-8 right-8">
                   <div className="bg-black/80 backdrop-blur-sm rounded-2xl p-6 shadow-2xl">
                     <div className="flex items-start gap-3">
-                      <div className="text-white/60 text-4xl leading-none">"</div>
+                      <div className="text-white/60 text-4xl leading-none">&ldquo;</div>
                       <div>
                         <p className="text-white text-lg font-medium leading-relaxed">
-                          There's always<br />
+                          There&apos;s always<br />
                           someone who will<br />
-                          do it cheaper."
+                          do it cheaper.&rdquo;
                         </p>
                       </div>
                     </div>
