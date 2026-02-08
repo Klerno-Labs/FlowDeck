@@ -64,14 +64,14 @@ export default function ProductsPage() {
                 <ArrowLeft className="w-6 h-6 text-gray-600" />
               </button>
 
-              {/* Navigation - Bottom Right */}
-              <div className="absolute bottom-8 right-8 z-20 flex items-center gap-4">
+              {/* Navigation - Top Right */}
+              <div className="absolute top-8 right-8 z-20 flex items-center gap-4">
                 <button
                   onClick={() => router.push('/home')}
-                  className="w-14 h-14 rounded-full bg-white/90 hover:bg-white shadow-lg transition-all flex items-center justify-center"
+                  className="w-14 h-14 rounded-full bg-gray-900/95 hover:bg-gray-900 shadow-2xl ring-2 ring-white/20 transition-all flex items-center justify-center"
                   aria-label="Home"
                 >
-                  <Home className="w-6 h-6 text-gray-700" />
+                  <Home className="w-6 h-6 text-white" />
                 </button>
               </div>
 
@@ -100,44 +100,44 @@ export default function ProductsPage() {
                       <div className="flex items-center justify-center">
                         {category.id === 'ls' && (
                           <Image
-                            src="/logos/brands/ClarifyColor-Edited.png"
+                            src="/logos/brands/ClarifyWhite.png"
                             alt="Clarify"
                             width={400}
                             height={150}
-                            className="h-36 w-auto brightness-0 invert drop-shadow-2xl"
+                            className="h-36 w-auto drop-shadow-2xl"
                             quality={100}
                             priority
                           />
                         )}
                         {category.id === 'll' && (
                           <Image
-                            src="/logos/brands/StrataColor-Edited.png"
+                            src="/logos/brands/StrataWhite.png"
                             alt="Strata"
                             width={400}
                             height={150}
-                            className="h-36 w-auto brightness-0 invert drop-shadow-2xl"
+                            className="h-36 w-auto drop-shadow-2xl"
                             quality={100}
                             priority
                           />
                         )}
                         {category.id === 'gl' && (
                           <Image
-                            src="/logos/brands/CyphonColor-Edited.png"
+                            src="/logos/brands/CyphonWhite.png"
                             alt="Cyphon"
                             width={400}
                             height={150}
-                            className="h-36 w-auto brightness-0 invert drop-shadow-2xl"
+                            className="h-36 w-auto drop-shadow-2xl"
                             quality={100}
                             priority
                           />
                         )}
                         {category.id === 'gs' && (
                           <Image
-                            src="/logos/brands/SeprumColor-Edited.png"
+                            src="/logos/brands/SeprumWhite.png"
                             alt="Seprum"
                             width={400}
                             height={150}
-                            className="h-36 w-auto brightness-0 invert drop-shadow-2xl"
+                            className="h-36 w-auto drop-shadow-2xl"
                             quality={100}
                             priority
                           />

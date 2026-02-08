@@ -131,14 +131,6 @@ function LoginForm() {
             {isLoading ? "Signing In..." : "Sign In"}
           </Button>
         </form>
-
-        {/* Demo credentials hint */}
-        <div className="mt-8 text-center text-sm text-gray-500">
-          <p>Demo Account:</p>
-          <p className="font-mono text-xs mt-1">
-            demo@ftc.com / password123
-          </p>
-        </div>
       </div>
     </div>
   );

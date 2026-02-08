@@ -143,21 +143,21 @@ export default async function ProductLineDetailPage({
                 />
               </div>
 
-              {/* Navigation - Bottom Right */}
-              <div className="absolute bottom-8 right-8 z-10 flex items-center gap-4">
+              {/* Navigation - Top Right */}
+              <div className="absolute top-8 right-8 z-10 flex items-center gap-4">
                 <Link
                   href={`/products/${categoryId}`}
-                  className="w-14 h-14 rounded-full bg-white/90 hover:bg-white shadow-lg transition-all flex items-center justify-center"
+                  className="w-14 h-14 rounded-full bg-gray-900/95 hover:bg-gray-900 shadow-2xl ring-2 ring-white/20 transition-all flex items-center justify-center"
                   aria-label="Back to category"
                 >
-                  <ArrowLeft className="w-6 h-6 text-gray-700" />
+                  <ArrowLeft className="w-6 h-6 text-white" />
                 </Link>
                 <Link
                   href="/home"
-                  className="w-14 h-14 rounded-full bg-white/90 hover:bg-white shadow-lg transition-all flex items-center justify-center"
+                  className="w-14 h-14 rounded-full bg-gray-900/95 hover:bg-gray-900 shadow-2xl ring-2 ring-white/20 transition-all flex items-center justify-center"
                   aria-label="Home"
                 >
-                  <Home className="w-6 h-6 text-gray-700" />
+                  <Home className="w-6 h-6 text-white" />
                 </Link>
               </div>
             </div>

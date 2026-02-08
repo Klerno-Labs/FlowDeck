@@ -50,15 +50,3 @@ CREATE TABLE IF NOT EXISTS reminders (
 CREATE INDEX IF NOT EXISTS idx_reminders_status_scheduled ON reminders(status, scheduled_at);
 CREATE INDEX IF NOT EXISTS idx_reminders_user_email ON reminders(user_email);
 CREATE INDEX IF NOT EXISTS idx_reminders_scheduled_at ON reminders(scheduled_at);
-
--- Insert demo user (password: password123)
-INSERT INTO users (id, email, password_hash, name, role, created_at)
-VALUES (
-  'demo-user-id',
-  'demo@ftc.com',
-  '$2a$10$YourBcryptHashHere',  -- This will be replaced by the seed script
-  'Demo User',
-  'admin',
-  CURRENT_TIMESTAMP
-)
-ON CONFLICT (email) DO NOTHING;
