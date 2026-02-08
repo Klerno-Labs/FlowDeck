@@ -64,21 +64,14 @@ export default function ProductsPage() {
                 <ArrowLeft className="w-6 h-6 text-gray-600" />
               </button>
 
-              {/* Top Right Navigation Buttons */}
-              <div className="absolute top-4 right-4 flex gap-3 z-20">
+              {/* Navigation - Bottom Right */}
+              <div className="absolute bottom-8 right-8 z-20 flex items-center gap-4">
                 <button
                   onClick={() => router.push('/home')}
-                  className="w-12 h-12 rounded-full bg-cyan-400 hover:bg-cyan-500 active:bg-cyan-600 transition-all flex items-center justify-center touch-manipulation"
+                  className="w-14 h-14 rounded-full bg-white/90 hover:bg-white shadow-lg transition-all flex items-center justify-center"
                   aria-label="Home"
                 >
-                  <Home className="w-6 h-6 text-white" />
-                </button>
-                <button
-                  onClick={() => {/* Email functionality */}}
-                  className="w-12 h-12 rounded-full bg-blue-700 hover:bg-blue-800 active:bg-blue-900 transition-all flex items-center justify-center touch-manipulation"
-                  aria-label="Email"
-                >
-                  <Mail className="w-6 h-6 text-white" />
+                  <Home className="w-6 h-6 text-gray-700" />
                 </button>
               </div>
 

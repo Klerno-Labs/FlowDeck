@@ -98,30 +98,21 @@ export default function CategoryProductsPage() {
           <div className="bg-black rounded-[2.5rem] p-2 h-full">
             {/* Screen */}
             <div className={`${bgColor} rounded-[2rem] overflow-hidden h-full flex flex-col relative`}>
-              {/* Back Button - Top Left */}
-              <button
-                onClick={() => router.back()}
-                className="absolute top-4 left-4 z-20 p-3 rounded-full hover:bg-gray-100 active:bg-gray-200 transition-all touch-manipulation min-w-[44px] min-h-[44px] flex items-center justify-center"
-                aria-label="Go back"
-              >
-                <ArrowLeft className="w-6 h-6 text-gray-600" />
-              </button>
-
-              {/* Top Right Navigation Buttons */}
-              <div className="absolute top-4 right-4 flex gap-3 z-20">
+              {/* Navigation - Bottom Right */}
+              <div className="absolute bottom-8 right-8 z-20 flex items-center gap-4">
                 <button
-                  onClick={() => router.push('/home')}
-                  className="w-12 h-12 rounded-full bg-cyan-400 hover:bg-cyan-500 active:bg-cyan-600 transition-all flex items-center justify-center touch-manipulation"
-                  aria-label="Home"
+                  onClick={() => router.push('/products')}
+                  className="w-14 h-14 rounded-full bg-white/90 hover:bg-white shadow-lg transition-all flex items-center justify-center"
+                  aria-label="Back to categories"
                 >
-                  <Home className="w-6 h-6 text-white" />
+                  <ArrowLeft className="w-6 h-6 text-gray-700" />
                 </button>
                 <button
-                  onClick={() => {/* Email functionality */}}
-                  className="w-12 h-12 rounded-full bg-blue-700 hover:bg-blue-800 active:bg-blue-900 transition-all flex items-center justify-center touch-manipulation"
-                  aria-label="Email"
+                  onClick={() => router.push('/home')}
+                  className="w-14 h-14 rounded-full bg-white/90 hover:bg-white shadow-lg transition-all flex items-center justify-center"
+                  aria-label="Home"
                 >
-                  <Mail className="w-6 h-6 text-white" />
+                  <Home className="w-6 h-6 text-gray-700" />
                 </button>
               </div>
 

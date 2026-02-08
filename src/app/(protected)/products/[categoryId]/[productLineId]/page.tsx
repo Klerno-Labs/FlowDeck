@@ -150,14 +150,14 @@ export default async function ProductLineDetailPage({
                   className="w-14 h-14 rounded-full bg-white/90 hover:bg-white shadow-lg transition-all flex items-center justify-center"
                   aria-label="Back to category"
                 >
-                  <ArrowLeft className="w-6 h-6" style={{ color: bgColor.replace('bg-[', '').replace(']', '') }} />
+                  <ArrowLeft className="w-6 h-6 text-gray-700" />
                 </Link>
                 <Link
                   href="/home"
                   className="w-14 h-14 rounded-full bg-white/90 hover:bg-white shadow-lg transition-all flex items-center justify-center"
                   aria-label="Home"
                 >
-                  <Home className="w-6 h-6" style={{ color: bgColor.replace('bg-[', '').replace(']', '') }} />
+                  <Home className="w-6 h-6 text-gray-700" />
                 </Link>
               </div>
             </div>
