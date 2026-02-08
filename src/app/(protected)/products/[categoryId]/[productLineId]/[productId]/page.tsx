@@ -59,23 +59,11 @@ export default async function ProductDetailPage({
   // Get the specification sheet for this product line
   const specSheet = specificationSheets[productLineId] || specificationSheets['clarify'];
 
-  // If product not found, show fallback
-  if (!productData) {
-    return (
-      <div className="fixed inset-0 bg-ftc-lightBlue flex items-center justify-center">
-        <div className="text-center">
-          <h1 className="text-2xl font-bold text-gray-900 mb-4">Product Not Found</h1>
-          <Link
-            href="/home"
-            className="inline-flex items-center gap-2 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700"
-          >
-            <Home className="w-4 h-4" />
-            Back to Home
-          </Link>
-        </div>
-      </div>
-    );
-  }
+  // Provide fallback data if product not in database
+  const product = productData || {
+    name: productId.split('-').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' '),
+    image_path: null,
+  };
 
   return (
     <div className="fixed inset-0 bg-ftc-lightBlue overflow-hidden">
@@ -106,7 +94,7 @@ export default async function ProductDetailPage({
               {/* Top Right - Product Name */}
               <div className="absolute top-10 right-10 z-10 max-w-xl">
                 <h1 className="text-4xl font-bold text-white tracking-wide text-right leading-tight drop-shadow-lg">
-                  {productData.name}
+                  {product.name}
                 </h1>
               </div>
 
@@ -114,10 +102,10 @@ export default async function ProductDetailPage({
               <div className="h-full w-full flex p-12 pt-32 pb-32 gap-10">
                 {/* Left: Product Image */}
                 <div className="w-[30%] flex items-center justify-center bg-white/10 backdrop-blur-sm rounded-3xl p-8 border-2 border-white/20">
-                  {productData.image_path ? (
+                  {product.image_path ? (
                     <Image
-                      src={productData.image_path}
-                      alt={productData.name}
+                      src={product.image_path}
+                      alt={product.name}
                       width={320}
                       height={450}
                       className="object-contain w-full h-auto max-h-[65vh] drop-shadow-2xl"
