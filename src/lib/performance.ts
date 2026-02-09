@@ -98,7 +98,7 @@ export function memoize<T extends (...args: any[]) => any>(
   }
 ): T {
   const cache = new Map<string, ReturnType<T>>();
-  const { maxSize = 100, equalityFn = (a, b) => JSON.stringify(a) === JSON.stringify(b) } = options || {};
+  const { maxSize = 100, equalityFn = (a: any, b: any) => JSON.stringify(a) === JSON.stringify(b) } = options || {};
 
   return ((...args: Parameters<T>) => {
     const key = JSON.stringify(args);
