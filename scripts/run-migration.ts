@@ -39,20 +39,17 @@ async function runMigration() {
 
     // Read migration file
     const migrationPath = path.join(__dirname, 'migrations', '003_add_content_versioning.sql');
-    const migrationSQL = fs.readFileSync(migrationPath, 'utf-8');
+    let migrationSQL = fs.readFileSync(migrationPath, 'utf-8');
 
-    // Split by statement and execute
-    const statements = migrationSQL
-      .split(';')
-      .map(s => s.trim())
-      .filter(s => s.length > 0 && !s.startsWith('--'));
-
-    for (const statement of statements) {
-      if (statement.includes('ROLLBACK SCRIPT')) break; // Stop before rollback section
-      if (statement.length > 10) { // Skip very short statements
-        await query(statement + ';');
-      }
+    // Remove everything after ROLLBACK SCRIPT marker
+    const rollbackIndex = migrationSQL.indexOf('-- ============================================================================\n-- ROLLBACK SCRIPT');
+    if (rollbackIndex > 0) {
+      migrationSQL = migrationSQL.substring(0, rollbackIndex);
     }
+
+    // Execute entire migration as one transaction
+    // PostgreSQL will handle statement ordering correctly
+    await query(migrationSQL);
 
     console.log('✅ Migration completed successfully!');
     console.log('');
