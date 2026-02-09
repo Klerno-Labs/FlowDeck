@@ -1,12 +1,17 @@
-'use client';
-
 import Image from 'next/image';
-import { useRouter } from 'next/navigation';
-import { Mail, ChevronRight } from 'lucide-react';
 import { FlowDeckPage } from '@/components/layout/FlowDeckPage';
+import { getSlideByKey } from '@/lib/db/presentation-content';
+import { IntroSlideButtons } from '@/components/intro/IntroSlideButtons';
 
-export default function WhatWeGuaranteePage() {
-  const router = useRouter();
+export default async function WhatWeGuaranteePage() {
+  // Fetch slide data from database
+  const slide = await getSlideByKey('what-we-guarantee');
+
+  // Fallback to default content if database fetch fails
+  const heading = slide?.heading || 'What We Guarantee';
+  const paragraph = slide?.paragraph || 'We guarantee that our customers will receive products manufactured to the highest standard...';
+  const imagePath = slide?.image_path || '/images/facility-interior.jpg';
+  const items = slide?.items || [];
 
   return (
     <FlowDeckPage
@@ -19,73 +24,33 @@ export default function WhatWeGuaranteePage() {
       <div className="h-full flex items-center justify-center p-8">
         <div className="relative w-full max-w-6xl aspect-[16/10] bg-white rounded-2xl shadow-2xl overflow-hidden">
           {/* Interactive Circle Buttons - top right */}
-          <div className="absolute top-8 right-8 flex gap-3 z-30">
-            <button
-              onClick={() => router.push('/home')}
-              className="w-12 h-12 rounded-full bg-cyan-400 hover:bg-cyan-500 active:bg-cyan-600 transition-all flex items-center justify-center touch-manipulation"
-              aria-label="Home"
-            >
-              <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
-              </svg>
-            </button>
-            <button
-              onClick={() => {/* Email functionality */}}
-              className="w-12 h-12 rounded-full bg-blue-700 hover:bg-blue-800 active:bg-blue-900 transition-all flex items-center justify-center touch-manipulation"
-              aria-label="Email"
-            >
-              <Mail className="w-6 h-6 text-white" />
-            </button>
-            <button
-              onClick={() => router.push('/home')}
-              className="w-12 h-12 rounded-full bg-green-500 hover:bg-green-600 active:bg-green-700 transition-all flex items-center justify-center touch-manipulation"
-              aria-label="Return to home"
-            >
-              <ChevronRight className="w-6 h-6 text-white" />
-            </button>
-          </div>
+          <IntroSlideButtons nextPage="/home" />
 
           {/* Main Content */}
           <div className="h-full flex items-center gap-8 pt-20 pb-12 px-12">
             {/* Left Side - Content */}
             <div className="w-[40%] flex-shrink-0">
               <h1 className="text-4xl font-bold text-gray-800 mb-6 border-l-4 border-cyan-400 pl-4">
-                What We Guarantee
+                {heading}
               </h1>
 
               <div className="space-y-4 text-gray-700">
                 <p className="text-sm leading-relaxed">
-                  We guarantee that our customers will receive products
-                  manufactured to the highest standard that function to
-                  the specifications listed in that order.
-                </p>
-
-                <p className="text-sm leading-relaxed font-semibold text-gray-800">
-                  SQF Version 9 - We use Codex HACCP to identify
-                  prominent food threats such as:
+                  {paragraph}
                 </p>
 
                 <ul className="space-y-2 text-sm">
-                  <li className="flex items-start">
-                    <span className="text-cyan-400 font-bold mr-2">•</span>
-                    <span>Product Integrity</span>
-                  </li>
-                  <li className="flex items-start">
-                    <span className="text-blue-700 font-bold mr-2">•</span>
-                    <span>Microbial</span>
-                  </li>
-                  <li className="flex items-start">
-                    <span className="text-green-500 font-bold mr-2">•</span>
-                    <span>Physical</span>
-                  </li>
-                  <li className="flex items-start">
-                    <span className="text-orange-500 font-bold mr-2">•</span>
-                    <span>Chemical</span>
-                  </li>
-                  <li className="flex items-start">
-                    <span className="text-blue-600 font-bold mr-2">•</span>
-                    <span>Allergen</span>
-                  </li>
+                  {items.map((item) => (
+                    <li key={item.id} className="flex items-start">
+                      <span
+                        className="font-bold mr-2"
+                        style={{ color: item.bullet_color || '#00B4D8' }}
+                      >
+                        •
+                      </span>
+                      <span>{item.content}</span>
+                    </li>
+                  ))}
                 </ul>
               </div>
             </div>
@@ -94,8 +59,8 @@ export default function WhatWeGuaranteePage() {
             <div className="flex-1 min-w-0 flex items-center justify-center">
               <div className="relative w-full aspect-[4/3] rounded-lg overflow-hidden shadow-xl">
                 <Image
-                  src="/images/facility-interior.jpg"
-                  alt="FTC Facility Interior"
+                  src={imagePath}
+                  alt={heading}
                   fill
                   className="object-cover"
                   priority
