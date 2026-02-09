@@ -3,7 +3,7 @@
  * Debounce, throttle, memoization, and other performance helpers
  */
 
-import { useEffect, useRef, useMemo, useCallback } from 'react';
+import { useEffect, useRef, useMemo, useCallback, useState, lazy } from 'react';
 
 /**
  * Debounce function - delays execution until after wait time has passed
@@ -284,6 +284,3 @@ export function useSlowRenderDetection(threshold: number = 16) {
     lastRender.current = now;
   });
 }
-
-// Import missing useState and lazy
-import { useState, lazy } from 'react';
