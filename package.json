@@ -14,7 +14,8 @@
     "db:migrate": "node scripts/migrate.js",
     "db:seed": "node scripts/seed-user.js",
     "db:setup": "npm run db:migrate && npm run db:seed",
-    "db:migrate-products": "tsx scripts/migrate-products-to-db.ts"
+    "db:migrate-products": "tsx scripts/migrate-products-to-db.ts",
+    "page-builder:setup": "node scripts/setup-page-builder.js"
   },
   "dependencies": {
     "@dnd-kit/core": "^6.3.1",
