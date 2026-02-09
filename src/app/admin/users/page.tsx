@@ -546,8 +546,8 @@ export default function UsersManagementPage() {
               {/* Role Selection */}
               <div>
                 <label className="block text-sm font-bold text-gray-700 mb-3">Role *</label>
-                <div className="grid grid-cols-3 gap-4">
-                  {(['dev', 'admin', 'sales'] as const).map((role) => (
+                <div className="grid grid-cols-2 gap-4">
+                  {(['admin', 'sales'] as const).map((role) => (
                     <button
                       key={role}
                       type="button"
@@ -669,8 +669,8 @@ export default function UsersManagementPage() {
               {/* Role Selection */}
               <div>
                 <label className="block text-sm font-bold text-gray-700 mb-3">Role *</label>
-                <div className="grid grid-cols-3 gap-4">
-                  {(['dev', 'admin', 'sales'] as const).map((role) => (
+                <div className="grid grid-cols-2 gap-4">
+                  {(['admin', 'sales'] as const).map((role) => (
                     <button
                       key={role}
                       type="button"
