@@ -187,6 +187,10 @@ export async function addSlideItem(
     [slideId, content, bulletColor, displayOrder]
   );
 
+  if (!result) {
+    throw new Error('Failed to create slide item');
+  }
+
   return result;
 }
 
@@ -346,6 +350,10 @@ export async function addKnowledgeSlideItem(
     'INSERT INTO knowledge_slide_items (slide_id, content, display_order) VALUES ($1, $2, $3) RETURNING *',
     [slideId, content, displayOrder]
   );
+
+  if (!result) {
+    throw new Error('Failed to create knowledge slide item');
+  }
 
   return result;
 }

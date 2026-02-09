@@ -125,13 +125,13 @@ export default function IntroEditorPage() {
     fetchSlides();
   }, []);
 
-  // Auto-save every 5 seconds
+  // Auto-save every 3 seconds
   useEffect(() => {
     const interval = setInterval(() => {
       if (expandedSlideId && !saving && !autoSaving) {
         handleAutoSave(expandedSlideId);
       }
-    }, 5000);
+    }, 3000);
 
     return () => clearInterval(interval);
   }, [expandedSlideId, slides, saving, autoSaving]);
@@ -144,6 +144,19 @@ export default function IntroEditorPage() {
       setSlides(data.slides || []);
       if (data.slides && data.slides.length > 0) {
         setExpandedSlideId(data.slides[0].id);
+
+        // Check for drafts for each slide
+        for (const slide of data.slides) {
+          const draftRes = await fetch(`/api/drafts/intro_slide/${slide.id}`);
+          if (draftRes.ok) {
+            const draftData = await draftRes.json();
+            if (draftData.hasDraft && draftData.draft) {
+              setHasDraft(true);
+              // Optionally load draft data into editor
+              // For now, just indicate that drafts exist
+            }
+          }
+        }
       }
     } catch (error) {
       console.error('Error fetching slides:', error);
@@ -155,11 +168,70 @@ export default function IntroEditorPage() {
 
   async function handleAutoSave(slideId: string) {
     setAutoSaving(true);
+    setDraftStatus('saving');
     try {
       const slide = slides.find(s => s.id === slideId);
       if (!slide) return;
 
-      const res = await fetch('/api/content-editor/intro', {
+      // Save to draft API instead of direct publish
+      const res = await fetch(`/api/drafts/intro_slide/${slideId}`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          draftData: {
+            heading: slide.heading,
+            paragraph: slide.paragraph,
+            image_path: slide.image_path,
+            items: slide.items,
+          },
+        }),
+      });
+
+      if (res.ok) {
+        setLastSaved(new Date());
+        setHasDraft(true);
+        setDraftStatus('saved');
+      } else {
+        setDraftStatus('error');
+      }
+    } catch (error) {
+      console.error('Auto-save error:', error);
+      setDraftStatus('error');
+    } finally {
+      setAutoSaving(false);
+    }
+  }
+
+  async function handlePublish(slideId: string) {
+    if (!confirm('Publish this slide? This will create a new version and update the live content.')) {
+      return;
+    }
+
+    setPublishing(true);
+    try {
+      const slide = slides.find(s => s.id === slideId);
+      if (!slide) return;
+
+      // Publish creates a version snapshot
+      const res = await fetch(`/api/versions/intro_slide/${slideId}`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          action: 'publish',
+          versionData: {
+            heading: slide.heading,
+            paragraph: slide.paragraph,
+            image_path: slide.image_path,
+            items: slide.items,
+          },
+          changeSummary: `Published changes to ${slide.title}`,
+        }),
+      });
+
+      if (!res.ok) throw new Error('Failed to publish');
+
+      // Also update the published content
+      const updateRes = await fetch('/api/content-editor/intro', {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -173,13 +245,44 @@ export default function IntroEditorPage() {
         }),
       });
 
-      if (res.ok) {
-        setLastSaved(new Date());
-      }
+      if (!updateRes.ok) throw new Error('Failed to update content');
+
+      setHasDraft(false);
+      showToast('Slide published successfully! ✨', 'success');
+      router.refresh();
     } catch (error) {
-      console.error('Auto-save error:', error);
+      console.error('Error publishing slide:', error);
+      showToast('Failed to publish slide', 'error');
     } finally {
-      setAutoSaving(false);
+      setPublishing(false);
+    }
+  }
+
+  async function handleRestoreVersion(versionNumber: number) {
+    try {
+      const res = await fetch(`/api/versions/intro_slide/${expandedSlideId}?version=${versionNumber}`);
+      if (!res.ok) throw new Error('Failed to fetch version');
+
+      const data = await res.json();
+      const versionData = data.version.version_data;
+
+      // Restore to current editing state
+      setSlides(prev => prev.map(slide =>
+        slide.id === expandedSlideId
+          ? {
+              ...slide,
+              heading: versionData.heading,
+              paragraph: versionData.paragraph,
+              image_path: versionData.image_path,
+              items: versionData.items,
+            }
+          : slide
+      ));
+
+      showToast(`Version ${versionNumber} restored to editor`, 'success');
+    } catch (error) {
+      console.error('Error restoring version:', error);
+      showToast('Failed to restore version', 'error');
     }
   }
 
@@ -343,14 +446,41 @@ export default function IntroEditorPage() {
       showBack={true}
       backTo="/admin/content-editor"
       rightActions={
-        <Button
-          onClick={() => setPreviewVisible(!previewVisible)}
-          variant="ghost"
-          size="md"
-        >
-          {previewVisible ? <EyeOff className="w-5 h-5" /> : <Eye className="w-5 h-5" />}
-          {previewVisible ? 'Hide' : 'Show'} Preview
-        </Button>
+        <div className="flex items-center gap-3">
+          <DraftIndicator status={draftStatus} lastSaved={lastSaved} />
+
+          {expandedSlideId && (
+            <>
+              <Button
+                onClick={() => handlePublish(expandedSlideId)}
+                disabled={publishing || autoSaving}
+                variant="primary"
+                size="md"
+              >
+                <Send className="w-4 h-4" />
+                {publishing ? 'Publishing...' : 'Publish'}
+              </Button>
+
+              <Button
+                onClick={() => setShowVersionHistory(true)}
+                variant="secondary"
+                size="md"
+              >
+                <History className="w-4 h-4" />
+                History
+              </Button>
+            </>
+          )}
+
+          <Button
+            onClick={() => setPreviewVisible(!previewVisible)}
+            variant="ghost"
+            size="md"
+          >
+            {previewVisible ? <EyeOff className="w-5 h-5" /> : <Eye className="w-5 h-5" />}
+            {previewVisible ? 'Hide' : 'Show'} Preview
+          </Button>
+        </div>
       }
     >
       <div className="max-w-7xl mx-auto">
@@ -429,11 +559,9 @@ export default function IntroEditorPage() {
                       <label className="block text-sm font-bold text-gray-700 mb-2">
                         Paragraph <span className="text-red-500">*</span>
                       </label>
-                      <textarea
-                        value={slide.paragraph}
-                        onChange={(e) => updateSlideField(slide.id, 'paragraph', e.target.value)}
-                        rows={5}
-                        className="w-full px-4 py-3 rounded-xl border-2 border-gray-200 focus:border-blue-500 focus:ring-4 focus:ring-blue-100 transition-all resize-none"
+                      <TipTapEditor
+                        content={slide.paragraph}
+                        onChange={(content) => updateSlideField(slide.id, 'paragraph', content)}
                         placeholder="Enter paragraph text..."
                       />
                       <p className="mt-2 text-sm text-gray-500">{slide.paragraph.length} characters</p>
@@ -561,6 +689,16 @@ export default function IntroEditorPage() {
         )}
       </div>
       </div>
+
+      {/* Version History Modal */}
+      {showVersionHistory && expandedSlideId && (
+        <VersionHistory
+          contentType="intro_slide"
+          contentId={expandedSlideId}
+          onRestore={handleRestoreVersion}
+          onClose={() => setShowVersionHistory(false)}
+        />
+      )}
     </AdminFlowDeckPage>
   );
 }

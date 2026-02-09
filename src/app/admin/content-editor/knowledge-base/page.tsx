@@ -518,7 +518,7 @@ export default function KnowledgeBaseEditorPage() {
                         }
                         rows={3}
                         className="w-full px-4 py-3 rounded-xl border-2 border-gray-200 focus:border-blue-500 focus:ring-4 focus:ring-blue-100 focus:outline-none resize-none transition-all"
-                        placeholder='Enter quote text to display over image (e.g., "There\'s always someone who will do it cheaper.")'
+                        placeholder={`Enter quote text to display over image (e.g., "There's always someone who will do it cheaper.")`}
                       />
                     </div>
 
@@ -546,8 +546,8 @@ export default function KnowledgeBaseEditorPage() {
                                 item={item}
                                 slideId={slide.id}
                                 index={index}
-                                onUpdate={updateSlideItem}
-                                onRemove={removeSlideItem}
+                                onUpdate={updateSlideItem.bind(null, slide.id)}
+                                onRemove={removeSlideItem.bind(null, slide.id)}
                               />
                             ))}
                           </div>
