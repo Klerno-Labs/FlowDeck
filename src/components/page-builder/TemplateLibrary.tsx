@@ -715,7 +715,7 @@ export function TemplateLibrary({ onSelectTemplate, onClose }: TemplateLibraryPr
   return (
     <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50 p-8">
       <div className="bg-white rounded-3xl shadow-2xl max-w-5xl w-full max-h-[90vh] overflow-hidden">
-        <div className="sticky top-0 bg-gradient-to-r from-blue-600 to-purple-600 px-8 py-6 rounded-t-3xl">
+        <div className="sticky top-0 bg-gradient-to-r from-blue-600 to-cyan-600 px-8 py-6 rounded-t-3xl">
           <div className="flex justify-between items-center">
             <div>
               <h2 className="text-3xl font-bold text-white">Template Library</h2>

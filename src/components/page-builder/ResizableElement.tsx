@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useCallback } from 'react';
+import { useState, useCallback, useEffect, memo } from 'react';
 import { PageElement } from '@/types/page-builder';
 
 interface ResizableElementProps {
@@ -12,7 +12,7 @@ interface ResizableElementProps {
 
 type ResizeHandle = 'nw' | 'n' | 'ne' | 'e' | 'se' | 's' | 'sw' | 'w';
 
-export function ResizableElement({ element, isSelected, onResize, children }: ResizableElementProps) {
+export const ResizableElement = memo(function ResizableElement({ element, isSelected, onResize, children }: ResizableElementProps) {
   const [isResizing, setIsResizing] = useState(false);
   const [resizeHandle, setResizeHandle] = useState<ResizeHandle | null>(null);
   const [startPos, setStartPos] = useState({ x: 0, y: 0 });
@@ -137,7 +137,7 @@ export function ResizableElement({ element, isSelected, onResize, children }: Re
   }, []);
 
   // Add event listeners for resize
-  useState(() => {
+  useEffect(() => {
     if (isResizing) {
       window.addEventListener('mousemove', handleResizeMove);
       window.addEventListener('mouseup', handleResizeEnd);
@@ -146,7 +146,7 @@ export function ResizableElement({ element, isSelected, onResize, children }: Re
         window.removeEventListener('mouseup', handleResizeEnd);
       };
     }
-  });
+  }, [isResizing, handleResizeMove, handleResizeEnd]);
 
   const handleCursors: Record<ResizeHandle, string> = {
     nw: 'nwse-resize',
@@ -236,4 +236,4 @@ export function ResizableElement({ element, isSelected, onResize, children }: Re
       )}
     </div>
   );
-}
+});

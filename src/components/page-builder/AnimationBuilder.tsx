@@ -261,7 +261,7 @@ export function AnimationBuilder({ onClose, onApplyAnimation, currentElement }: 
         {/* Left Panel - Presets */}
         <div className="w-80 border-r border-gray-200 flex flex-col bg-gray-50">
           {/* Header */}
-          <div className="p-6 border-b border-gray-200 bg-gradient-to-r from-pink-500 to-purple-500">
+          <div className="p-6 border-b border-gray-200 bg-gradient-to-r from-pink-500 to-rose-500">
             <div className="flex items-center justify-between mb-2">
               <div className="flex items-center gap-3">
                 <Zap className="w-6 h-6 text-white" />
@@ -487,7 +487,7 @@ export function AnimationBuilder({ onClose, onApplyAnimation, currentElement }: 
             <button
               onClick={handleApply}
               disabled={!selectedPreset}
-              className="w-full flex items-center justify-center gap-2 px-6 py-3 bg-gradient-to-r from-pink-600 to-purple-600 text-white rounded-lg hover:from-pink-700 hover:to-purple-700 transition-all shadow-lg hover:shadow-xl font-semibold disabled:opacity-50 disabled:cursor-not-allowed"
+              className="w-full flex items-center justify-center gap-2 px-6 py-3 bg-gradient-to-r from-pink-600 to-rose-600 text-white rounded-lg hover:from-pink-700 hover:to-rose-700 transition-all shadow-lg hover:shadow-xl font-semibold disabled:opacity-50 disabled:cursor-not-allowed"
             >
               <Zap className="w-5 h-5" />
               Apply Animation

@@ -1,5 +1,6 @@
 'use client';
 
+import { memo } from 'react';
 import { useDraggable } from '@dnd-kit/core';
 import { CSS } from '@dnd-kit/utilities';
 import { PageElement } from '@/types/page-builder';
@@ -13,7 +14,7 @@ interface DraggableElementProps {
   zoom: number;
 }
 
-export function DraggableElement({ element, isSelected, onClick, zoom }: DraggableElementProps) {
+export const DraggableElement = memo(function DraggableElement({ element, isSelected, onClick, zoom }: DraggableElementProps) {
   const { attributes, listeners, setNodeRef, transform, isDragging } = useDraggable({
     id: element.id,
   });
@@ -200,4 +201,4 @@ export function DraggableElement({ element, isSelected, onClick, zoom }: Draggab
       )}
     </div>
   );
-}
+});

@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react';
 import { PageConfig } from '@/types/page-builder';
 import { X, Clock, RotateCcw, Trash2, Eye, Download } from 'lucide-react';
+import { safeLocalStorage } from '@/lib/error-handler';
 
 interface VersionSnapshot {
   id: string;
@@ -33,14 +34,10 @@ export function VersionHistory({
 
   // Load versions from localStorage
   useEffect(() => {
-    const stored = localStorage.getItem(`page-builder-history-${currentPageKey}`);
+    const stored = safeLocalStorage.getItem(`page-builder-history-${currentPageKey}`);
     if (stored) {
-      try {
-        const parsed = JSON.parse(stored);
-        setVersions(parsed);
-      } catch (e) {
-        console.error('Failed to load version history:', e);
-      }
+      const parsed = safeLocalStorage.parseJSON(stored, []);
+      setVersions(parsed);
     }
   }, [currentPageKey]);
 
@@ -57,7 +54,7 @@ export function VersionHistory({
 
     const updated = [newVersion, ...versions].slice(0, 50); // Keep last 50 versions
     setVersions(updated);
-    localStorage.setItem(`page-builder-history-${currentPageKey}`, JSON.stringify(updated));
+    safeLocalStorage.setItem(`page-builder-history-${currentPageKey}`, JSON.stringify(updated));
   };
 
   // Restore version
@@ -73,7 +70,7 @@ export function VersionHistory({
   const deleteVersion = (id: string) => {
     const updated = versions.filter((v) => v.id !== id);
     setVersions(updated);
-    localStorage.setItem(`page-builder-history-${currentPageKey}`, JSON.stringify(updated));
+    safeLocalStorage.setItem(`page-builder-history-${currentPageKey}`, JSON.stringify(updated));
     if (selectedVersion?.id === id) {
       setSelectedVersion(null);
       setShowPreview(false);
@@ -84,7 +81,7 @@ export function VersionHistory({
   const clearHistory = () => {
     if (window.confirm('Delete all version history? This cannot be undone.')) {
       setVersions([]);
-      localStorage.removeItem(`page-builder-history-${currentPageKey}`);
+      safeLocalStorage.removeItem(`page-builder-history-${currentPageKey}`);
       setSelectedVersion(null);
       setShowPreview(false);
     }
@@ -146,7 +143,7 @@ export function VersionHistory({
         {/* Left Panel - Version List */}
         <div className="w-1/3 border-r border-gray-200 flex flex-col">
           {/* Header */}
-          <div className="p-6 border-b border-gray-200 bg-gradient-to-r from-purple-500 to-pink-500">
+          <div className="p-6 border-b border-gray-200 bg-gradient-to-r from-indigo-500 to-purple-500">
             <div className="flex items-center justify-between mb-2">
               <div className="flex items-center gap-3">
                 <Clock className="w-6 h-6 text-white" />
@@ -261,7 +258,7 @@ export function VersionHistory({
                   <h3 className="text-xl font-bold text-gray-900">Preview</h3>
                   <button
                     onClick={() => handleRestore(selectedVersion)}
-                    className="flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-purple-600 to-pink-600 text-white rounded-lg hover:from-purple-700 hover:to-pink-700 transition-all shadow-lg"
+                    className="flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-indigo-600 to-purple-600 text-white rounded-lg hover:from-indigo-700 hover:to-purple-700 transition-all shadow-lg"
                   >
                     <RotateCcw className="w-4 h-4" />
                     <span className="font-semibold">Restore This Version</span>

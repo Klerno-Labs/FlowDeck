@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useCallback, lazy, Suspense } from 'react';
 import {
   Layers,
   Save,
@@ -57,17 +57,22 @@ import { DraggableElement } from '@/components/page-builder/DraggableElement';
 import { ResizableElement } from '@/components/page-builder/ResizableElement';
 import { LayerPanel } from '@/components/page-builder/LayerPanel';
 import { AdvancedPropertyPanel } from '@/components/page-builder/AdvancedPropertyPanel';
-import { TemplateLibrary } from '@/components/page-builder/TemplateLibrary';
-import { PresetsLibrary } from '@/components/page-builder/PresetsLibrary';
-import { VersionHistory } from '@/components/page-builder/VersionHistory';
-import { AssetManager } from '@/components/page-builder/AssetManager';
-import { GridLayoutBuilder } from '@/components/page-builder/GridLayoutBuilder';
-import { AnimationBuilder } from '@/components/page-builder/AnimationBuilder';
 import { AlignmentGuides, detectAlignments } from '@/components/page-builder/AlignmentGuides';
+
+// Lazy load heavy modal components for better performance
+const TemplateLibrary = lazy(() => import('@/components/page-builder/TemplateLibrary').then(m => ({ default: m.TemplateLibrary })));
+const PresetsLibrary = lazy(() => import('@/components/page-builder/PresetsLibrary').then(m => ({ default: m.PresetsLibrary })));
+const VersionHistory = lazy(() => import('@/components/page-builder/VersionHistory').then(m => ({ default: m.VersionHistory })));
+const AssetManager = lazy(() => import('@/components/page-builder/AssetManager').then(m => ({ default: m.AssetManager })));
+const GridLayoutBuilder = lazy(() => import('@/components/page-builder/GridLayoutBuilder').then(m => ({ default: m.GridLayoutBuilder })));
+const AnimationBuilder = lazy(() => import('@/components/page-builder/AnimationBuilder').then(m => ({ default: m.AnimationBuilder })));
 import { useUndoRedo } from '@/hooks/useUndoRedo';
 import { useAutoSave } from '@/hooks/useAutoSave';
+import { ErrorBoundary } from '@/components/ErrorBoundary';
+import { PageLoader, InlineLoader } from '@/components/ui/LoadingStates';
+import { useSlowRenderDetection } from '@/lib/performance';
 
-export default function EnhancedPageBuilder() {
+function EnhancedPageBuilder() {
   const [pages, setPages] = useState<PageConfigRecord[]>([]);
   const [selectedPage, setSelectedPage] = useState<PageConfigRecord | null>(null);
   const [selectedElementId, setSelectedElementId] = useState<string | null>(null);
@@ -111,6 +116,9 @@ export default function EnhancedPageBuilder() {
       },
     })
   );
+
+  // Performance monitoring - detect slow renders (16ms threshold for 60fps)
+  useSlowRenderDetection(16);
 
   useEffect(() => {
     fetchPages();
@@ -1276,11 +1284,7 @@ ${pageConfig.elements.filter((el) => el.visible !== false).map((el, index) => {
   const selectedElement = pageConfig.elements.find((el) => el.id === selectedElementId);
 
   if (loading) {
-    return (
-      <div className="flex items-center justify-center py-24">
-        <Loader2 className="w-12 h-12 animate-spin text-blue-600" />
-      </div>
-    );
+    return <PageLoader message="Loading page builder..." />;
   }
 
   return (
@@ -1481,7 +1485,7 @@ ${pageConfig.elements.filter((el) => el.visible !== false).map((el, index) => {
             className="flex items-center gap-2 px-5 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors disabled:opacity-50 min-h-[44px]"
           >
             {saving ? (
-              <Loader2 className="w-5 h-5 animate-spin" />
+              <InlineLoader size="md" color="white" />
             ) : (
               <Save className="w-5 h-5" />
             )}
@@ -1513,7 +1517,7 @@ ${pageConfig.elements.filter((el) => el.visible !== false).map((el, index) => {
             </button>
             <button
               onClick={() => setShowPresetsLibrary(true)}
-              className="w-full flex items-center gap-2 px-4 py-3 bg-gradient-to-r from-indigo-500 to-pink-500 text-white rounded-lg hover:shadow-lg transition-all text-sm font-semibold mb-2 min-h-[44px]"
+              className="w-full flex items-center gap-2 px-4 py-3 bg-gradient-to-r from-indigo-500 to-purple-500 text-white rounded-lg hover:shadow-lg transition-all text-sm font-semibold mb-2 min-h-[44px]"
             >
               <Plus className="w-5 h-5" />
               Element Presets
@@ -1534,7 +1538,7 @@ ${pageConfig.elements.filter((el) => el.visible !== false).map((el, index) => {
             </button>
             <button
               onClick={() => setShowGridLayoutBuilder(true)}
-              className="w-full flex items-center gap-2 px-4 py-3 bg-gradient-to-r from-cyan-500 to-blue-500 text-white rounded-lg hover:shadow-lg transition-all text-sm font-semibold mb-2 min-h-[44px]"
+              className="w-full flex items-center gap-2 px-4 py-3 bg-gradient-to-r from-blue-500 to-cyan-500 text-white rounded-lg hover:shadow-lg transition-all text-sm font-semibold mb-2 min-h-[44px]"
             >
               <Grid3x3 className="w-5 h-5" />
               Grid Layout
@@ -1550,7 +1554,7 @@ ${pageConfig.elements.filter((el) => el.visible !== false).map((el, index) => {
             </button>
             <button
               onClick={() => setShowPageSettings(true)}
-              className="w-full flex items-center gap-2 px-4 py-3 bg-gradient-to-r from-green-500 to-teal-500 text-white rounded-lg hover:shadow-lg transition-all text-sm font-semibold min-h-[44px]"
+              className="w-full flex items-center gap-2 px-4 py-3 bg-gradient-to-r from-emerald-500 to-teal-500 text-white rounded-lg hover:shadow-lg transition-all text-sm font-semibold min-h-[44px]"
             >
               <Palette className="w-5 h-5" />
               Page Settings
@@ -1932,54 +1936,66 @@ ${pageConfig.elements.filter((el) => el.visible !== false).map((el, index) => {
 
       {/* Template Library Modal */}
       {showTemplateLibrary && (
-        <TemplateLibrary
-          onSelectTemplate={handleSelectTemplate}
-          onClose={() => setShowTemplateLibrary(false)}
-        />
+        <Suspense fallback={<PageLoader message="Loading templates..." />}>
+          <TemplateLibrary
+            onSelectTemplate={handleSelectTemplate}
+            onClose={() => setShowTemplateLibrary(false)}
+          />
+        </Suspense>
       )}
 
       {/* Presets Library Modal */}
       {showPresetsLibrary && (
-        <PresetsLibrary
-          onClose={() => setShowPresetsLibrary(false)}
-          onApplyPreset={applyPreset}
-          selectedElement={selectedElement}
-        />
+        <Suspense fallback={<PageLoader message="Loading presets..." />}>
+          <PresetsLibrary
+            onClose={() => setShowPresetsLibrary(false)}
+            onApplyPreset={applyPreset}
+            selectedElement={selectedElement}
+          />
+        </Suspense>
       )}
 
       {/* Version History Modal */}
       {showVersionHistory && selectedPage && (
-        <VersionHistory
-          onClose={() => setShowVersionHistory(false)}
-          currentPageKey={selectedPage.page_key}
-          currentConfig={pageConfig}
-          onRestore={restoreVersion}
-        />
+        <Suspense fallback={<PageLoader message="Loading version history..." />}>
+          <VersionHistory
+            onClose={() => setShowVersionHistory(false)}
+            currentPageKey={selectedPage.page_key}
+            currentConfig={pageConfig}
+            onRestore={restoreVersion}
+          />
+        </Suspense>
       )}
 
       {/* Asset Manager Modal */}
       {showAssetManager && (
-        <AssetManager
-          onClose={() => setShowAssetManager(false)}
-          onSelectAsset={addAssetToCanvas}
-        />
+        <Suspense fallback={<PageLoader message="Loading asset manager..." />}>
+          <AssetManager
+            onClose={() => setShowAssetManager(false)}
+            onSelectAsset={addAssetToCanvas}
+          />
+        </Suspense>
       )}
 
       {/* Grid Layout Builder Modal */}
       {showGridLayoutBuilder && (
-        <GridLayoutBuilder
-          onClose={() => setShowGridLayoutBuilder(false)}
-          onApplyLayout={applyGridLayout}
-        />
+        <Suspense fallback={<PageLoader message="Loading grid builder..." />}>
+          <GridLayoutBuilder
+            onClose={() => setShowGridLayoutBuilder(false)}
+            onApplyLayout={applyGridLayout}
+          />
+        </Suspense>
       )}
 
       {/* Animation Builder Modal */}
       {showAnimationBuilder && (
-        <AnimationBuilder
-          onClose={() => setShowAnimationBuilder(false)}
-          onApplyAnimation={applyAnimation}
-          currentElement={selectedElement}
-        />
+        <Suspense fallback={<PageLoader message="Loading animation builder..." />}>
+          <AnimationBuilder
+            onClose={() => setShowAnimationBuilder(false)}
+            onApplyAnimation={applyAnimation}
+            currentElement={selectedElement}
+          />
+        </Suspense>
       )}
 
       {/* Page Settings Modal */}
@@ -2309,5 +2325,14 @@ ${pageConfig.elements.filter((el) => el.visible !== false).map((el, index) => {
         </div>
       )}
     </div>
+  );
+}
+
+// Wrap with ErrorBoundary for better error handling
+export default function PageBuilderWithErrorBoundary() {
+  return (
+    <ErrorBoundary>
+      <EnhancedPageBuilder />
+    </ErrorBoundary>
   );
 }

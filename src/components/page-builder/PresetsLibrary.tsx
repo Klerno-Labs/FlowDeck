@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react';
 import { PageElement } from '@/types/page-builder';
 import { X, Save, Trash2, Sparkles, Box, Type, Image as ImageIcon, Square } from 'lucide-react';
+import { safeLocalStorage } from '@/lib/error-handler';
 
 interface PresetItem {
   id: string;
@@ -31,13 +32,10 @@ export function PresetsLibrary({
 
   // Load presets from localStorage
   useEffect(() => {
-    const stored = localStorage.getItem('page-builder-presets');
+    const stored = safeLocalStorage.getItem('page-builder-presets');
     if (stored) {
-      try {
-        setPresets(JSON.parse(stored));
-      } catch (e) {
-        console.error('Failed to load presets:', e);
-      }
+      const parsed = safeLocalStorage.parseJSON(stored, []);
+      setPresets(parsed);
     }
   }, []);
 
@@ -59,7 +57,7 @@ export function PresetsLibrary({
 
     const updated = [...presets, newPreset];
     setPresets(updated);
-    localStorage.setItem('page-builder-presets', JSON.stringify(updated));
+    safeLocalStorage.setItem('page-builder-presets', JSON.stringify(updated));
     setPresetName('');
     setShowSaveDialog(false);
   };
@@ -68,7 +66,7 @@ export function PresetsLibrary({
   const deletePreset = (id: string) => {
     const updated = presets.filter((p) => p.id !== id);
     setPresets(updated);
-    localStorage.setItem('page-builder-presets', JSON.stringify(updated));
+    safeLocalStorage.setItem('page-builder-presets', JSON.stringify(updated));
   };
 
   // Get icon for element type
@@ -139,7 +137,7 @@ export function PresetsLibrary({
             ) : (
               <button
                 onClick={() => setShowSaveDialog(true)}
-                className="w-full flex items-center justify-center gap-2 px-4 py-3 bg-gradient-to-r from-purple-600 to-pink-600 text-white rounded-lg hover:from-purple-700 hover:to-pink-700 transition-all shadow-lg hover:shadow-xl"
+                className="w-full flex items-center justify-center gap-2 px-4 py-3 bg-gradient-to-r from-pink-600 to-rose-600 text-white rounded-lg hover:from-pink-700 hover:to-rose-700 transition-all shadow-lg hover:shadow-xl"
               >
                 <Save className="w-5 h-5" />
                 <span className="font-semibold">Save Current Element as Preset</span>
@@ -160,7 +158,7 @@ export function PresetsLibrary({
               {selectedElement && (
                 <button
                   onClick={() => setShowSaveDialog(true)}
-                  className="inline-flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-purple-600 to-pink-600 text-white rounded-lg hover:from-purple-700 hover:to-pink-700 transition-all shadow-lg"
+                  className="inline-flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-pink-600 to-rose-600 text-white rounded-lg hover:from-pink-700 hover:to-rose-700 transition-all shadow-lg"
                 >
                   <Save className="w-5 h-5" />
                   <span className="font-semibold">Save Your First Preset</span>
@@ -210,7 +208,7 @@ export function PresetsLibrary({
                     <div className="flex gap-2">
                       <button
                         onClick={() => onApplyPreset(preset.element)}
-                        className="flex-1 px-3 py-2 bg-gradient-to-r from-purple-600 to-pink-600 text-white rounded-lg hover:from-purple-700 hover:to-pink-700 transition-all text-sm font-medium"
+                        className="flex-1 px-3 py-2 bg-gradient-to-r from-pink-600 to-rose-600 text-white rounded-lg hover:from-pink-700 hover:to-rose-700 transition-all text-sm font-medium"
                       >
                         Use Preset
                       </button>

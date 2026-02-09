@@ -1,9 +1,11 @@
 'use client';
 
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef, useMemo } from 'react';
 import { X, Upload, Search, Trash2, Image as ImageIcon, FolderPlus, Folder, Grid3x3, List, Download } from 'lucide-react';
 import Image from 'next/image';
 import { showToast } from '@/components/ui/Toast';
+import { safeLocalStorage } from '@/lib/error-handler';
+import { useDebounce } from '@/lib/performance';
 
 interface AssetItem {
   id: string;
@@ -27,6 +29,7 @@ export function AssetManager({ onClose, onSelectAsset }: AssetManagerProps) {
   const [folders, setFolders] = useState<string[]>(['All Assets', 'Uncategorized']);
   const [selectedFolder, setSelectedFolder] = useState('All Assets');
   const [searchQuery, setSearchQuery] = useState('');
+  const debouncedSearchQuery = useDebounce(searchQuery, 300); // Debounce search for better performance
   const [viewMode, setViewMode] = useState<'grid' | 'list'>('grid');
   const [selectedAssets, setSelectedAssets] = useState<string[]>([]);
   const [showNewFolderDialog, setShowNewFolderDialog] = useState(false);
@@ -35,18 +38,14 @@ export function AssetManager({ onClose, onSelectAsset }: AssetManagerProps) {
 
   // Load assets from localStorage
   useEffect(() => {
-    const stored = localStorage.getItem('page-builder-assets');
+    const stored = safeLocalStorage.getItem('page-builder-assets');
     if (stored) {
-      try {
-        const parsedAssets = JSON.parse(stored);
-        setAssets(parsedAssets);
+      const parsedAssets = safeLocalStorage.parseJSON(stored, []);
+      setAssets(parsedAssets);
 
-        // Extract unique folders
-        const uniqueFolders = Array.from(new Set(parsedAssets.map((a: AssetItem) => a.folder)));
-        setFolders(['All Assets', ...uniqueFolders.filter((f: string) => f !== 'All Assets')]);
-      } catch (e) {
-        console.error('Failed to load assets:', e);
-      }
+      // Extract unique folders
+      const uniqueFolders = Array.from(new Set(parsedAssets.map((a: AssetItem) => a.folder)));
+      setFolders(['All Assets', ...uniqueFolders.filter((f: string) => f !== 'All Assets')]);
     }
   }, []);
 
@@ -88,7 +87,7 @@ export function AssetManager({ onClose, onSelectAsset }: AssetManagerProps) {
           if (newAssets.length === files.length) {
             const updated = [...assets, ...newAssets];
             setAssets(updated);
-            localStorage.setItem('page-builder-assets', JSON.stringify(updated));
+            safeLocalStorage.setItem('page-builder-assets', JSON.stringify(updated));
             showToast(`${newAssets.length} image(s) uploaded successfully`, 'success');
           }
         };
@@ -109,7 +108,7 @@ export function AssetManager({ onClose, onSelectAsset }: AssetManagerProps) {
     if (window.confirm('Delete this asset? This cannot be undone.')) {
       const updated = assets.filter((a) => a.id !== id);
       setAssets(updated);
-      localStorage.setItem('page-builder-assets', JSON.stringify(updated));
+      safeLocalStorage.setItem('page-builder-assets', JSON.stringify(updated));
       setSelectedAssets(selectedAssets.filter((aid) => aid !== id));
       showToast('Asset deleted', 'success');
     }
@@ -120,7 +119,7 @@ export function AssetManager({ onClose, onSelectAsset }: AssetManagerProps) {
     if (window.confirm(`Delete ${selectedAssets.length} selected asset(s)? This cannot be undone.`)) {
       const updated = assets.filter((a) => !selectedAssets.includes(a.id));
       setAssets(updated);
-      localStorage.setItem('page-builder-assets', JSON.stringify(updated));
+      safeLocalStorage.setItem('page-builder-assets', JSON.stringify(updated));
       setSelectedAssets([]);
       showToast(`${selectedAssets.length} asset(s) deleted`, 'success');
     }
@@ -141,12 +140,14 @@ export function AssetManager({ onClose, onSelectAsset }: AssetManagerProps) {
     showToast('Folder created', 'success');
   };
 
-  // Filter assets
-  const filteredAssets = assets.filter((asset) => {
-    const matchesFolder = selectedFolder === 'All Assets' || asset.folder === selectedFolder;
-    const matchesSearch = searchQuery === '' || asset.name.toLowerCase().includes(searchQuery.toLowerCase());
-    return matchesFolder && matchesSearch;
-  });
+  // Filter assets (memoized for performance)
+  const filteredAssets = useMemo(() => {
+    return assets.filter((asset) => {
+      const matchesFolder = selectedFolder === 'All Assets' || asset.folder === selectedFolder;
+      const matchesSearch = debouncedSearchQuery === '' || asset.name.toLowerCase().includes(debouncedSearchQuery.toLowerCase());
+      return matchesFolder && matchesSearch;
+    });
+  }, [assets, selectedFolder, debouncedSearchQuery]);
 
   // Format file size
   const formatSize = (bytes: number) => {
@@ -212,7 +213,7 @@ export function AssetManager({ onClose, onSelectAsset }: AssetManagerProps) {
         {/* Main Content */}
         <div className="flex-1 flex flex-col">
           {/* Header */}
-          <div className="p-6 border-b border-gray-200 bg-gradient-to-r from-blue-500 to-purple-500">
+          <div className="p-6 border-b border-gray-200 bg-gradient-to-r from-blue-500 to-cyan-500">
             <div className="flex items-center justify-between mb-3">
               <div className="flex items-center gap-3">
                 <ImageIcon className="w-6 h-6 text-white" />
@@ -305,7 +306,7 @@ export function AssetManager({ onClose, onSelectAsset }: AssetManagerProps) {
                 </p>
                 <button
                   onClick={() => fileInputRef.current?.click()}
-                  className="inline-flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-blue-600 to-purple-600 text-white rounded-lg hover:from-blue-700 hover:to-purple-700 transition-all shadow-lg"
+                  className="inline-flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-blue-600 to-cyan-600 text-white rounded-lg hover:from-blue-700 hover:to-cyan-700 transition-all shadow-lg"
                 >
                   <Upload className="w-5 h-5" />
                   <span className="font-semibold">Upload Your First Image</span>

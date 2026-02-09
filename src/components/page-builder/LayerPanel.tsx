@@ -2,7 +2,8 @@
 
 import { PageElement } from '@/types/page-builder';
 import { Eye, EyeOff, Lock, Unlock, Trash2, Copy, Search } from 'lucide-react';
-import { useState } from 'react';
+import { useState, useMemo, memo } from 'react';
+import { useDebounce } from '@/lib/performance';
 
 interface LayerPanelProps {
   elements: PageElement[];
@@ -14,7 +15,7 @@ interface LayerPanelProps {
   onDuplicateElement: (id: string) => void;
 }
 
-export function LayerPanel({
+export const LayerPanel = memo(function LayerPanel({
   elements,
   selectedElementId,
   onSelectElement,
@@ -24,15 +25,17 @@ export function LayerPanel({
   onDuplicateElement,
 }: LayerPanelProps) {
   const [searchQuery, setSearchQuery] = useState('');
+  const debouncedSearchQuery = useDebounce(searchQuery, 200); // Debounce search
 
-  const filteredElements = elements.filter((element) => {
-    if (!searchQuery) return true;
-    const query = searchQuery.toLowerCase();
-    return (
+  // Memoize filtered elements for performance
+  const filteredElements = useMemo(() => {
+    if (!debouncedSearchQuery) return elements;
+    const query = debouncedSearchQuery.toLowerCase();
+    return elements.filter((element) =>
       element.type.toLowerCase().includes(query) ||
       (element.content && element.content.toLowerCase().includes(query))
     );
-  });
+  }, [elements, debouncedSearchQuery]);
 
   const getElementIcon = (type: string) => {
     switch (type) {
@@ -175,4 +178,4 @@ export function LayerPanel({
       </div>
     </div>
   );
-}
+});
