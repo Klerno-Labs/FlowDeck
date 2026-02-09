@@ -59,6 +59,18 @@ interface AlignmentDetection {
 
 const ALIGNMENT_THRESHOLD = 5; // pixels
 
+/**
+ * Safely converts width/height value to a number
+ * Handles number | string | undefined types
+ */
+function toNumber(value: number | string | undefined, fallback: number = 0): number {
+  if (value === undefined) return fallback;
+  if (typeof value === 'number') return value;
+  // Parse string values (e.g., '100', '50%')
+  const parsed = parseFloat(value);
+  return isNaN(parsed) ? fallback : parsed;
+}
+
 export function detectAlignments(
   draggingElement: PageElement,
   allElements: PageElement[],
@@ -81,23 +93,27 @@ export function detectAlignments(
   }
 
   // Calculate key alignment points for dragging element
+  const dragWidth = toNumber(draggingElement.position.width, 100);
+  const dragHeight = toNumber(draggingElement.position.height, 100);
   const dragLeft = draggingElement.position.x;
-  const dragRight = draggingElement.position.x + draggingElement.position.width;
-  const dragCenterX = draggingElement.position.x + draggingElement.position.width / 2;
+  const dragRight = draggingElement.position.x + dragWidth;
+  const dragCenterX = draggingElement.position.x + dragWidth / 2;
   const dragTop = draggingElement.position.y;
-  const dragBottom = draggingElement.position.y + draggingElement.position.height;
-  const dragCenterY = draggingElement.position.y + draggingElement.position.height / 2;
+  const dragBottom = draggingElement.position.y + dragHeight;
+  const dragCenterY = draggingElement.position.y + dragHeight / 2;
 
   // Check alignments with other elements
   const otherElements = allElements.filter((el) => el.id !== draggingElement.id && el.visible !== false);
 
   for (const element of otherElements) {
+    const elWidth = toNumber(element.position.width, 100);
+    const elHeight = toNumber(element.position.height, 100);
     const elLeft = element.position.x;
-    const elRight = element.position.x + element.position.width;
-    const elCenterX = element.position.x + element.position.width / 2;
+    const elRight = element.position.x + elWidth;
+    const elCenterX = element.position.x + elWidth / 2;
     const elTop = element.position.y;
-    const elBottom = element.position.y + element.position.height;
-    const elCenterY = element.position.y + element.position.height / 2;
+    const elBottom = element.position.y + elHeight;
+    const elCenterY = element.position.y + elHeight / 2;
 
     // Vertical alignments (X axis)
     // Left edge to left edge
@@ -108,12 +124,12 @@ export function detectAlignments(
     // Right edge to right edge
     else if (Math.abs(dragRight - elRight) < ALIGNMENT_THRESHOLD) {
       guides.push({ type: 'vertical', position: elRight });
-      snappedX = elRight - draggingElement.position.width;
+      snappedX = elRight - dragWidth;
     }
     // Center to center
     else if (Math.abs(dragCenterX - elCenterX) < ALIGNMENT_THRESHOLD) {
       guides.push({ type: 'vertical', position: elCenterX });
-      snappedX = elCenterX - draggingElement.position.width / 2;
+      snappedX = elCenterX - dragWidth / 2;
     }
     // Left edge to right edge
     else if (Math.abs(dragLeft - elRight) < ALIGNMENT_THRESHOLD) {
@@ -123,7 +139,7 @@ export function detectAlignments(
     // Right edge to left edge
     else if (Math.abs(dragRight - elLeft) < ALIGNMENT_THRESHOLD) {
       guides.push({ type: 'vertical', position: elLeft });
-      snappedX = elLeft - draggingElement.position.width;
+      snappedX = elLeft - dragWidth;
     }
 
     // Horizontal alignments (Y axis)
@@ -135,12 +151,12 @@ export function detectAlignments(
     // Bottom edge to bottom edge
     else if (Math.abs(dragBottom - elBottom) < ALIGNMENT_THRESHOLD) {
       guides.push({ type: 'horizontal', position: elBottom });
-      snappedY = elBottom - draggingElement.position.height;
+      snappedY = elBottom - dragHeight;
     }
     // Center to center
     else if (Math.abs(dragCenterY - elCenterY) < ALIGNMENT_THRESHOLD) {
       guides.push({ type: 'horizontal', position: elCenterY });
-      snappedY = elCenterY - draggingElement.position.height / 2;
+      snappedY = elCenterY - dragHeight / 2;
     }
     // Top edge to bottom edge
     else if (Math.abs(dragTop - elBottom) < ALIGNMENT_THRESHOLD) {
@@ -150,7 +166,7 @@ export function detectAlignments(
     // Bottom edge to top edge
     else if (Math.abs(dragBottom - elTop) < ALIGNMENT_THRESHOLD) {
       guides.push({ type: 'horizontal', position: elTop });
-      snappedY = elTop - draggingElement.position.height;
+      snappedY = elTop - dragHeight;
     }
   }
 
