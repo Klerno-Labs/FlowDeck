@@ -3,7 +3,7 @@
  * Database access layer for draft/publish workflow and version history
  */
 
-import { sql } from '@vercel/postgres';
+import { query, queryOne } from './client';
 
 // ============================================================================
 // TYPES
@@ -42,14 +42,10 @@ export async function getDraft(
   contentId: string
 ): Promise<ContentDraft | null> {
   try {
-    const result = await sql<ContentDraft>`
-      SELECT *
-      FROM content_drafts
-      WHERE content_type = ${contentType}
-        AND content_id = ${contentId}
-    `;
-
-    return result.rows[0] || null;
+    return await queryOne<ContentDraft>(
+      'SELECT * FROM content_drafts WHERE content_type = $1 AND content_id = $2',
+      [contentType, contentId]
+    );
   } catch (error) {
     console.error('Error getting draft:', error);
     throw error;
@@ -66,17 +62,16 @@ export async function saveDraft(
   userId: string | null = null
 ): Promise<ContentDraft> {
   try {
-    const result = await sql<ContentDraft>`
-      INSERT INTO content_drafts (content_type, content_id, draft_data, created_by)
-      VALUES (${contentType}, ${contentId}, ${JSON.stringify(draftData)}, ${userId})
-      ON CONFLICT (content_type, content_id)
-      DO UPDATE SET
-        draft_data = ${JSON.stringify(draftData)},
-        updated_at = CURRENT_TIMESTAMP
-      RETURNING *
-    `;
+    const result = await query<ContentDraft>(
+      `INSERT INTO content_drafts (content_type, content_id, draft_data, created_by)
+       VALUES ($1, $2, $3, $4)
+       ON CONFLICT (content_type, content_id)
+       DO UPDATE SET draft_data = $3, updated_at = CURRENT_TIMESTAMP
+       RETURNING *`,
+      [contentType, contentId, JSON.stringify(draftData), userId]
+    );
 
-    return result.rows[0];
+    return result[0];
   } catch (error) {
     console.error('Error saving draft:', error);
     throw error;
@@ -91,11 +86,10 @@ export async function deleteDraft(
   contentId: string
 ): Promise<void> {
   try {
-    await sql`
-      DELETE FROM content_drafts
-      WHERE content_type = ${contentType}
-        AND content_id = ${contentId}
-    `;
+    await query(
+      'DELETE FROM content_drafts WHERE content_type = $1 AND content_id = $2',
+      [contentType, contentId]
+    );
   } catch (error) {
     console.error('Error deleting draft:', error);
     throw error;
@@ -110,16 +104,15 @@ export async function hasDraft(
   contentId: string
 ): Promise<boolean> {
   try {
-    const result = await sql`
-      SELECT EXISTS(
-        SELECT 1
-        FROM content_drafts
-        WHERE content_type = ${contentType}
-          AND content_id = ${contentId}
-      ) as exists
-    `;
+    const result = await queryOne<{ exists: boolean }>(
+      `SELECT EXISTS(
+        SELECT 1 FROM content_drafts
+        WHERE content_type = $1 AND content_id = $2
+      ) as exists`,
+      [contentType, contentId]
+    );
 
-    return result.rows[0].exists;
+    return result?.exists || false;
   } catch (error) {
     console.error('Error checking draft:', error);
     throw error;
@@ -142,33 +135,21 @@ export async function createVersion(
 ): Promise<ContentVersion> {
   try {
     // Get next version number
-    const versionNumberResult = await sql<{ next_version: number }>`
-      SELECT get_next_version_number(${contentType}, ${contentId}) as next_version
-    `;
-    const versionNumber = versionNumberResult.rows[0].next_version;
+    const versionNumberResult = await queryOne<{ next_version: number }>(
+      'SELECT get_next_version_number($1, $2) as next_version',
+      [contentType, contentId]
+    );
+    const versionNumber = versionNumberResult?.next_version || 1;
 
     // Create version
-    const result = await sql<ContentVersion>`
-      INSERT INTO content_versions (
-        content_type,
-        content_id,
-        version_number,
-        version_data,
-        change_summary,
-        created_by
-      )
-      VALUES (
-        ${contentType},
-        ${contentId},
-        ${versionNumber},
-        ${JSON.stringify(versionData)},
-        ${changeSummary},
-        ${userId}
-      )
-      RETURNING *
-    `;
+    const result = await query<ContentVersion>(
+      `INSERT INTO content_versions (
+        content_type, content_id, version_number, version_data, change_summary, created_by
+      ) VALUES ($1, $2, $3, $4, $5, $6) RETURNING *`,
+      [contentType, contentId, versionNumber, JSON.stringify(versionData), changeSummary, userId]
+    );
 
-    return result.rows[0];
+    return result[0];
   } catch (error) {
     console.error('Error creating version:', error);
     throw error;
@@ -184,16 +165,13 @@ export async function getVersionHistory(
   limit: number = 50
 ): Promise<ContentVersion[]> {
   try {
-    const result = await sql<ContentVersion>`
-      SELECT *
-      FROM content_versions
-      WHERE content_type = ${contentType}
-        AND content_id = ${contentId}
-      ORDER BY version_number DESC
-      LIMIT ${limit}
-    `;
-
-    return result.rows;
+    return await query<ContentVersion>(
+      `SELECT * FROM content_versions
+       WHERE content_type = $1 AND content_id = $2
+       ORDER BY version_number DESC
+       LIMIT $3`,
+      [contentType, contentId, limit]
+    );
   } catch (error) {
     console.error('Error getting version history:', error);
     throw error;
@@ -209,15 +187,10 @@ export async function getVersion(
   versionNumber: number
 ): Promise<ContentVersion | null> {
   try {
-    const result = await sql<ContentVersion>`
-      SELECT *
-      FROM content_versions
-      WHERE content_type = ${contentType}
-        AND content_id = ${contentId}
-        AND version_number = ${versionNumber}
-    `;
-
-    return result.rows[0] || null;
+    return await queryOne<ContentVersion>(
+      'SELECT * FROM content_versions WHERE content_type = $1 AND content_id = $2 AND version_number = $3',
+      [contentType, contentId, versionNumber]
+    );
   } catch (error) {
     console.error('Error getting version:', error);
     throw error;
@@ -232,16 +205,13 @@ export async function getLatestVersion(
   contentId: string
 ): Promise<ContentVersion | null> {
   try {
-    const result = await sql<ContentVersion>`
-      SELECT *
-      FROM content_versions
-      WHERE content_type = ${contentType}
-        AND content_id = ${contentId}
-      ORDER BY version_number DESC
-      LIMIT 1
-    `;
-
-    return result.rows[0] || null;
+    return await queryOne<ContentVersion>(
+      `SELECT * FROM content_versions
+       WHERE content_type = $1 AND content_id = $2
+       ORDER BY version_number DESC
+       LIMIT 1`,
+      [contentType, contentId]
+    );
   } catch (error) {
     console.error('Error getting latest version:', error);
     throw error;
@@ -256,14 +226,12 @@ export async function getVersionCount(
   contentId: string
 ): Promise<number> {
   try {
-    const result = await sql<{ count: string }>`
-      SELECT COUNT(*)::text as count
-      FROM content_versions
-      WHERE content_type = ${contentType}
-        AND content_id = ${contentId}
-    `;
+    const result = await queryOne<{ count: string }>(
+      'SELECT COUNT(*)::text as count FROM content_versions WHERE content_type = $1 AND content_id = $2',
+      [contentType, contentId]
+    );
 
-    return parseInt(result.rows[0].count, 10);
+    return parseInt(result?.count || '0', 10);
   } catch (error) {
     console.error('Error getting version count:', error);
     throw error;
