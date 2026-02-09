@@ -2,9 +2,11 @@ import { auth } from '@/lib/auth/auth';
 import { redirect } from 'next/navigation';
 import Link from 'next/link';
 import Image from 'next/image';
-import { Home, Package, Layers, LayoutGrid, Palette } from 'lucide-react';
+import { Home, Package, Layers, LayoutGrid, Palette, ArrowLeft } from 'lucide-react';
 import { ToastContainer } from '@/components/ui/Toast';
 import { UserMenu } from '@/components/admin/UserMenu';
+import { AdminBackButton } from '@/components/admin/AdminBackButton';
+import { NavTab } from '@/components/admin/NavTab';
 
 export default async function AdminLayout({
   children,
@@ -33,7 +35,10 @@ export default async function AdminLayout({
                 <div className="px-8 py-6">
                   <div className="flex justify-between items-center">
                     {/* Left: Logo and Nav */}
-                    <div className="flex items-center gap-8">
+                    <div className="flex items-center gap-6">
+                      {/* Back Button */}
+                      <AdminBackButton />
+
                       <Link href="/admin" className="flex items-center gap-3">
                         <div className="w-12 h-12 rounded-full bg-white shadow-lg flex items-center justify-center">
                           <LayoutGrid className="w-6 h-6 text-blue-600" />
@@ -102,17 +107,5 @@ export default async function AdminLayout({
         </div>
       </div>
     </div>
-  );
-}
-
-function NavTab({ href, icon, label }: { href: string; icon: React.ReactNode; label: string }) {
-  return (
-    <Link
-      href={href}
-      className="flex items-center gap-2 px-5 py-3 rounded-xl bg-white/10 hover:bg-white/20 backdrop-blur-sm transition-all border border-white/20 hover:border-white/30 active:scale-95 touch-manipulation"
-    >
-      <span className="text-white/90">{icon}</span>
-      <span className="text-sm font-bold text-white tracking-wide">{label}</span>
-    </Link>
   );
 }
