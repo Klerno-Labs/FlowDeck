@@ -38,15 +38,12 @@ export function AssetManager({ onClose, onSelectAsset }: AssetManagerProps) {
 
   // Load assets from localStorage
   useEffect(() => {
-    const stored = safeLocalStorage.getItem('page-builder-assets');
-    if (stored) {
-      const parsedAssets = safeLocalStorage.parseJSON(stored, []);
-      setAssets(parsedAssets);
+    const parsedAssets = safeLocalStorage.getItem('page-builder-assets', []);
+    setAssets(parsedAssets);
 
-      // Extract unique folders
-      const uniqueFolders = Array.from(new Set(parsedAssets.map((a: AssetItem) => a.folder)));
-      setFolders(['All Assets', ...uniqueFolders.filter((f: string) => f !== 'All Assets')]);
-    }
+    // Extract unique folders
+    const uniqueFolders = Array.from(new Set(parsedAssets.map((a: AssetItem) => a.folder)));
+    setFolders(['All Assets', ...uniqueFolders.filter((f: string) => f !== 'All Assets')]);
   }, []);
 
   // Upload files
@@ -87,7 +84,7 @@ export function AssetManager({ onClose, onSelectAsset }: AssetManagerProps) {
           if (newAssets.length === files.length) {
             const updated = [...assets, ...newAssets];
             setAssets(updated);
-            safeLocalStorage.setItem('page-builder-assets', JSON.stringify(updated));
+            safeLocalStorage.setItem('page-builder-assets', updated);
             showToast(`${newAssets.length} image(s) uploaded successfully`, 'success');
           }
         };
@@ -108,7 +105,7 @@ export function AssetManager({ onClose, onSelectAsset }: AssetManagerProps) {
     if (window.confirm('Delete this asset? This cannot be undone.')) {
       const updated = assets.filter((a) => a.id !== id);
       setAssets(updated);
-      safeLocalStorage.setItem('page-builder-assets', JSON.stringify(updated));
+      safeLocalStorage.setItem('page-builder-assets', updated);
       setSelectedAssets(selectedAssets.filter((aid) => aid !== id));
       showToast('Asset deleted', 'success');
     }
@@ -119,7 +116,7 @@ export function AssetManager({ onClose, onSelectAsset }: AssetManagerProps) {
     if (window.confirm(`Delete ${selectedAssets.length} selected asset(s)? This cannot be undone.`)) {
       const updated = assets.filter((a) => !selectedAssets.includes(a.id));
       setAssets(updated);
-      safeLocalStorage.setItem('page-builder-assets', JSON.stringify(updated));
+      safeLocalStorage.setItem('page-builder-assets', updated);
       setSelectedAssets([]);
       showToast(`${selectedAssets.length} asset(s) deleted`, 'success');
     }

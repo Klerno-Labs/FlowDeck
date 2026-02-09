@@ -34,11 +34,8 @@ export function VersionHistory({
 
   // Load versions from localStorage
   useEffect(() => {
-    const stored = safeLocalStorage.getItem(`page-builder-history-${currentPageKey}`);
-    if (stored) {
-      const parsed = safeLocalStorage.parseJSON(stored, []);
-      setVersions(parsed);
-    }
+    const versions = safeLocalStorage.getItem(`page-builder-history-${currentPageKey}`, []);
+    setVersions(versions);
   }, [currentPageKey]);
 
   // Save version to history
@@ -54,7 +51,7 @@ export function VersionHistory({
 
     const updated = [newVersion, ...versions].slice(0, 50); // Keep last 50 versions
     setVersions(updated);
-    safeLocalStorage.setItem(`page-builder-history-${currentPageKey}`, JSON.stringify(updated));
+    safeLocalStorage.setItem(`page-builder-history-${currentPageKey}`, updated);
   };
 
   // Restore version
@@ -70,7 +67,7 @@ export function VersionHistory({
   const deleteVersion = (id: string) => {
     const updated = versions.filter((v) => v.id !== id);
     setVersions(updated);
-    safeLocalStorage.setItem(`page-builder-history-${currentPageKey}`, JSON.stringify(updated));
+    safeLocalStorage.setItem(`page-builder-history-${currentPageKey}`, updated);
     if (selectedVersion?.id === id) {
       setSelectedVersion(null);
       setShowPreview(false);

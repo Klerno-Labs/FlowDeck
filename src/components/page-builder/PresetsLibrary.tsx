@@ -32,11 +32,8 @@ export function PresetsLibrary({
 
   // Load presets from localStorage
   useEffect(() => {
-    const stored = safeLocalStorage.getItem('page-builder-presets');
-    if (stored) {
-      const parsed = safeLocalStorage.parseJSON(stored, []);
-      setPresets(parsed);
-    }
+    const presets = safeLocalStorage.getItem('page-builder-presets', []);
+    setPresets(presets);
   }, []);
 
   // Save preset
@@ -57,7 +54,7 @@ export function PresetsLibrary({
 
     const updated = [...presets, newPreset];
     setPresets(updated);
-    safeLocalStorage.setItem('page-builder-presets', JSON.stringify(updated));
+    safeLocalStorage.setItem('page-builder-presets', updated);
     setPresetName('');
     setShowSaveDialog(false);
   };
@@ -66,7 +63,7 @@ export function PresetsLibrary({
   const deletePreset = (id: string) => {
     const updated = presets.filter((p) => p.id !== id);
     setPresets(updated);
-    safeLocalStorage.setItem('page-builder-presets', JSON.stringify(updated));
+    safeLocalStorage.setItem('page-builder-presets', updated);
   };
 
   // Get icon for element type
