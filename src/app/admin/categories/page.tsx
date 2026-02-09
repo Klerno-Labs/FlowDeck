@@ -4,6 +4,8 @@ import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { Layers, Plus, Pencil, Trash2, Loader2, Sparkles } from 'lucide-react';
 import { showToast } from '@/components/ui/Toast';
+import { AdminFlowDeckPage } from '@/components/layout/AdminFlowDeckPage';
+import { Button } from '@/components/ui/Button';
 
 interface Category {
   id: string;
@@ -72,38 +74,50 @@ export default function CategoriesPage() {
 
   if (loading) {
     return (
-      <div className="flex items-center justify-center py-24">
-        <Loader2 className="w-12 h-12 animate-spin text-blue-600" />
-      </div>
+      <AdminFlowDeckPage
+        title="Categories"
+        subtitle="Loading..."
+        showHome={true}
+        showBack={true}
+        backTo="/admin"
+      >
+        <div className="flex items-center justify-center py-24">
+          <Loader2 className="w-12 h-12 animate-spin text-blue-600" />
+        </div>
+      </AdminFlowDeckPage>
     );
   }
 
   return (
-    <div className="max-w-[1600px] mx-auto">
-      <div className="flex justify-between items-start mb-8">
-        <div>
-          <h1 className="text-5xl font-bold text-gray-900 mb-2">Categories</h1>
-          <p className="text-xl text-gray-600">
-            {categories.length} categories • Manage product separation types
-          </p>
-        </div>
-        <div className="flex gap-4">
-          <button
+    <AdminFlowDeckPage
+      title="Categories"
+      subtitle={`${categories.length} categories • Manage product separation types`}
+      showHome={true}
+      showBack={true}
+      backTo="/admin"
+      rightActions={
+        <>
+          <Button
             onClick={() => router.push('/admin/categories/edit')}
-            className="inline-flex items-center gap-3 px-8 py-4 bg-gradient-to-r from-purple-600 to-indigo-600 text-white rounded-2xl hover:shadow-xl hover:scale-105 transition-all text-lg font-bold shadow-lg shadow-purple-500/30 active:scale-95 touch-manipulation"
+            variant="primary"
+            size="md"
+            className="bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-700 hover:to-indigo-700"
           >
-            <Sparkles className="w-6 h-6" />
+            <Sparkles className="w-5 h-5" />
             Visual Editor
-          </button>
-          <button
+          </Button>
+          <Button
             onClick={handleCreate}
-            className="inline-flex items-center gap-3 px-8 py-4 bg-green-600 text-white rounded-2xl hover:shadow-xl hover:scale-105 transition-all text-lg font-bold shadow-lg shadow-green-500/30 active:scale-95 touch-manipulation"
+            variant="success"
+            size="md"
           >
-            <Plus className="w-6 h-6" />
+            <Plus className="w-5 h-5" />
             Add Category
-          </button>
-        </div>
-      </div>
+          </Button>
+        </>
+      }
+    >
+      <div className="max-w-[1600px] mx-auto">
 
       {categories.length === 0 ? (
         <div className="bg-white rounded-3xl shadow-lg border-2 border-gray-100 p-20 text-center">
@@ -188,7 +202,8 @@ export default function CategoriesPage() {
           }}
         />
       )}
-    </div>
+      </div>
+    </AdminFlowDeckPage>
   );
 }
 

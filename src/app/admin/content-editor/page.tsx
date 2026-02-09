@@ -1,16 +1,17 @@
 import Link from 'next/link';
 import { FileText, BookOpen, Info } from 'lucide-react';
+import { AdminFlowDeckPage } from '@/components/layout/AdminFlowDeckPage';
 
 export default function ContentEditorPage() {
   return (
-    <div className="max-w-6xl mx-auto">
-      {/* Header */}
-      <div className="mb-8">
-        <h1 className="text-4xl font-bold text-gray-900 mb-3">Content Editor</h1>
-        <p className="text-lg text-gray-600">
-          Edit presentation content displayed to users. Layout and structure are fixed.
-        </p>
-      </div>
+    <AdminFlowDeckPage
+      title="Content Editor"
+      subtitle="Edit presentation content displayed to users. Layout and structure are fixed."
+      showHome={true}
+      showBack={true}
+      backTo="/admin"
+    >
+      <div className="max-w-6xl mx-auto">
 
       {/* Section Cards */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
@@ -70,6 +71,7 @@ export default function ContentEditorPage() {
           </div>
         </div>
       </div>
-    </div>
+      </div>
+    </AdminFlowDeckPage>
   );
 }

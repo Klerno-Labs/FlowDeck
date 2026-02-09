@@ -1,10 +1,39 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { useRouter } from 'next/navigation';
 import Image from 'next/image';
-import { ChevronDown, ChevronRight, Plus, Trash2, Save, Upload } from 'lucide-react';
+import {
+  ChevronDown,
+  ChevronRight,
+  Plus,
+  Trash2,
+  Save,
+  Upload,
+  GripVertical,
+  Sparkles,
+  Eye,
+  RefreshCw,
+} from 'lucide-react';
 import { showToast } from '@/components/ui/Toast';
+import {
+  DndContext,
+  closestCenter,
+  KeyboardSensor,
+  PointerSensor,
+  useSensor,
+  useSensors,
+  DragEndEvent,
+} from '@dnd-kit/core';
+import {
+  arrayMove,
+  SortableContext,
+  sortableKeyboardCoordinates,
+  useSortable,
+  verticalListSortingStrategy,
+} from '@dnd-kit/sortable';
+import { CSS } from '@dnd-kit/utilities';
+import { AdminFlowDeckPage } from '@/components/layout/AdminFlowDeckPage';
 
 interface KnowledgeSlideItem {
   id: string;
@@ -25,6 +54,75 @@ interface KnowledgeSlide {
   items: KnowledgeSlideItem[];
 }
 
+// Sortable Item Component for Drag & Drop
+function SortableContentItem({
+  item,
+  slideId,
+  index,
+  onUpdate,
+  onRemove,
+}: {
+  item: KnowledgeSlideItem;
+  slideId: string;
+  index: number;
+  onUpdate: (itemId: string, field: keyof KnowledgeSlideItem, value: any) => void;
+  onRemove: (itemId: string) => void;
+}) {
+  const {
+    attributes,
+    listeners,
+    setNodeRef,
+    transform,
+    transition,
+    isDragging,
+  } = useSortable({ id: item.id });
+
+  const style = {
+    transform: CSS.Transform.toString(transform),
+    transition,
+  };
+
+  return (
+    <div
+      ref={setNodeRef}
+      style={style}
+      className={`group relative ${isDragging ? 'z-50 opacity-50' : 'opacity-100'}`}
+    >
+      <div className="flex items-start gap-3 bg-white rounded-xl border-2 border-gray-200 hover:border-blue-300 transition-all p-3 shadow-sm hover:shadow-md">
+        {/* Drag Handle */}
+        <button
+          {...attributes}
+          {...listeners}
+          className="mt-3 p-1 touch-manipulation cursor-grab active:cursor-grabbing text-gray-400 hover:text-blue-600 transition-colors"
+          title="Drag to reorder"
+        >
+          <GripVertical className="w-5 h-5" />
+        </button>
+
+        {/* Content Input */}
+        <div className="flex-1">
+          <input
+            type="text"
+            value={item.content}
+            onChange={(e) => onUpdate(item.id, 'content', e.target.value)}
+            className="w-full px-4 py-3 rounded-lg border-2 border-transparent focus:border-blue-500 focus:ring-4 focus:ring-blue-100 focus:outline-none bg-gray-50 transition-all"
+            placeholder={`Item ${index + 1}...`}
+          />
+        </div>
+
+        {/* Remove Button */}
+        <button
+          onClick={() => onRemove(item.id)}
+          className="mt-3 p-2 rounded-lg hover:bg-red-100 text-red-600 transition-all opacity-0 group-hover:opacity-100 touch-manipulation"
+          title="Remove item"
+        >
+          <Trash2 className="w-5 h-5" />
+        </button>
+      </div>
+    </div>
+  );
+}
+
 export default function KnowledgeBaseEditorPage() {
   const router = useRouter();
   const [slides, setSlides] = useState<KnowledgeSlide[]>([]);
@@ -32,10 +130,32 @@ export default function KnowledgeBaseEditorPage() {
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
   const [uploading, setUploading] = useState(false);
+  const [lastSaved, setLastSaved] = useState<Date | null>(null);
+  const [hasChanges, setHasChanges] = useState(false);
+  const [previewKey, setPreviewKey] = useState(0);
+
+  // Drag and drop sensors
+  const sensors = useSensors(
+    useSensor(PointerSensor),
+    useSensor(KeyboardSensor, {
+      coordinateGetter: sortableKeyboardCoordinates,
+    })
+  );
 
   useEffect(() => {
     fetchSlides();
   }, []);
+
+  // Auto-save every 5 seconds if there are changes
+  useEffect(() => {
+    if (!hasChanges || !expandedSlideId) return;
+
+    const timer = setTimeout(() => {
+      handleSave(expandedSlideId);
+    }, 5000);
+
+    return () => clearTimeout(timer);
+  }, [slides, hasChanges, expandedSlideId]);
 
   async function fetchSlides() {
     try {
@@ -79,6 +199,9 @@ export default function KnowledgeBaseEditorPage() {
 
       if (!res.ok) throw new Error('Failed to save');
 
+      setHasChanges(false);
+      setLastSaved(new Date());
+      setPreviewKey((prev) => prev + 1);
       showToast('Slide saved successfully', 'success');
       router.refresh();
     } catch (error) {
@@ -86,6 +209,32 @@ export default function KnowledgeBaseEditorPage() {
       showToast('Failed to save slide', 'error');
     } finally {
       setSaving(false);
+    }
+  }
+
+  // Handle drag end for reordering content items
+  function handleDragEnd(event: DragEndEvent, slideId: string) {
+    const { active, over } = event;
+
+    if (over && active.id !== over.id) {
+      setSlides((prev) =>
+        prev.map((slide) => {
+          if (slide.id !== slideId) return slide;
+
+          const oldIndex = slide.items.findIndex((item) => item.id === active.id);
+          const newIndex = slide.items.findIndex((item) => item.id === over.id);
+
+          const reorderedItems = arrayMove(slide.items, oldIndex, newIndex).map(
+            (item, index) => ({
+              ...item,
+              display_order: index + 1,
+            })
+          );
+
+          return { ...slide, items: reorderedItems };
+        })
+      );
+      setHasChanges(true);
     }
   }
 
@@ -123,6 +272,7 @@ export default function KnowledgeBaseEditorPage() {
     setSlides(prev => prev.map(slide =>
       slide.id === slideId ? { ...slide, [field]: value } : slide
     ));
+    setHasChanges(true);
   }
 
   function updateSlideItem(slideId: string, itemId: string, field: keyof KnowledgeSlideItem, value: any) {
@@ -135,6 +285,7 @@ export default function KnowledgeBaseEditorPage() {
         ),
       };
     }));
+    setHasChanges(true);
   }
 
   function addSlideItem(slideId: string) {
@@ -154,6 +305,7 @@ export default function KnowledgeBaseEditorPage() {
         ],
       };
     }));
+    setHasChanges(true);
   }
 
   function removeSlideItem(slideId: string, itemId: string) {
@@ -164,207 +316,301 @@ export default function KnowledgeBaseEditorPage() {
         items: slide.items.filter(item => item.id !== itemId),
       };
     }));
+    setHasChanges(true);
+  }
+
+  function refreshPreview() {
+    setPreviewKey((prev) => prev + 1);
   }
 
   if (loading) {
     return (
-      <div className="flex items-center justify-center h-96">
-        <div className="text-center">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto mb-4"></div>
-          <p className="text-gray-600">Loading slides...</p>
+      <AdminFlowDeckPage
+        title="Edit Knowledge Base"
+        subtitle="Loading..."
+        showHome={true}
+        showBack={true}
+        backTo="/admin/content-editor"
+      >
+        <div className="flex items-center justify-center h-96">
+          <div className="text-center">
+            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-gradient-to-r from-blue-600 to-cyan-600 mx-auto mb-4"></div>
+            <p className="text-gray-600">Loading slides...</p>
+          </div>
         </div>
-      </div>
+      </AdminFlowDeckPage>
     );
   }
 
   return (
-    <div className="max-w-5xl mx-auto">
-      {/* Header */}
-      <div className="mb-8">
-        <h1 className="text-4xl font-bold text-gray-900 mb-3">Edit Knowledge Base Slides</h1>
-        <p className="text-lg text-gray-600">
-          Edit carousel slides for the Knowledge Base section
-        </p>
-      </div>
+    <AdminFlowDeckPage
+      title="Edit Knowledge Base"
+      subtitle={
+        saving
+          ? 'Saving...'
+          : lastSaved
+          ? `Last saved: ${lastSaved.toLocaleTimeString()}`
+          : 'Edit carousel slides for the Knowledge Base section'
+      }
+      showHome={true}
+      showBack={true}
+      backTo="/admin/content-editor"
+    >
+      <div className="flex gap-6 h-[calc(100vh-12rem)]">
+        {/* Left Panel - Editor */}
+        <div className="w-1/2 overflow-y-auto">
 
-      {/* Slides */}
-      <div className="space-y-4">
-        {slides.map(slide => {
-          const isExpanded = expandedSlideId === slide.id;
+        {/* Slides */}
+        <div className="space-y-4 pr-2">
+          {slides.map((slide) => {
+            const isExpanded = expandedSlideId === slide.id;
 
-          return (
-            <div key={slide.id} className="rounded-2xl border-2 border-gray-200 overflow-hidden bg-white shadow-md">
-              {/* Slide Header */}
-              <button
-                onClick={() => setExpandedSlideId(isExpanded ? null : slide.id)}
-                className="w-full p-6 bg-gray-50 hover:bg-gray-100 flex items-center justify-between transition-colors touch-manipulation"
+            return (
+              <div
+                key={slide.id}
+                className="rounded-2xl overflow-hidden bg-white shadow-lg border-2 border-gray-100 hover:border-blue-200 transition-all"
               >
-                <div className="flex items-center gap-4">
-                  {isExpanded ? (
-                    <ChevronDown className="w-6 h-6 text-gray-600" />
-                  ) : (
-                    <ChevronRight className="w-6 h-6 text-gray-600" />
-                  )}
-                  <h3 className="text-2xl font-bold text-gray-800">{slide.title}</h3>
-                </div>
-                <span className="text-sm text-gray-500">{slide.items.length} items</span>
-              </button>
-
-              {/* Slide Content */}
-              {isExpanded && (
-                <div className="p-6 space-y-6">
-                  {/* Title */}
-                  <div>
-                    <label className="block text-sm font-bold text-gray-700 mb-2">Title</label>
-                    <input
-                      type="text"
-                      value={slide.title}
-                      onChange={(e) => updateSlideField(slide.id, 'title', e.target.value)}
-                      className="w-full px-4 py-3 rounded-xl border-2 border-gray-200 focus:border-blue-500 focus:outline-none text-lg"
-                      placeholder="Enter title..."
-                    />
-                  </div>
-
-                  {/* Subtitle */}
-                  <div>
-                    <label className="block text-sm font-bold text-gray-700 mb-2">
-                      Subtitle <span className="text-gray-400 font-normal">(optional)</span>
-                    </label>
-                    <input
-                      type="text"
-                      value={slide.subtitle || ''}
-                      onChange={(e) => updateSlideField(slide.id, 'subtitle', e.target.value || null)}
-                      className="w-full px-4 py-3 rounded-xl border-2 border-gray-200 focus:border-blue-500 focus:outline-none"
-                      placeholder="Enter subtitle..."
-                    />
-                  </div>
-
-                  {/* Layout */}
-                  <div>
-                    <label className="block text-sm font-bold text-gray-700 mb-2">Layout</label>
-                    <div className="grid grid-cols-2 gap-4">
-                      <button
-                        onClick={() => updateSlideField(slide.id, 'layout', 'content-left')}
-                        className={`p-4 rounded-xl border-2 transition-all touch-manipulation ${
-                          slide.layout === 'content-left'
-                            ? 'border-blue-500 bg-blue-50 text-blue-700'
-                            : 'border-gray-200 hover:border-gray-300 text-gray-700'
-                        }`}
-                      >
-                        <div className="font-bold">Content Left</div>
-                        <div className="text-sm mt-1">Image on right</div>
-                      </button>
-                      <button
-                        onClick={() => updateSlideField(slide.id, 'layout', 'content-right')}
-                        className={`p-4 rounded-xl border-2 transition-all touch-manipulation ${
-                          slide.layout === 'content-right'
-                            ? 'border-blue-500 bg-blue-50 text-blue-700'
-                            : 'border-gray-200 hover:border-gray-300 text-gray-700'
-                        }`}
-                      >
-                        <div className="font-bold">Content Right</div>
-                        <div className="text-sm mt-1">Image on left</div>
-                      </button>
-                    </div>
-                  </div>
-
-                  {/* Image */}
-                  <div>
-                    <label className="block text-sm font-bold text-gray-700 mb-2">Image</label>
-                    {slide.image_path && (
-                      <div className="mb-4">
-                        <Image
-                          src={slide.image_path}
-                          alt={slide.title}
-                          width={300}
-                          height={200}
-                          className="rounded-xl object-cover"
-                        />
-                      </div>
+                {/* Slide Header */}
+                <button
+                  onClick={() => setExpandedSlideId(isExpanded ? null : slide.id)}
+                  className="w-full p-5 bg-gradient-to-r from-gray-50 to-gray-100 hover:from-blue-50 hover:to-cyan-50 flex items-center justify-between transition-all touch-manipulation group"
+                >
+                  <div className="flex items-center gap-3">
+                    {isExpanded ? (
+                      <ChevronDown className="w-6 h-6 text-blue-600" />
+                    ) : (
+                      <ChevronRight className="w-6 h-6 text-gray-400 group-hover:text-blue-600" />
                     )}
-                    <label className="inline-flex items-center gap-2 px-4 py-3 bg-blue-50 text-blue-700 rounded-xl cursor-pointer hover:bg-blue-100 transition-colors touch-manipulation">
-                      <Upload className="w-5 h-5" />
-                      <span className="font-semibold">
-                        {uploading ? 'Uploading...' : 'Upload New Image'}
-                      </span>
+                    <Sparkles className="w-5 h-5 text-cyan-500" />
+                    <h3 className="text-xl font-bold text-gray-800 group-hover:text-blue-600 transition-colors">
+                      {slide.title}
+                    </h3>
+                  </div>
+                  <div className="flex items-center gap-3">
+                    <span className="text-sm text-gray-500 bg-white px-3 py-1 rounded-full">
+                      {slide.items.length} items
+                    </span>
+                  </div>
+                </button>
+
+                {/* Slide Content */}
+                {isExpanded && (
+                  <div className="p-6 space-y-6 bg-gradient-to-br from-white to-gray-50">
+                    {/* Title */}
+                    <div>
+                      <label className="flex items-center gap-2 text-sm font-bold text-gray-700 mb-2">
+                        <span>Title</span>
+                        <span className="text-xs text-gray-400 font-normal">({slide.title.length} chars)</span>
+                      </label>
                       <input
-                        type="file"
-                        accept="image/*"
-                        onChange={(e) => {
-                          const file = e.target.files?.[0];
-                          if (file) handleImageUpload(slide.id, file);
-                        }}
-                        disabled={uploading}
-                        className="hidden"
+                        type="text"
+                        value={slide.title}
+                        onChange={(e) => updateSlideField(slide.id, 'title', e.target.value)}
+                        className="w-full px-4 py-3 rounded-xl border-2 border-gray-200 focus:border-blue-500 focus:ring-4 focus:ring-blue-100 focus:outline-none text-lg font-semibold transition-all"
+                        placeholder="Enter title..."
                       />
-                    </label>
-                  </div>
-
-                  {/* Quote */}
-                  <div>
-                    <label className="block text-sm font-bold text-gray-700 mb-2">
-                      Quote Overlay <span className="text-gray-400 font-normal">(optional)</span>
-                    </label>
-                    <textarea
-                      value={slide.quote || ''}
-                      onChange={(e) => updateSlideField(slide.id, 'quote', e.target.value || null)}
-                      rows={3}
-                      className="w-full px-4 py-3 rounded-xl border-2 border-gray-200 focus:border-blue-500 focus:outline-none resize-none"
-                      placeholder="Enter quote text to display over image..."
-                    />
-                  </div>
-
-                  {/* Content Items */}
-                  <div>
-                    <label className="block text-sm font-bold text-gray-700 mb-3">Content Items</label>
-                    <div className="space-y-3">
-                      {slide.items.map((item, index) => (
-                        <div key={item.id} className="flex items-center gap-3">
-                          <div className="flex-1">
-                            <input
-                              type="text"
-                              value={item.content}
-                              onChange={(e) => updateSlideItem(slide.id, item.id, 'content', e.target.value)}
-                              className="w-full px-4 py-3 rounded-xl border-2 border-gray-200 focus:border-blue-500 focus:outline-none"
-                              placeholder={`Item ${index + 1}...`}
-                            />
-                          </div>
-                          <button
-                            onClick={() => removeSlideItem(slide.id, item.id)}
-                            className="p-3 rounded-xl hover:bg-red-100 text-red-600 transition-colors touch-manipulation"
-                            title="Remove item"
-                          >
-                            <Trash2 className="w-5 h-5" />
-                          </button>
-                        </div>
-                      ))}
                     </div>
-                    <button
-                      onClick={() => addSlideItem(slide.id)}
-                      className="mt-4 w-full px-4 py-3 rounded-xl border-2 border-dashed border-gray-300 hover:border-blue-500 hover:bg-blue-50 text-blue-600 font-semibold flex items-center justify-center gap-2 transition-all touch-manipulation"
-                    >
-                      <Plus className="w-5 h-5" />
-                      Add Content Item
-                    </button>
-                  </div>
 
-                  {/* Save Button */}
-                  <div className="pt-4 border-t-2 border-gray-100">
-                    <button
-                      onClick={() => handleSave(slide.id)}
-                      disabled={saving}
-                      className="w-full px-6 py-4 bg-blue-600 hover:bg-blue-700 disabled:bg-gray-400 text-white font-bold rounded-xl transition-colors flex items-center justify-center gap-2 shadow-lg active:scale-95 touch-manipulation"
-                    >
-                      <Save className="w-5 h-5" />
-                      {saving ? 'Saving...' : 'Save Changes'}
-                    </button>
+                    {/* Subtitle */}
+                    <div>
+                      <label className="block text-sm font-bold text-gray-700 mb-2">
+                        Subtitle <span className="text-gray-400 font-normal">(optional)</span>
+                      </label>
+                      <input
+                        type="text"
+                        value={slide.subtitle || ''}
+                        onChange={(e) =>
+                          updateSlideField(slide.id, 'subtitle', e.target.value || null)
+                        }
+                        className="w-full px-4 py-3 rounded-xl border-2 border-gray-200 focus:border-blue-500 focus:ring-4 focus:ring-blue-100 focus:outline-none transition-all"
+                        placeholder="Enter subtitle..."
+                      />
+                    </div>
+
+                    {/* Layout Toggle */}
+                    <div>
+                      <label className="block text-sm font-bold text-gray-700 mb-3">Layout</label>
+                      <div className="grid grid-cols-2 gap-4">
+                        <button
+                          onClick={() => updateSlideField(slide.id, 'layout', 'content-left')}
+                          className={`p-4 rounded-xl border-2 transition-all touch-manipulation ${
+                            slide.layout === 'content-left'
+                              ? 'border-blue-500 bg-gradient-to-br from-blue-50 to-cyan-50 text-blue-700 shadow-md scale-105'
+                              : 'border-gray-200 hover:border-blue-300 text-gray-700 hover:bg-gray-50'
+                          }`}
+                        >
+                          <div className="font-bold">📝 Content Left</div>
+                          <div className="text-sm mt-1 opacity-75">Image on right</div>
+                        </button>
+                        <button
+                          onClick={() => updateSlideField(slide.id, 'layout', 'content-right')}
+                          className={`p-4 rounded-xl border-2 transition-all touch-manipulation ${
+                            slide.layout === 'content-right'
+                              ? 'border-blue-500 bg-gradient-to-br from-blue-50 to-cyan-50 text-blue-700 shadow-md scale-105'
+                              : 'border-gray-200 hover:border-blue-300 text-gray-700 hover:bg-gray-50'
+                          }`}
+                        >
+                          <div className="font-bold">📝 Content Right</div>
+                          <div className="text-sm mt-1 opacity-75">Image on left</div>
+                        </button>
+                      </div>
+                    </div>
+
+                    {/* Image Upload */}
+                    <div>
+                      <label className="block text-sm font-bold text-gray-700 mb-3">Image</label>
+                      {slide.image_path && (
+                        <div className="relative mb-4 rounded-xl overflow-hidden group">
+                          <Image
+                            src={slide.image_path}
+                            alt={slide.title}
+                            width={400}
+                            height={250}
+                            className="w-full object-cover"
+                          />
+                          <label className="absolute inset-0 bg-black/60 backdrop-blur-sm opacity-0 group-hover:opacity-100 transition-all cursor-pointer flex items-center justify-center">
+                            <div className="text-center text-white">
+                              <Upload className="w-10 h-10 mx-auto mb-2" />
+                              <span className="font-semibold">Change Image</span>
+                            </div>
+                            <input
+                              type="file"
+                              accept="image/*"
+                              onChange={(e) => {
+                                const file = e.target.files?.[0];
+                                if (file) handleImageUpload(slide.id, file);
+                              }}
+                              disabled={uploading}
+                              className="hidden"
+                            />
+                          </label>
+                        </div>
+                      )}
+                      {!slide.image_path && (
+                        <label className="block w-full p-8 border-2 border-dashed border-gray-300 hover:border-blue-500 rounded-xl cursor-pointer transition-all text-center bg-gray-50 hover:bg-blue-50 touch-manipulation">
+                          <Upload className="w-10 h-10 mx-auto mb-3 text-gray-400" />
+                          <span className="font-semibold text-blue-600">
+                            {uploading ? 'Uploading...' : 'Upload Image'}
+                          </span>
+                          <input
+                            type="file"
+                            accept="image/*"
+                            onChange={(e) => {
+                              const file = e.target.files?.[0];
+                              if (file) handleImageUpload(slide.id, file);
+                            }}
+                            disabled={uploading}
+                            className="hidden"
+                          />
+                        </label>
+                      )}
+                    </div>
+
+                    {/* Quote Overlay */}
+                    <div>
+                      <label className="block text-sm font-bold text-gray-700 mb-2">
+                        Quote Overlay <span className="text-gray-400 font-normal">(optional)</span>
+                      </label>
+                      <textarea
+                        value={slide.quote || ''}
+                        onChange={(e) =>
+                          updateSlideField(slide.id, 'quote', e.target.value || null)
+                        }
+                        rows={3}
+                        className="w-full px-4 py-3 rounded-xl border-2 border-gray-200 focus:border-blue-500 focus:ring-4 focus:ring-blue-100 focus:outline-none resize-none transition-all"
+                        placeholder='Enter quote text to display over image (e.g., "There\'s always someone who will do it cheaper.")'
+                      />
+                    </div>
+
+                    {/* Content Items - Drag & Drop */}
+                    <div>
+                      <label className="flex items-center gap-2 text-sm font-bold text-gray-700 mb-3">
+                        <span>Content Items</span>
+                        <span className="text-xs bg-blue-100 text-blue-700 px-2 py-1 rounded-full">
+                          Drag to reorder
+                        </span>
+                      </label>
+                      <DndContext
+                        sensors={sensors}
+                        collisionDetection={closestCenter}
+                        onDragEnd={(event) => handleDragEnd(event, slide.id)}
+                      >
+                        <SortableContext
+                          items={slide.items.map((item) => item.id)}
+                          strategy={verticalListSortingStrategy}
+                        >
+                          <div className="space-y-3">
+                            {slide.items.map((item, index) => (
+                              <SortableContentItem
+                                key={item.id}
+                                item={item}
+                                slideId={slide.id}
+                                index={index}
+                                onUpdate={updateSlideItem}
+                                onRemove={removeSlideItem}
+                              />
+                            ))}
+                          </div>
+                        </SortableContext>
+                      </DndContext>
+                      <button
+                        onClick={() => addSlideItem(slide.id)}
+                        className="mt-4 w-full px-4 py-3 rounded-xl border-2 border-dashed border-gray-300 hover:border-blue-500 hover:bg-gradient-to-r hover:from-blue-50 hover:to-cyan-50 text-blue-600 font-semibold flex items-center justify-center gap-2 transition-all touch-manipulation group"
+                      >
+                        <Plus className="w-5 h-5 group-hover:scale-110 transition-transform" />
+                        Add Content Item
+                      </button>
+                    </div>
+
+                    {/* Save Button */}
+                    <div className="pt-6 border-t-2 border-gray-200">
+                      <button
+                        onClick={() => handleSave(slide.id)}
+                        disabled={saving}
+                        className="w-full px-6 py-4 bg-gradient-to-r from-blue-600 to-cyan-600 hover:from-blue-700 hover:to-cyan-700 disabled:from-gray-400 disabled:to-gray-500 text-white font-bold rounded-xl transition-all flex items-center justify-center gap-2 shadow-lg hover:shadow-xl active:scale-95 touch-manipulation"
+                      >
+                        <Save className="w-5 h-5" />
+                        {saving ? 'Saving...' : 'Save Changes'}
+                      </button>
+                    </div>
                   </div>
-                </div>
-              )}
-            </div>
-          );
-        })}
+                )}
+              </div>
+            );
+          })}
+        </div>
       </div>
-    </div>
+
+      {/* Right Panel - Live Preview */}
+      <div className="w-1/2 sticky top-0 h-full">
+        <div className="bg-gradient-to-br from-gray-100 to-gray-200 rounded-2xl shadow-2xl p-6 h-full flex flex-col">
+          <div className="flex items-center justify-between mb-4">
+            <div className="flex items-center gap-3">
+              <Eye className="w-6 h-6 text-blue-600" />
+              <h2 className="text-xl font-bold text-gray-800">Live Preview</h2>
+            </div>
+            <button
+              onClick={refreshPreview}
+              className="p-2 rounded-lg hover:bg-white/50 transition-colors touch-manipulation"
+              title="Refresh preview"
+            >
+              <RefreshCw className="w-5 h-5 text-gray-600" />
+            </button>
+          </div>
+          <div className="flex-1 bg-white rounded-xl shadow-inner overflow-hidden">
+            <iframe
+              key={previewKey}
+              src="/knowledge-base"
+              className="w-full h-full border-0"
+              title="Knowledge Base Preview"
+            />
+          </div>
+          <p className="text-xs text-gray-500 mt-3 text-center">
+            💡 Save your changes to see them reflected in the preview
+          </p>
+        </div>
+      </div>
+      </div>
+    </AdminFlowDeckPage>
   );
 }

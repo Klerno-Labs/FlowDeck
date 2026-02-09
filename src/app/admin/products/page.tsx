@@ -7,6 +7,8 @@ import { Plus, Edit, Search, Loader2, Package, Sparkles } from 'lucide-react';
 import Image from 'next/image';
 import { useKeyboardShortcuts } from '@/lib/hooks/useKeyboardShortcuts';
 import { KeyboardShortcutsModal } from '@/components/ui/KeyboardShortcutsModal';
+import { AdminFlowDeckPage } from '@/components/layout/AdminFlowDeckPage';
+import { Button } from '@/components/ui/Button';
 
 interface Product {
   id: string;
@@ -71,32 +73,35 @@ export default function ProductsAdminPage() {
   );
 
   return (
-    <div className="max-w-[1600px] mx-auto">
-      {/* Header */}
-      <div className="flex justify-between items-start mb-8">
-        <div>
-          <h1 className="text-5xl font-bold text-gray-900 mb-2">Products</h1>
-          <p className="text-xl text-gray-600">
-            {products.length} total products • {filteredProducts.length} shown
-          </p>
-        </div>
-        <div className="flex gap-4">
-          <Link
-            href="/admin/products/edit"
-            className="inline-flex items-center gap-3 px-8 py-4 bg-gradient-to-r from-blue-600 to-cyan-600 text-white rounded-2xl hover:shadow-xl hover:scale-105 transition-all text-lg font-bold shadow-lg shadow-blue-500/30 active:scale-95 touch-manipulation"
+    <AdminFlowDeckPage
+      title="Products"
+      subtitle={`${products.length} total products • ${filteredProducts.length} shown`}
+      showHome={true}
+      showBack={true}
+      backTo="/admin"
+      rightActions={
+        <>
+          <Button
+            onClick={() => router.push('/admin/products/edit')}
+            variant="primary"
+            size="md"
+            className="bg-gradient-to-r from-blue-600 to-cyan-600 hover:from-blue-700 hover:to-cyan-700"
           >
-            <Sparkles className="w-6 h-6" />
+            <Sparkles className="w-5 h-5" />
             Visual Editor
-          </Link>
-          <Link
-            href="/admin/products/new"
-            className="inline-flex items-center gap-3 px-8 py-4 bg-blue-600 text-white rounded-2xl hover:shadow-xl hover:scale-105 transition-all text-lg font-bold shadow-lg shadow-blue-500/30 active:scale-95 touch-manipulation"
+          </Button>
+          <Button
+            onClick={() => router.push('/admin/products/new')}
+            variant="primary"
+            size="md"
           >
-            <Plus className="w-6 h-6" />
+            <Plus className="w-5 h-5" />
             Add Product
-          </Link>
-        </div>
-      </div>
+          </Button>
+        </>
+      }
+    >
+      <div className="max-w-[1600px] mx-auto">
 
       {/* Search Bar - iPad Optimized */}
       <div className="mb-8">
@@ -170,6 +175,7 @@ export default function ProductsAdminPage() {
       )}
 
       <KeyboardShortcutsModal shortcuts={shortcuts} />
-    </div>
+      </div>
+    </AdminFlowDeckPage>
   );
 }

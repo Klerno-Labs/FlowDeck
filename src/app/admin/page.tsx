@@ -1,5 +1,6 @@
 import Link from 'next/link';
 import { Package, Layers, FolderTree, ArrowRight, TrendingUp, Clock, Users } from 'lucide-react';
+import { AdminFlowDeckPage } from '@/components/layout/AdminFlowDeckPage';
 
 export default async function AdminDashboard() {
   // Fetch quick stats
@@ -64,16 +65,13 @@ export default async function AdminDashboard() {
   ];
 
   return (
-    <div className="max-w-7xl mx-auto">
-      {/* Welcome Header */}
-      <div className="mb-10">
-        <h1 className="text-5xl font-bold text-gray-900 mb-3">
-          Content Management
-        </h1>
-        <p className="text-xl text-gray-600">
-          All changes sync instantly across all connected devices
-        </p>
-      </div>
+    <AdminFlowDeckPage
+      title="Content Management"
+      subtitle="All changes sync instantly across all connected devices"
+      showHome={true}
+      showBack={false}
+    >
+      <div className="max-w-7xl mx-auto">
 
       {/* Quick Stats */}
       <div className="grid grid-cols-3 gap-6 mb-10">
@@ -221,6 +219,7 @@ export default async function AdminDashboard() {
           </div>
         </div>
       </div>
-    </div>
+      </div>
+    </AdminFlowDeckPage>
   );
 }
