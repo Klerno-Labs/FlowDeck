@@ -1,15 +1,18 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { useRouter } from 'next/navigation';
 import Image from 'next/image';
-import { ChevronDown, ChevronRight, Plus, Trash2, Save, Upload, GripVertical, Eye, EyeOff, Sparkles } from 'lucide-react';
+import { ChevronDown, ChevronRight, Plus, Trash2, Save, Upload, GripVertical, Eye, EyeOff, Sparkles, History, Send } from 'lucide-react';
 import { showToast } from '@/components/ui/Toast';
 import { DndContext, closestCenter, KeyboardSensor, PointerSensor, useSensor, useSensors } from '@dnd-kit/core';
 import { arrayMove, SortableContext, sortableKeyboardCoordinates, useSortable, verticalListSortingStrategy } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
 import { AdminFlowDeckPage } from '@/components/layout/AdminFlowDeckPage';
 import { Button } from '@/components/ui/Button';
+import { TipTapEditor } from '@/components/content-editor/TipTapEditor';
+import { DraftIndicator } from '@/components/content-editor/DraftIndicator';
+import { VersionHistory } from '@/components/content-editor/VersionHistory';
 
 interface SlideItem {
   id: string;
@@ -106,6 +109,12 @@ export default function IntroEditorPage() {
   const [uploading, setUploading] = useState(false);
   const [lastSaved, setLastSaved] = useState<Date | null>(null);
   const [previewVisible, setPreviewVisible] = useState(true);
+
+  // Draft & version management
+  const [hasDraft, setHasDraft] = useState(false);
+  const [draftStatus, setDraftStatus] = useState<'saved' | 'saving' | 'error'>('saved');
+  const [showVersionHistory, setShowVersionHistory] = useState(false);
+  const [publishing, setPublishing] = useState(false);
 
   const sensors = useSensors(
     useSensor(PointerSensor),
