@@ -1485,7 +1485,7 @@ ${pageConfig.elements.filter((el) => el.visible !== false).map((el, index) => {
             className="flex items-center gap-2 px-5 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors disabled:opacity-50 min-h-[44px]"
           >
             {saving ? (
-              <InlineLoader size="md" color="white" />
+              <InlineLoader size="md" className="text-white" />
             ) : (
               <Save className="w-5 h-5" />
             )}
