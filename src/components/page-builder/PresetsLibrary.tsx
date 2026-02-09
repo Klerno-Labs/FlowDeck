@@ -181,7 +181,7 @@ export function PresetsLibrary({
                           color: preset.element.styles.color || '#000000',
                           backgroundColor: preset.element.styles.backgroundColor || 'transparent',
                           fontSize: '14px',
-                          fontWeight: preset.element.styles.fontWeight || 'normal',
+                          fontWeight: (preset.element.styles.fontWeight || 'normal') as React.CSSProperties['fontWeight'],
                           padding: '8px 16px',
                           borderRadius: preset.element.styles.borderRadius || '0',
                           border: preset.element.styles.border || 'none',
