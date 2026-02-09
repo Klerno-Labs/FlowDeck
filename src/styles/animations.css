@@ -1,0 +1,126 @@
+/* Page Builder Animations */
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes slideInLeft {
+  from {
+    transform: translateX(-100px);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+@keyframes slideInRight {
+  from {
+    transform: translateX(100px);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+@keyframes slideInUp {
+  from {
+    transform: translateY(100px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+@keyframes slideInDown {
+  from {
+    transform: translateY(-100px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+@keyframes scaleIn {
+  from {
+    transform: scale(0);
+    opacity: 0;
+  }
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+@keyframes bounceIn {
+  0% {
+    transform: scale(0.3);
+    opacity: 0;
+  }
+  50% {
+    transform: scale(1.05);
+  }
+  70% {
+    transform: scale(0.9);
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+@keyframes rotateIn {
+  from {
+    transform: rotate(-200deg);
+    opacity: 0;
+  }
+  to {
+    transform: rotate(0);
+    opacity: 1;
+  }
+}
+
+/* Apply animations to elements */
+.fadeIn {
+  animation: fadeIn var(--animation-duration, 1s) ease-out;
+}
+
+.slideInLeft {
+  animation: slideInLeft var(--animation-duration, 1s) ease-out;
+}
+
+.slideInRight {
+  animation: slideInRight var(--animation-duration, 1s) ease-out;
+}
+
+.slideInUp {
+  animation: slideInUp var(--animation-duration, 1s) ease-out;
+}
+
+.slideInDown {
+  animation: slideInDown var(--animation-duration, 1s) ease-out;
+}
+
+.scaleIn {
+  animation: scaleIn var(--animation-duration, 1s) ease-out;
+}
+
+.bounceIn {
+  animation: bounceIn var(--animation-duration, 1s) ease-out;
+}
+
+.rotateIn {
+  animation: rotateIn var(--animation-duration, 1s) ease-out;
+}

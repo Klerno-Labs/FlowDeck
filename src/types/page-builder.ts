@@ -10,7 +10,10 @@ export type ElementType =
   | 'button'
   | 'container'
   | 'logo'
-  | 'icon';
+  | 'icon'
+  | 'divider'
+  | 'video'
+  | 'shape';
 
 export interface Position {
   x: number; // pixels from left
@@ -21,17 +24,43 @@ export interface Position {
 
 export interface ElementStyles {
   backgroundColor?: string;
+  backgroundImage?: string; // For gradients
   color?: string;
   fontSize?: string;
   fontWeight?: string;
+  fontFamily?: string; // Font family
+  lineHeight?: string; // Line height ratio
   padding?: string;
+  paddingTop?: string; // Individual padding sides
+  paddingRight?: string;
+  paddingBottom?: string;
+  paddingLeft?: string;
   margin?: string;
+  marginTop?: string; // Individual margin sides
+  marginRight?: string;
+  marginBottom?: string;
+  marginLeft?: string;
   borderRadius?: string;
   border?: string;
+  borderWidth?: string; // Border width
+  borderStyle?: string; // Border style: solid, dashed, dotted, double
+  borderColor?: string; // Border color
   boxShadow?: string;
   opacity?: number;
   transform?: string;
+  rotation?: string; // Rotation angle in degrees
   zIndex?: number;
+  textAlign?: string; // Text alignment: left, center, right, justify
+  letterSpacing?: string; // Letter spacing (tracking)
+  textTransform?: string; // Text transform: uppercase, lowercase, capitalize, none
+  textDecoration?: string; // Text decoration: underline, line-through, overline, none
+  textShadow?: string; // Text shadow
+  animation?: string; // CSS animation name
+  animationDuration?: string; // e.g., '1s'
+  animationDelay?: string; // e.g., '0.5s'
+  animationIterationCount?: string; // e.g., 'infinite' or '1'
+  link?: string; // URL for clickable elements
+  linkTarget?: '_blank' | '_self'; // Open in new tab or same tab
   [key: string]: any;
 }
 
