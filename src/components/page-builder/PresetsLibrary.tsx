@@ -32,7 +32,7 @@ export function PresetsLibrary({
 
   // Load presets from localStorage
   useEffect(() => {
-    const presets = safeLocalStorage.getItem('page-builder-presets', []);
+    const presets = safeLocalStorage.getItem('page-builder-presets', []) as PresetItem[];
     setPresets(presets);
   }, []);
 

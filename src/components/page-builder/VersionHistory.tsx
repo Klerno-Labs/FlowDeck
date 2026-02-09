@@ -34,7 +34,7 @@ export function VersionHistory({
 
   // Load versions from localStorage
   useEffect(() => {
-    const versions = safeLocalStorage.getItem(`page-builder-history-${currentPageKey}`, []);
+    const versions = safeLocalStorage.getItem(`page-builder-history-${currentPageKey}`, []) as VersionSnapshot[];
     setVersions(versions);
   }, [currentPageKey]);
 

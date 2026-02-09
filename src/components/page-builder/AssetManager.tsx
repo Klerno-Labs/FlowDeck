@@ -38,12 +38,12 @@ export function AssetManager({ onClose, onSelectAsset }: AssetManagerProps) {
 
   // Load assets from localStorage
   useEffect(() => {
-    const parsedAssets = safeLocalStorage.getItem('page-builder-assets', []);
+    const parsedAssets = safeLocalStorage.getItem('page-builder-assets', []) as AssetItem[];
     setAssets(parsedAssets);
 
     // Extract unique folders
-    const uniqueFolders = Array.from(new Set(parsedAssets.map((a: AssetItem) => a.folder)));
-    setFolders(['All Assets', ...uniqueFolders.filter((f: string) => f !== 'All Assets')]);
+    const uniqueFolders = Array.from(new Set(parsedAssets.map((a) => a.folder))) as string[];
+    setFolders(['All Assets', ...uniqueFolders.filter((f) => f !== 'All Assets')]);
   }, []);
 
   // Upload files
