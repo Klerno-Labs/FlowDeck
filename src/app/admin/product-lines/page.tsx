@@ -4,6 +4,8 @@ import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { Plus, Pencil, Trash2, FolderTree, Loader2, Search, Sparkles } from 'lucide-react';
 import Image from 'next/image';
+import { AdminFlowDeckPage } from '@/components/layout/AdminFlowDeckPage';
+import { Button } from '@/components/ui/Button';
 
 interface ProductLine {
   id: string;
@@ -94,39 +96,51 @@ export default function ProductLinesPage() {
 
   if (loading) {
     return (
-      <div className="flex items-center justify-center py-24">
-        <Loader2 className="w-12 h-12 animate-spin text-blue-600" />
-      </div>
+      <AdminFlowDeckPage
+        title="Product Lines"
+        subtitle="Loading..."
+        showHome={true}
+        showBack={true}
+        backTo="/admin"
+      >
+        <div className="flex items-center justify-center py-24">
+          <Loader2 className="w-12 h-12 animate-spin text-blue-600" />
+        </div>
+      </AdminFlowDeckPage>
     );
   }
 
   return (
-    <div className="max-w-[1600px] mx-auto">
-      {/* Header */}
-      <div className="flex justify-between items-start mb-8">
-        <div>
-          <h1 className="text-5xl font-bold text-gray-900 mb-2">Product Lines</h1>
-          <p className="text-xl text-gray-600">
-            {productLines.length} total product lines • {filteredLines.length} shown
-          </p>
-        </div>
-        <div className="flex gap-4">
-          <button
+    <AdminFlowDeckPage
+      title="Product Lines"
+      subtitle={`${productLines.length} total product lines • ${filteredLines.length} shown`}
+      showHome={true}
+      showBack={true}
+      backTo="/admin"
+      rightActions={
+        <>
+          <Button
             onClick={() => window.location.href = '/admin/product-lines/edit'}
-            className="inline-flex items-center gap-3 px-8 py-4 bg-gradient-to-r from-purple-600 to-indigo-600 text-white rounded-2xl hover:shadow-xl hover:scale-105 transition-all text-lg font-bold shadow-lg shadow-purple-500/30 active:scale-95 touch-manipulation"
+            variant="primary"
+            size="md"
+            className="bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-700 hover:to-indigo-700"
           >
-            <Sparkles className="w-6 h-6" />
+            <Sparkles className="w-5 h-5" />
             Visual Editor
-          </button>
-          <button
+          </Button>
+          <Button
             onClick={handleCreate}
-            className="inline-flex items-center gap-3 px-8 py-4 bg-purple-600 text-white rounded-2xl hover:shadow-xl hover:scale-105 transition-all text-lg font-bold shadow-lg shadow-purple-500/30 active:scale-95 touch-manipulation"
+            variant="primary"
+            size="md"
+            className="bg-purple-600 hover:bg-purple-700"
           >
-            <Plus className="w-6 h-6" />
+            <Plus className="w-5 h-5" />
             Add Product Line
-          </button>
-        </div>
-      </div>
+          </Button>
+        </>
+      }
+    >
+      <div className="max-w-[1600px] mx-auto">
 
       {/* Filters */}
       <div className="grid grid-cols-2 gap-6 mb-8">
@@ -267,7 +281,8 @@ export default function ProductLinesPage() {
           }}
         />
       )}
-    </div>
+      </div>
+    </AdminFlowDeckPage>
   );
 }
 
