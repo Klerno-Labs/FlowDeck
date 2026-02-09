@@ -53,7 +53,7 @@ export function UserMenu({ user }: UserMenuProps) {
 
       {/* Dropdown Menu */}
       {isOpen && (
-        <div className="absolute right-0 mt-3 w-72 bg-white rounded-2xl shadow-2xl border-2 border-gray-100 overflow-hidden animate-in slide-in-from-top-2 duration-200">
+        <div className="absolute right-0 mt-3 w-72 bg-white rounded-2xl shadow-2xl border-2 border-gray-100 overflow-hidden animate-in slide-in-from-top-2 duration-200 z-50">
           {/* User Info Section */}
           <div className="p-4 bg-gradient-to-r from-blue-600 to-purple-600">
             <div className="flex items-center gap-3">
