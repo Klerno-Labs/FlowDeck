@@ -78,7 +78,7 @@ export class ErrorBoundary extends Component<Props, State> {
 
             {/* Error Message */}
             <p className="text-gray-600 text-center mb-8">
-              We're sorry for the inconvenience. The application encountered an unexpected error.
+              We&apos;re sorry for the inconvenience. The application encountered an unexpected error.
             </p>
 
             {/* Error Details (Development only) */}

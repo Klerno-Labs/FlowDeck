@@ -231,7 +231,7 @@ export function PresetsLibrary({
         <div className="p-4 border-t border-gray-200 bg-gray-50">
           <p className="text-xs text-gray-600 text-center">
             💡 <strong>Tip:</strong> Presets save element styles and content, but not position or size.
-            Click "Use Preset" to add to canvas.
+            Click &quot;Use Preset&quot; to add to canvas.
           </p>
         </div>
       </div>
