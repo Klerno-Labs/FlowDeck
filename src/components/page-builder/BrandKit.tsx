@@ -237,15 +237,10 @@ export function BrandKit({
                 id="import-brand-kit"
               />
               <label htmlFor="import-brand-kit">
-                <Button
-                  variant="ghost"
-                  size="sm"
-                  className="text-white hover:bg-white/10 cursor-pointer"
-                  as="span"
-                >
+                <span className="inline-flex items-center gap-2 px-3 py-2 rounded-lg text-sm font-semibold text-white hover:bg-white/10 cursor-pointer transition-colors">
                   <Upload className="w-4 h-4" />
                   Import
-                </Button>
+                </span>
               </label>
               <Button
                 onClick={exportBrandKit}

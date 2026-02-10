@@ -378,6 +378,59 @@ export default function AllSlidesUnifiedEditor() {
     }
   }
 
+  async function handleRestoreVersion(versionNumber: number) {
+    try {
+      const introSlide = introSlides.find(s => s.id === versionContentId);
+      const knowledgeSlide = knowledgeSlides.find(s => s.id === versionContentId);
+
+      if (introSlide) {
+        const res = await fetch(`/api/versions/intro_slide/${versionContentId}?version=${versionNumber}`);
+        if (!res.ok) throw new Error('Failed to fetch version');
+
+        const data = await res.json();
+        const versionData = data.version.version_data;
+
+        setIntroSlides(prev => prev.map(slide =>
+          slide.id === versionContentId
+            ? {
+                ...slide,
+                heading: versionData.heading,
+                paragraph: versionData.paragraph,
+                image_path: versionData.image_path,
+                items: versionData.items,
+              }
+            : slide
+        ));
+      } else if (knowledgeSlide) {
+        const res = await fetch(`/api/versions/knowledge_slide/${versionContentId}?version=${versionNumber}`);
+        if (!res.ok) throw new Error('Failed to fetch version');
+
+        const data = await res.json();
+        const versionData = data.version.version_data;
+
+        setKnowledgeSlides(prev => prev.map(slide =>
+          slide.id === versionContentId
+            ? {
+                ...slide,
+                title: versionData.title,
+                subtitle: versionData.subtitle,
+                layout: versionData.layout,
+                image_path: versionData.image_path,
+                quote: versionData.quote,
+                items: versionData.items,
+              }
+            : slide
+        ));
+      }
+
+      showToast(`Version ${versionNumber} restored to editor`, 'success');
+      setShowVersionHistory(false);
+    } catch (error) {
+      console.error('Error restoring version:', error);
+      showToast('Failed to restore version', 'error');
+    }
+  }
+
   async function handlePublish() {
     if (!confirm('Publish this slide? This will create a new version and update the live content.')) {
       return;
@@ -1199,7 +1252,7 @@ export default function AllSlidesUnifiedEditor() {
         <VersionHistory
           contentType={versionContentType}
           contentId={versionContentId}
-          onRestore={() => {}}
+          onRestore={handleRestoreVersion}
           onClose={() => setShowVersionHistory(false)}
         />
       )}
