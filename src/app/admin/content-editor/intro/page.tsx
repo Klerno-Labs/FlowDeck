@@ -586,55 +586,84 @@ export default function IntroEditorPage() {
         )}
       </div>
 
-      {/* Content */}
-      <div className={`grid ${previewVisible ? 'grid-cols-2' : 'grid-cols-1'} gap-6`}>
-        {/* Editor */}
-        <div className="space-y-4">
-          {slides.map(slide => {
+      {/* Content - Elite Split View */}
+      <div className={`grid ${previewVisible ? 'grid-cols-2' : 'grid-cols-1'} gap-8`}>
+        {/* Editor Panel */}
+        <motion.div
+          initial={{ opacity: 0, x: -20 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ duration: 0.5 }}
+          className="space-y-6"
+        >
+          {slides.map((slide, index) => {
             const isExpanded = expandedSlideId === slide.id;
 
             return (
-              <div
+              <motion.div
                 key={slide.id}
-                className="rounded-2xl border-2 border-gray-200 overflow-hidden bg-white shadow-lg hover:shadow-xl transition-all"
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: index * 0.1, duration: 0.4 }}
+                className="group relative"
               >
-                {/* Slide Header */}
+                <div className="absolute inset-0 bg-gradient-to-r from-blue-600 to-purple-600 rounded-3xl blur-xl opacity-0 group-hover:opacity-20 transition-all duration-500" />
+                <div className="relative rounded-3xl border-2 border-gray-200 overflow-hidden bg-white shadow-xl hover:shadow-2xl hover:border-blue-300 transition-all duration-300">
+                {/* Elite Slide Header */}
                 <button
                   onClick={() => setExpandedSlideId(isExpanded ? null : slide.id)}
-                  className="w-full p-6 bg-gradient-to-r from-blue-50 to-cyan-50 hover:from-blue-100 hover:to-cyan-100 flex items-center justify-between transition-all"
+                  className="w-full p-6 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 flex items-center justify-between transition-all duration-300 group/header"
                 >
                   <div className="flex items-center gap-4">
-                    <div className="w-10 h-10 rounded-full bg-blue-600 flex items-center justify-center">
+                    <motion.div
+                      animate={{ rotate: isExpanded ? 180 : 0 }}
+                      transition={{ duration: 0.3 }}
+                      className="w-12 h-12 rounded-xl bg-white/20 backdrop-blur-sm flex items-center justify-center group-hover/header:bg-white/30 transition-all"
+                    >
                       {isExpanded ? (
                         <ChevronDown className="w-6 h-6 text-white" />
                       ) : (
                         <ChevronRight className="w-6 h-6 text-white" />
                       )}
-                    </div>
+                    </motion.div>
                     <div className="text-left">
-                      <h3 className="text-2xl font-bold text-gray-800">{slide.title}</h3>
-                      <p className="text-sm text-gray-600">{slide.items.length} bullet points</p>
+                      <h3 className="text-2xl font-bold text-white drop-shadow-lg">{slide.title}</h3>
+                      <p className="text-sm text-white/80 flex items-center gap-2">
+                        <span className="inline-block w-2 h-2 rounded-full bg-white/60"></span>
+                        {slide.items.length} bullet points
+                      </p>
                     </div>
                   </div>
-                  <Sparkles className="w-6 h-6 text-blue-600" />
+                  <Sparkles className="w-7 h-7 text-white/90 group-hover/header:text-white group-hover/header:rotate-12 transition-all duration-300" />
                 </button>
 
-                {/* Slide Content */}
-                {isExpanded && (
-                  <div className="p-6 space-y-6 bg-gradient-to-br from-gray-50 to-white">
-                    {/* Heading */}
-                    <div>
-                      <label className="block text-sm font-bold text-gray-700 mb-2">
+                {/* Elite Slide Content */}
+                <AnimatePresence>
+                  {isExpanded && (
+                    <motion.div
+                      initial={{ opacity: 0, height: 0 }}
+                      animate={{ opacity: 1, height: 'auto' }}
+                      exit={{ opacity: 0, height: 0 }}
+                      transition={{ duration: 0.3 }}
+                      className="overflow-hidden"
+                    >
+                      <div className="p-8 space-y-6 bg-gradient-to-br from-blue-50/50 via-purple-50/30 to-white backdrop-blur-sm">
+                    {/* Elite Heading Input */}
+                    <motion.div
+                      initial={{ opacity: 0, y: 10 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ delay: 0.1 }}
+                    >
+                      <label className="block text-sm font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent mb-3">
                         Heading <span className="text-red-500">*</span>
                       </label>
                       <input
                         type="text"
                         value={slide.heading}
                         onChange={(e) => updateSlideField(slide.id, 'heading', e.target.value)}
-                        className="w-full px-4 py-3 rounded-xl border-2 border-gray-200 focus:border-blue-500 focus:ring-4 focus:ring-blue-100 transition-all text-lg font-semibold"
+                        className="w-full px-5 py-4 rounded-2xl border-2 border-gray-200 focus:border-blue-500 focus:ring-4 focus:ring-blue-100 hover:border-gray-300 transition-all text-lg font-semibold shadow-sm hover:shadow-md"
                         placeholder="Enter heading..."
                       />
-                    </div>
+                    </motion.div>
 
                     {/* Paragraph */}
                     <div>
@@ -730,45 +759,66 @@ export default function IntroEditorPage() {
                       </button>
                     </div>
 
-                    {/* Save Button */}
-                    <div className="pt-6 border-t-2 border-gray-200">
-                      <button
+                    {/* Elite Save Button */}
+                    <div className="pt-6 border-t-2 border-gray-200/50">
+                      <motion.button
+                        whileHover={{ scale: 1.02 }}
+                        whileTap={{ scale: 0.98 }}
                         onClick={() => handleSave(slide.id)}
                         disabled={saving || autoSaving}
-                        className="w-full px-6 py-4 bg-gradient-to-r from-green-600 to-emerald-600 hover:from-green-700 hover:to-emerald-700 disabled:from-gray-400 disabled:to-gray-500 text-white font-bold rounded-xl transition-all flex items-center justify-center gap-2 shadow-lg active:scale-95"
+                        className="w-full px-6 py-4 bg-gradient-to-r from-green-600 to-emerald-600 hover:from-green-700 hover:to-emerald-700 disabled:from-gray-400 disabled:to-gray-500 text-white font-bold rounded-2xl transition-all flex items-center justify-center gap-2 shadow-lg shadow-green-500/30"
                       >
                         <Save className="w-5 h-5" />
                         {saving ? 'Saving...' : 'Save & Publish'}
-                      </button>
+                      </motion.button>
                     </div>
-                  </div>
-                )}
-              </div>
+                      </div>
+                    </motion.div>
+                  )}
+                </AnimatePresence>
+                </div>
+              </motion.div>
             );
           })}
-        </div>
+        </motion.div>
 
-        {/* Live Preview */}
-        {previewVisible && (
-          <div className="sticky top-6">
-            <div className="rounded-2xl border-4 border-gray-300 overflow-hidden shadow-2xl bg-gray-100">
-              <div className="bg-gradient-to-r from-blue-600 to-purple-600 px-4 py-3 flex items-center justify-between">
-                <div className="flex items-center gap-2">
-                  <div className="w-3 h-3 rounded-full bg-red-500"></div>
-                  <div className="w-3 h-3 rounded-full bg-yellow-500"></div>
-                  <div className="w-3 h-3 rounded-full bg-green-500"></div>
+        {/* Elite Live Preview */}
+        <AnimatePresence>
+          {previewVisible && (
+            <motion.div
+              initial={{ opacity: 0, x: 20 }}
+              animate={{ opacity: 1, x: 0 }}
+              exit={{ opacity: 0, x: 20 }}
+              transition={{ duration: 0.5 }}
+              className="sticky top-6"
+            >
+              <div className="rounded-3xl border-2 border-gray-200 overflow-hidden shadow-2xl bg-gradient-to-br from-gray-100 to-gray-50">
+                <div className="bg-gradient-to-r from-blue-600 to-purple-600 px-6 py-4 flex items-center justify-between">
+                  <div className="flex items-center gap-3">
+                    <div className="flex items-center gap-2">
+                      <div className="w-3 h-3 rounded-full bg-red-400 shadow-lg"></div>
+                      <div className="w-3 h-3 rounded-full bg-yellow-400 shadow-lg"></div>
+                      <div className="w-3 h-3 rounded-full bg-green-400 shadow-lg"></div>
+                    </div>
+                    <div className="w-px h-6 bg-white/20"></div>
+                    <span className="text-white text-sm font-bold flex items-center gap-2">
+                      <Eye className="w-4 h-4" />
+                      Live Preview
+                    </span>
+                  </div>
+                  <div className="w-2 h-2 rounded-full bg-green-400 animate-pulse shadow-lg shadow-green-500/50"></div>
                 </div>
-                <span className="text-white text-sm font-semibold">Live Preview</span>
-                <Eye className="w-5 h-5 text-white" />
+                <div className="p-4 bg-white">
+                  <iframe
+                    src="/intro-presentation"
+                    className="w-full h-[600px] rounded-2xl border-2 border-gray-200"
+                    title="Live Preview"
+                  />
+                </div>
               </div>
-              <iframe
-                src="/intro-presentation"
-                className="w-full h-[600px] bg-white"
-                title="Live Preview"
-              />
-            </div>
-          </div>
-        )}
+            </motion.div>
+          )}
+        </AnimatePresence>
       </div>
       </div>
 
