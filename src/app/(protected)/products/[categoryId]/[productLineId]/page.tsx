@@ -96,7 +96,7 @@ export default async function ProductLineDetailPage({
                             alt={product.name}
                             width={300}
                             height={400}
-                            className="object-contain h-full w-auto max-h-[50vh] drop-shadow-xl"
+                            className="object-contain h-full w-auto max-h-[50vh]"
                           />
                         </div>
                         <p className="text-white text-base font-bold text-center leading-tight drop-shadow-lg">
@@ -120,7 +120,7 @@ export default async function ProductLineDetailPage({
                             alt={product.name}
                             width={140}
                             height={200}
-                            className="object-contain h-full w-auto drop-shadow-xl"
+                            className="object-contain h-full w-auto"
                           />
                         </div>
                         <p className="text-white text-xs font-bold text-center leading-tight drop-shadow-lg">
