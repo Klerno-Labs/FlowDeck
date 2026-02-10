@@ -91,7 +91,7 @@ export function KnowledgeBaseCarousel({ slides }: KnowledgeBaseCarouselProps) {
             </div>
 
             {/* Right Panel - Image */}
-            <div className="w-1/2 relative bg-gray-900">
+            <div className="w-1/2 relative bg-gradient-to-br from-[#1E5AA8] to-[#00B4D8]">
               <Image
                 src={currentSlideData.image_path}
                 alt={currentSlideData.title}
