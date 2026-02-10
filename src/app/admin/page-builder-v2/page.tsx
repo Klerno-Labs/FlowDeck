@@ -29,6 +29,7 @@ import {
   Star,
   History,
   Play,
+  X,
 } from 'lucide-react';
 import { Button } from '@/components/ui/Button';
 import { showToast } from '@/components/ui/Toast';
@@ -490,9 +491,9 @@ export default function PageBuilderV2() {
               <motion.div
                 initial={{ scale: 0.9, opacity: 0 }}
                 animate={{ scale: 1, opacity: 1 }}
-                style={{ transform: `scale(${zoom})` }}
                 className="relative bg-white rounded-2xl shadow-2xl"
                 style={{
+                  transform: `scale(${zoom})`,
                   width: currentPage.width,
                   height: currentPage.height,
                 }}

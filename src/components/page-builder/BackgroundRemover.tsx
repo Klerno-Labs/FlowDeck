@@ -177,7 +177,7 @@ export function BackgroundRemover({
                     <div className="absolute inset-0 flex flex-col items-center justify-center text-gray-500">
                       <Sparkles className="w-16 h-16 mb-4 opacity-50" />
                       <p className="text-lg font-semibold">No background removed yet</p>
-                      <p className="text-sm mt-2">Click "Remove Background" to start</p>
+                      <p className="text-sm mt-2">Click &quot;Remove Background&quot; to start</p>
                     </div>
                   )}
                 </div>
