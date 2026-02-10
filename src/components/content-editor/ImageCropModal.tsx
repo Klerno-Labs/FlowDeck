@@ -1,8 +1,9 @@
 'use client';
 
 import { useState, useCallback } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
 import Cropper from 'react-easy-crop';
-import { X, RotateCw, Check, Loader2 } from 'lucide-react';
+import { X, RotateCw, Check, Loader2, ZoomIn, ZoomOut } from 'lucide-react';
 import { Button } from '@/components/ui/Button';
 
 interface ImageCropModalProps {
@@ -117,17 +118,36 @@ export function ImageCropModal({
   };
 
   return (
-    <div className="fixed inset-0 bg-black/80 backdrop-blur-sm flex items-center justify-center z-50 p-8">
-      <div className="bg-white rounded-3xl shadow-2xl max-w-4xl w-full max-h-[90vh] overflow-hidden">
+    <AnimatePresence>
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        exit={{ opacity: 0 }}
+        className="fixed inset-0 bg-black/80 backdrop-blur-xl flex items-center justify-center z-50 p-8"
+        onClick={onClose}
+      >
+        <motion.div
+          initial={{ scale: 0.9, opacity: 0, y: 20 }}
+          animate={{ scale: 1, opacity: 1, y: 0 }}
+          exit={{ scale: 0.9, opacity: 0, y: 20 }}
+          transition={{ type: 'spring', damping: 25, stiffness: 300 }}
+          className="bg-gradient-to-br from-gray-900 to-gray-800 rounded-3xl shadow-2xl max-w-4xl w-full max-h-[90vh] overflow-hidden border border-white/10"
+          onClick={(e) => e.stopPropagation()}
+        >
         {/* Header */}
-        <div className="flex items-center justify-between p-6 border-b-2 border-gray-200">
-          <h2 className="text-2xl font-bold text-gray-900">{title}</h2>
+        <div className="flex items-center justify-between p-6 border-b border-white/10 bg-white/5">
+          <div>
+            <h2 className="text-2xl font-bold text-white">{title}</h2>
+            <p className="text-sm text-gray-400 mt-1">
+              Drag to reposition • Scroll to zoom • Perfect your image
+            </p>
+          </div>
           <button
             onClick={onClose}
             disabled={saving}
-            className="p-2 rounded-xl hover:bg-gray-100 transition-all active:scale-95 disabled:opacity-50"
+            className="p-2 rounded-xl hover:bg-white/10 transition-all active:scale-95 disabled:opacity-50 touch-manipulation"
           >
-            <X className="w-6 h-6 text-gray-600" />
+            <X className="w-6 h-6 text-white" />
           </button>
         </div>
 
@@ -146,30 +166,46 @@ export function ImageCropModal({
         </div>
 
         {/* Controls */}
-        <div className="p-6 space-y-4 border-t-2 border-gray-200">
+        <div className="p-6 space-y-6 bg-white/5">
           {/* Zoom Slider */}
           <div>
-            <label className="block text-sm font-semibold text-gray-700 mb-2">
-              Zoom: {zoom.toFixed(1)}x
-            </label>
-            <input
-              type="range"
-              min={1}
-              max={3}
-              step={0.1}
-              value={zoom}
-              onChange={(e) => setZoom(parseFloat(e.target.value))}
-              className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer accent-blue-600"
-            />
+            <div className="flex items-center justify-between mb-3">
+              <label className="text-sm font-semibold text-white flex items-center gap-2">
+                <ZoomIn className="w-4 h-4" />
+                Zoom
+              </label>
+              <span className="text-sm text-gray-400">{Math.round(zoom * 100)}%</span>
+            </div>
+            <div className="flex items-center gap-4">
+              <ZoomOut className="w-5 h-5 text-gray-400" />
+              <input
+                type="range"
+                min={1}
+                max={3}
+                step={0.1}
+                value={zoom}
+                onChange={(e) => setZoom(parseFloat(e.target.value))}
+                className="flex-1 h-2 bg-white/20 rounded-lg appearance-none cursor-pointer [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:w-4 [&::-webkit-slider-thumb]:h-4 [&::-webkit-slider-thumb]:rounded-full [&::-webkit-slider-thumb]:bg-gradient-to-r [&::-webkit-slider-thumb]:from-blue-500 [&::-webkit-slider-thumb]:to-purple-500 [&::-webkit-slider-thumb]:cursor-pointer [&::-webkit-slider-thumb]:shadow-lg"
+              />
+              <ZoomIn className="w-5 h-5 text-gray-400" />
+            </div>
           </div>
 
-          {/* Rotation Button */}
+          {/* Rotation */}
           <div>
+            <div className="flex items-center justify-between mb-3">
+              <label className="text-sm font-semibold text-white flex items-center gap-2">
+                <RotateCw className="w-4 h-4" />
+                Rotation
+              </label>
+              <span className="text-sm text-gray-400">{rotation}°</span>
+            </div>
             <Button
               onClick={handleRotate}
               disabled={saving}
               variant="secondary"
               size="md"
+              className="bg-white/10 hover:bg-white/20 text-white border-white/20"
             >
               <RotateCw className="w-5 h-5" />
               Rotate 90°
@@ -183,7 +219,7 @@ export function ImageCropModal({
               disabled={saving}
               variant="ghost"
               size="lg"
-              className="flex-1"
+              className="flex-1 text-white hover:bg-white/10"
             >
               Cancel
             </Button>
@@ -192,23 +228,24 @@ export function ImageCropModal({
               disabled={saving}
               variant="primary"
               size="lg"
-              className="flex-1"
+              className="flex-1 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 shadow-lg shadow-blue-500/50"
             >
               {saving ? (
                 <>
                   <Loader2 className="w-5 h-5 animate-spin" />
-                  Saving...
+                  Processing...
                 </>
               ) : (
                 <>
                   <Check className="w-5 h-5" />
-                  Save Cropped Image
+                  Apply & Save
                 </>
               )}
             </Button>
           </div>
         </div>
-      </div>
-    </div>
+        </motion.div>
+      </motion.div>
+    </AnimatePresence>
   );
 }

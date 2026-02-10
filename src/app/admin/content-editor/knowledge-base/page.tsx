@@ -14,8 +14,14 @@ import {
   Sparkles,
   Eye,
   RefreshCw,
+  History,
+  Send,
 } from 'lucide-react';
 import { showToast } from '@/components/ui/Toast';
+import { Button } from '@/components/ui/Button';
+import { TipTapEditor } from '@/components/content-editor/TipTapEditor';
+import { DraftIndicator } from '@/components/content-editor/DraftIndicator';
+import { VersionHistory } from '@/components/content-editor/VersionHistory';
 import {
   DndContext,
   closestCenter,
@@ -129,10 +135,17 @@ export default function KnowledgeBaseEditorPage() {
   const [expandedSlideId, setExpandedSlideId] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
+  const [autoSaving, setAutoSaving] = useState(false);
   const [uploading, setUploading] = useState(false);
   const [lastSaved, setLastSaved] = useState<Date | null>(null);
   const [hasChanges, setHasChanges] = useState(false);
   const [previewKey, setPreviewKey] = useState(0);
+
+  // Draft & version management
+  const [hasDraft, setHasDraft] = useState(false);
+  const [draftStatus, setDraftStatus] = useState<'saved' | 'saving' | 'error'>('saved');
+  const [showVersionHistory, setShowVersionHistory] = useState(false);
+  const [publishing, setPublishing] = useState(false);
 
   // Drag and drop sensors
   const sensors = useSensors(
@@ -146,16 +159,16 @@ export default function KnowledgeBaseEditorPage() {
     fetchSlides();
   }, []);
 
-  // Auto-save every 5 seconds if there are changes
+  // Auto-save every 3 seconds
   useEffect(() => {
-    if (!hasChanges || !expandedSlideId) return;
+    const interval = setInterval(() => {
+      if (expandedSlideId && !saving && !autoSaving) {
+        handleAutoSave(expandedSlideId);
+      }
+    }, 3000);
 
-    const timer = setTimeout(() => {
-      handleSave(expandedSlideId);
-    }, 5000);
-
-    return () => clearTimeout(timer);
-  }, [slides, hasChanges, expandedSlideId]);
+    return () => clearInterval(interval);
+  }, [expandedSlideId, slides, saving, autoSaving]);
 
   async function fetchSlides() {
     try {
@@ -172,6 +185,134 @@ export default function KnowledgeBaseEditorPage() {
       showToast('Failed to load slides', 'error');
     } finally {
       setLoading(false);
+    }
+  }
+
+  async function handleAutoSave(slideId: string) {
+    setAutoSaving(true);
+    setDraftStatus('saving');
+    try {
+      const slide = slides.find(s => s.id === slideId);
+      if (!slide) return;
+
+      // Save to draft API instead of direct publish
+      const res = await fetch(`/api/drafts/knowledge_slide/${slideId}`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          draftData: {
+            title: slide.title,
+            subtitle: slide.subtitle,
+            layout: slide.layout,
+            image_path: slide.image_path,
+            quote: slide.quote,
+            items: slide.items,
+          },
+        }),
+      });
+
+      if (res.ok) {
+        setLastSaved(new Date());
+        setHasDraft(true);
+        setDraftStatus('saved');
+      } else {
+        setDraftStatus('error');
+      }
+    } catch (error) {
+      console.error('Auto-save error:', error);
+      setDraftStatus('error');
+    } finally {
+      setAutoSaving(false);
+    }
+  }
+
+  async function handlePublish(slideId: string) {
+    if (!confirm('Publish this slide? This will create a new version and update the live content.')) {
+      return;
+    }
+
+    setPublishing(true);
+    try {
+      const slide = slides.find(s => s.id === slideId);
+      if (!slide) return;
+
+      // Publish creates a version snapshot
+      const res = await fetch(`/api/versions/knowledge_slide/${slideId}`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          action: 'publish',
+          versionData: {
+            title: slide.title,
+            subtitle: slide.subtitle,
+            layout: slide.layout,
+            image_path: slide.image_path,
+            quote: slide.quote,
+            items: slide.items,
+          },
+          changeSummary: `Published changes to ${slide.title}`,
+        }),
+      });
+
+      if (!res.ok) throw new Error('Failed to publish');
+
+      // Also update the published content
+      const updateRes = await fetch('/api/content-editor/knowledge-base', {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          slideId: slide.id,
+          data: {
+            title: slide.title,
+            subtitle: slide.subtitle,
+            layout: slide.layout,
+            image_path: slide.image_path,
+            quote: slide.quote,
+          },
+          items: slide.items,
+        }),
+      });
+
+      if (!updateRes.ok) throw new Error('Failed to update content');
+
+      setHasDraft(false);
+      showToast('Slide published successfully! ✨', 'success');
+      router.refresh();
+    } catch (error) {
+      console.error('Error publishing slide:', error);
+      showToast('Failed to publish slide', 'error');
+    } finally {
+      setPublishing(false);
+    }
+  }
+
+  async function handleRestoreVersion(versionNumber: number) {
+    try {
+      const res = await fetch(`/api/versions/knowledge_slide/${expandedSlideId}?version=${versionNumber}`);
+      if (!res.ok) throw new Error('Failed to fetch version');
+
+      const data = await res.json();
+      const versionData = data.version.version_data;
+
+      // Restore to current editing state
+      setSlides(prev => prev.map(slide =>
+        slide.id === expandedSlideId
+          ? {
+              ...slide,
+              title: versionData.title,
+              subtitle: versionData.subtitle,
+              layout: versionData.layout,
+              image_path: versionData.image_path,
+              quote: versionData.quote,
+              items: versionData.items,
+            }
+          : slide
+      ));
+
+      showToast(`Version ${versionNumber} restored to editor`, 'success');
+    } catch (error) {
+      console.error('Error restoring version:', error);
+      showToast('Failed to restore version', 'error');
     }
   }
 
@@ -345,16 +486,47 @@ export default function KnowledgeBaseEditorPage() {
   return (
     <AdminFlowDeckPage
       title="Edit Knowledge Base"
-      subtitle={
-        saving
-          ? 'Saving...'
-          : lastSaved
-          ? `Last saved: ${lastSaved.toLocaleTimeString()}`
-          : 'Edit carousel slides for the Knowledge Base section'
-      }
+      subtitle="Edit carousel slides for the Knowledge Base section"
       showHome={true}
       showBack={true}
       backTo="/admin/content-editor"
+      rightActions={
+        <div className="flex items-center gap-3">
+          <DraftIndicator status={draftStatus} lastSaved={lastSaved} />
+
+          {expandedSlideId && (
+            <>
+              <Button
+                onClick={() => handlePublish(expandedSlideId)}
+                disabled={publishing || autoSaving}
+                variant="primary"
+                size="md"
+              >
+                <Send className="w-4 h-4" />
+                {publishing ? 'Publishing...' : 'Publish'}
+              </Button>
+
+              <Button
+                onClick={() => setShowVersionHistory(true)}
+                variant="secondary"
+                size="md"
+              >
+                <History className="w-4 h-4" />
+                History
+              </Button>
+            </>
+          )}
+
+          <Button
+            onClick={refreshPreview}
+            variant="ghost"
+            size="md"
+          >
+            <RefreshCw className="w-5 h-5" />
+            Refresh Preview
+          </Button>
+        </div>
+      }
     >
       <div className="flex gap-6 h-[calc(100vh-12rem)]">
         {/* Left Panel - Editor */}
@@ -611,6 +783,16 @@ export default function KnowledgeBaseEditorPage() {
         </div>
       </div>
       </div>
+
+      {/* Version History Modal */}
+      {showVersionHistory && expandedSlideId && (
+        <VersionHistory
+          contentType="knowledge_slide"
+          contentId={expandedSlideId}
+          onRestore={handleRestoreVersion}
+          onClose={() => setShowVersionHistory(false)}
+        />
+      )}
     </AdminFlowDeckPage>
   );
 }

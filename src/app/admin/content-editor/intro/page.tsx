@@ -3,7 +3,8 @@
 import { useState, useEffect, useCallback } from 'react';
 import { useRouter } from 'next/navigation';
 import Image from 'next/image';
-import { ChevronDown, ChevronRight, Plus, Trash2, Save, Upload, GripVertical, Eye, EyeOff, Sparkles, History, Send } from 'lucide-react';
+import { motion, AnimatePresence } from 'framer-motion';
+import { ChevronDown, ChevronRight, Plus, Trash2, Save, Upload, GripVertical, Eye, EyeOff, Sparkles, History, Send, Palette, Command as CommandIcon } from 'lucide-react';
 import { showToast } from '@/components/ui/Toast';
 import { DndContext, closestCenter, KeyboardSensor, PointerSensor, useSensor, useSensors } from '@dnd-kit/core';
 import { arrayMove, SortableContext, sortableKeyboardCoordinates, useSortable, verticalListSortingStrategy } from '@dnd-kit/sortable';
@@ -13,6 +14,10 @@ import { Button } from '@/components/ui/Button';
 import { TipTapEditor } from '@/components/content-editor/TipTapEditor';
 import { DraftIndicator } from '@/components/content-editor/DraftIndicator';
 import { VersionHistory } from '@/components/content-editor/VersionHistory';
+import { CommandPalette } from '@/components/content-editor/CommandPalette';
+import { ColorPickerPopover } from '@/components/content-editor/ColorPickerPopover';
+import { celebratePublish } from '@/lib/utils/confetti';
+import { useKeyboardShortcuts } from '@/hooks/useKeyboardShortcuts';
 
 interface SlideItem {
   id: string;
@@ -71,21 +76,12 @@ function SortableItem({ item, slideId, onUpdate, onRemove }: any) {
           placeholder="Enter bullet point..."
         />
 
-        {/* Color Picker */}
-        <div className="flex gap-1">
-          {BULLET_COLORS.map((color) => (
-            <button
-              key={color.value}
-              onClick={() => onUpdate(item.id, 'bullet_color', color.value)}
-              className={`w-8 h-8 rounded-full ${color.bg} transition-all ${
-                item.bullet_color === color.value
-                  ? 'ring-2 ring-offset-2 ring-gray-800 scale-110'
-                  : 'opacity-50 hover:opacity-100 hover:scale-105'
-              }`}
-              title={color.name}
-            />
-          ))}
-        </div>
+        {/* Elite Color Picker */}
+        <ColorPickerPopover
+          color={item.bullet_color || '#00B4D8'}
+          onChange={(color) => onUpdate(item.id, 'bullet_color', color)}
+          presetColors={BULLET_COLORS.map(c => c.value)}
+        />
 
         {/* Delete */}
         <button
@@ -116,6 +112,9 @@ export default function IntroEditorPage() {
   const [showVersionHistory, setShowVersionHistory] = useState(false);
   const [publishing, setPublishing] = useState(false);
 
+  // Elite features
+  const [showCommandPalette, setShowCommandPalette] = useState(false);
+
   const sensors = useSensors(
     useSensor(PointerSensor),
     useSensor(KeyboardSensor, { coordinateGetter: sortableKeyboardCoordinates })
@@ -135,6 +134,88 @@ export default function IntroEditorPage() {
 
     return () => clearInterval(interval);
   }, [expandedSlideId, slides, saving, autoSaving]);
+
+  // Elite keyboard shortcuts
+  useKeyboardShortcuts([
+    {
+      key: 'k',
+      meta: true,
+      ctrl: true,
+      callback: () => setShowCommandPalette(true),
+      description: 'Open command palette',
+    },
+    {
+      key: 's',
+      meta: true,
+      ctrl: true,
+      callback: () => {
+        if (expandedSlideId && !saving) {
+          handleSave(expandedSlideId);
+        }
+      },
+      description: 'Save slide',
+    },
+    {
+      key: 's',
+      meta: true,
+      ctrl: true,
+      shift: true,
+      callback: () => {
+        if (expandedSlideId && !publishing) {
+          handlePublish(expandedSlideId);
+        }
+      },
+      description: 'Publish slide',
+    },
+  ]);
+
+  // Command palette handler
+  const handleCommand = (commandId: string) => {
+    switch (commandId) {
+      case 'save':
+        if (expandedSlideId) handleSave(expandedSlideId);
+        break;
+      case 'publish':
+        if (expandedSlideId) handlePublish(expandedSlideId);
+        break;
+      case 'history':
+        setShowVersionHistory(true);
+        break;
+      case 'toggle-preview':
+        setPreviewVisible(!previewVisible);
+        break;
+    }
+  };
+
+  // Define available commands
+  const availableCommands = [
+    {
+      id: 'save',
+      label: 'Save Draft',
+      icon: <Save className="w-4 h-4" />,
+      shortcut: '⌘S',
+      category: 'Actions',
+    },
+    {
+      id: 'publish',
+      label: 'Publish Slide',
+      icon: <Send className="w-4 h-4" />,
+      shortcut: '⌘⇧S',
+      category: 'Actions',
+    },
+    {
+      id: 'history',
+      label: 'View Version History',
+      icon: <History className="w-4 h-4" />,
+      category: 'Actions',
+    },
+    {
+      id: 'toggle-preview',
+      label: previewVisible ? 'Hide Preview' : 'Show Preview',
+      icon: previewVisible ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />,
+      category: 'View',
+    },
+  ];
 
   async function fetchSlides() {
     try {
@@ -249,6 +330,7 @@ export default function IntroEditorPage() {
 
       setHasDraft(false);
       showToast('Slide published successfully! ✨', 'success');
+      celebratePublish(); // 🎉 Elite confetti celebration!
       router.refresh();
     } catch (error) {
       console.error('Error publishing slide:', error);
@@ -699,6 +781,14 @@ export default function IntroEditorPage() {
           onClose={() => setShowVersionHistory(false)}
         />
       )}
+
+      {/* Elite Command Palette (⌘K) */}
+      <CommandPalette
+        isOpen={showCommandPalette}
+        onClose={() => setShowCommandPalette(false)}
+        onCommand={handleCommand}
+        availableCommands={availableCommands}
+      />
     </AdminFlowDeckPage>
   );
 }
