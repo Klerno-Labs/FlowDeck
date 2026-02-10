@@ -25,8 +25,8 @@ export default async function AdminDashboard() {
     },
     {
       title: 'Content Editor',
-      description: 'Edit intro slides and knowledge base content',
-      href: '/admin/content-editor/intro',
+      description: 'Edit all presentation slides in one place',
+      href: '/admin/content-editor/all-slides',
       icon: FileText,
       color: 'bg-cyan-600',
       shadow: 'shadow-cyan-500/30',
