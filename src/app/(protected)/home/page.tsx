@@ -11,7 +11,7 @@ export default function HomePage() {
   const router = useRouter();
 
   const handleAdminClick = () => {
-    router.push('/admin/users');
+    router.push('/admin');
   };
 
   const isAdmin = session?.user?.role === 'admin' || session?.user?.role === 'dev';
@@ -102,9 +102,9 @@ export default function HomePage() {
                   {isAdmin && (
                     <button
                       onClick={handleAdminClick}
-                      className="text-sm text-gray-600 hover:text-gray-900 font-medium transition-colors touch-manipulation px-3 py-2 rounded hover:bg-gray-100 active:bg-gray-200"
+                      className="text-sm bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white font-semibold transition-all touch-manipulation px-4 py-2 rounded-lg shadow-lg hover:shadow-xl"
                     >
-                      User Management
+                      ⚙️ Admin Dashboard
                     </button>
                   )}
                   <button
